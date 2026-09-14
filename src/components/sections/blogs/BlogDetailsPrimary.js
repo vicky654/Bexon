@@ -1,4 +1,4 @@
-﻿import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
+import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import PopupVideo from "@/components/shared/popup-video/PopupVideo";
 import BlogSidebar from "@/components/shared/sidebar/BlogSidebar";
 import makePath from "@/libs/makePath";
