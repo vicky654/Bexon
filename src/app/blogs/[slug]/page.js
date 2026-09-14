@@ -5,16 +5,17 @@ import Cta from "@/components/sections/cta/Cta";
 import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
-import getBlogs from "@/libs/getBlogs";
+import { getBlogFromBackendBySlug, getBlogsFromBackend } from "@/libs/blogsApi";
 import { notFound } from "next/navigation";
-const items = getBlogs();
 
 export default async function BlogDetails({ params }) {
 	const { slug } = await params;
-	const isExistItem = items?.find(({ slug: slug1 }) => slug1 === slug);
-	if (!isExistItem) {
+	const blog = await getBlogFromBackendBySlug(slug);
+
+	if (!blog) {
 		notFound();
 	}
+
 	return (
 		<div>
 			<BackToTop />
@@ -36,5 +37,6 @@ export default async function BlogDetails({ params }) {
 }
 
 export async function generateStaticParams() {
+	const items = await getBlogsFromBackend();
 	return items?.map(({ slug }) => ({ slug }));
 }

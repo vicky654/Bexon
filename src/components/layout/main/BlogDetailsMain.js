@@ -1,14 +1,16 @@
 import BlogDetailsPrimary from "@/components/sections/blogs/BlogDetailsPrimary";
 import HeroInner from "@/components/sections/hero/HeroInner";
-import getBlogs from "@/libs/getBlogs";
+import { getBlogsFromBackend } from "@/libs/blogsApi";
 import getPreviousNextItem from "@/libs/getPreviousNextItem";
-const BlogDetailsMain = ({ currentSlug }) => {
-	const items = getBlogs();
+
+const BlogDetailsMain = async ({ currentSlug }) => {
+	const items = await getBlogsFromBackend();
 	const currentId = items?.find(({ slug }) => slug === currentSlug)?.id;
 	const option = getPreviousNextItem(items, currentId);
 	const { title } = option?.currentItem || {};
 	const prevSlug = items?.find(({ id }) => id === option?.prevId)?.slug;
 	const nextSlug = items?.find(({ id }) => id === option?.nextId)?.slug;
+
 	return (
 		<div>
 			<HeroInner
