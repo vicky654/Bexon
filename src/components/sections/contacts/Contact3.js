@@ -113,7 +113,7 @@ const Contact3 = () => {
 					</div>
 					<div className="col-lg-6">
 						<div className="map-area wow fadeInUp" data-wow-delay=".3s">
-							<iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d316440.5712687838!2d-74.01091796224334!3d40.67186885683901!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1745918398047!5m2!1sen!2sbd"></iframe>
+							<iframe src="https://www.google.com/maps?q=4th+floor%2C+GM+IT+Park%2C+Plot+no+32-33%2C+Sector+142%2C+Noida%2C+Uttar+Pradesh+201304&output=embed"></iframe>
 						</div>
 					</div>
 				</div>
