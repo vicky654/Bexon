@@ -2020,11 +2020,23 @@ git commit -m "Add blogsApi helper: backend-first, falls back to local blogs.jso
 **Files:**
 - Modify: `src/app/api/blogs/route.js` (currently reads `getBlogs()` + `filterItems` directly)
 - Modify: `src/app/api/blogs/[slug]/route.js` (currently reads `getBlogs()` directly)
+- Modify: `package.json:6-9` (repo root — pin the site's dev/start scripts to port 4000)
 
 **Interfaces:**
 - Consumes: `getBlogsFromBackend`, `getBlogFromBackendBySlug` (Task 12).
 
-- [ ] **Step 1: Rewrite `src/app/api/blogs/route.js`**
+Note: the site's `package.json` `dev`/`start` scripts currently have no `-p` flag, so plain `npm run dev` defaults to port 3000 — but this task's own manual verification (and every later task's) curls port 4000, matching the convention used for `backend` (5000) and `admin` (3001). Pin the port now, before the first manual check that depends on it.
+
+- [ ] **Step 1: Pin the site's dev/start scripts to port 4000**
+
+Edit `package.json` at the repo root, replace the `"scripts"` block's `dev` and `start` lines:
+
+```json
+"dev": "next dev --turbopack -p 4000",
+"start": "next start -p 4000",
+```
+
+- [ ] **Step 2: Rewrite `src/app/api/blogs/route.js`**
 
 ```js
 import { getBlogsFromBackend } from "@/libs/blogsApi";
@@ -2044,7 +2056,7 @@ export async function GET(request) {
 }
 ```
 
-- [ ] **Step 2: Rewrite `src/app/api/blogs/[slug]/route.js`**
+- [ ] **Step 3: Rewrite `src/app/api/blogs/[slug]/route.js`**
 
 ```js
 import { getBlogFromBackendBySlug } from "@/libs/blogsApi";
@@ -2062,7 +2074,7 @@ export async function GET(request, { params }) {
 }
 ```
 
-- [ ] **Step 3: Manually verify against the fallback path (backend not running yet)**
+- [ ] **Step 4: Manually verify against the fallback path (backend not running yet)**
 
 Run (from the repo root, in one terminal):
 ```bash
@@ -2077,11 +2089,11 @@ curl http://localhost:4000/api/blogs/innovative-solutions-for-every-business-suc
 
 Expected: both return the same JSON shapes as before (backend isn't running yet, so this exercises the fallback path in `blogsApi.js`). Leave the dev server running for the next tasks, or stop it with Ctrl+C.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 5: Commit**
 
 ```bash
-git add "src/app/api/blogs/route.js" "src/app/api/blogs/[slug]/route.js"
-git commit -m "Turn site's blogs API routes into backend proxies with local fallback"
+git add "src/app/api/blogs/route.js" "src/app/api/blogs/[slug]/route.js" package.json
+git commit -m "Turn site's blogs API routes into backend proxies with local fallback; pin site to port 4000"
 ```
 
 ---
@@ -2458,7 +2470,7 @@ git commit -m "Render real post content on the blog detail page, with a fallback
 **Files:**
 - Modify: `.env.example` (repo root — add `BACKEND_URL`, remove the now-unused `SMTP_*`/`CONTACT_*` entries)
 
-**Interfaces:** none — this task wires the last env var and proves Phase B end-to-end with the real backend running.
+**Interfaces:** none — this task wires the last env var and proves Phase B end-to-end with the real backend running. (Port 4000 was already pinned in Task 13, Step 1 — no further port changes here.)
 
 - [ ] **Step 1: Update the site's `.env.example`**
 
