@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import apiFetch from "@/lib/api";
-import AdminNav from "./AdminNav";
+import AdminSidebar from "./AdminSidebar";
 
 export default function RequireAuth({ children }) {
 	const router = useRouter();
@@ -19,13 +19,15 @@ export default function RequireAuth({ children }) {
 	}, [router]);
 
 	if (status !== "authenticated") {
-		return <div className="page">Loading...</div>;
+		return <div className="admin-loading">Loading...</div>;
 	}
 
 	return (
-		<div className="page">
-			<AdminNav />
-			{children}
+		<div className="admin-shell">
+			<AdminSidebar />
+			<main className="admin-main">
+				<div className="page">{children}</div>
+			</main>
 		</div>
 	);
 }

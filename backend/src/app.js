@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const path = require("path");
 
 const blogsRouter = require("./routes/blogs");
 const contactRouter = require("./routes/contact");
 const adminAuthRouter = require("./routes/adminAuth");
 const adminBlogsRouter = require("./routes/adminBlogs");
 const adminMessagesRouter = require("./routes/adminMessages");
+const uploadRouter = require("./routes/upload");
 
 function buildApp() {
 	const app = express();
@@ -19,6 +21,7 @@ function buildApp() {
 	);
 	app.use(express.json());
 	app.use(cookieParser());
+	app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 
 	app.get("/health", (req, res) => res.json({ ok: true }));
 
@@ -27,6 +30,7 @@ function buildApp() {
 	app.use("/api/admin", adminAuthRouter);
 	app.use("/api/admin/blogs", adminBlogsRouter);
 	app.use("/api/admin/messages", adminMessagesRouter);
+	app.use("/api/admin/upload", uploadRouter);
 
 	app.use((err, req, res, next) => {
 		console.error(err);

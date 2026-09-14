@@ -9,10 +9,13 @@ const BlogDetailsPrimary = ({ option }) => {
 	const { prevSlug, nextSlug, currentItem, isPrevItem, isNextItem } =
 		option || {};
 	const { title, img, tags, slug, content } = currentItem || {};
-	const contentParagraphs = content
-		?.split(/\n{2,}/)
-		?.map(paragraph => paragraph.trim())
-		?.filter(Boolean);
+	const isHtmlContent = content ? /<[a-z][\s\S]*>/i.test(content) : false;
+	const contentParagraphs = !isHtmlContent
+		? content
+				?.split(/\n{2,}/)
+				?.map(paragraph => paragraph.trim())
+				?.filter(Boolean)
+		: null;
 	return (
 		<section className="tj-blog-section section-gap slidebar-stickiy-container">
 			<div className="container">
@@ -69,7 +72,13 @@ const BlogDetailsPrimary = ({ option }) => {
 								</div>
 							</div>
 							<div className="blog-text">
-								{contentParagraphs?.length ? (
+								{isHtmlContent ? (
+									<div
+										className="wow fadeInUp"
+										data-wow-delay=".3s"
+										dangerouslySetInnerHTML={{ __html: content }}
+									/>
+								) : contentParagraphs?.length ? (
 									contentParagraphs.map((paragraph, idx) => (
 										<p key={idx} className="wow fadeInUp" data-wow-delay=".3s">
 											{paragraph}

@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import apiFetch from "@/lib/api";
 import RequireAuth from "@/components/RequireAuth";
 import BlogForm from "@/components/BlogForm";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 function EditBlog() {
 	const { id } = useParams();
@@ -26,12 +27,47 @@ function EditBlog() {
 		router.push("/blogs");
 	};
 
-	if (error) return <p className="error">{error}</p>;
-	if (!blog) return <p>Loading...</p>;
+	const crumbs = (
+		<Breadcrumbs
+			items={[
+				{ label: "Dashboard", href: "/" },
+				{ label: "Blogs", href: "/blogs" },
+				{ label: "Edit Post" },
+			]}
+		/>
+	);
+
+	if (error) {
+		return (
+			<div>
+				{crumbs}
+				<p className="error">{error}</p>
+			</div>
+		);
+	}
+
+	if (!blog) {
+		return (
+			<div>
+				{crumbs}
+				<div className="form skeleton-form">
+					<span className="skeleton" style={{ width: "40%", height: "16px" }} />
+					<span className="skeleton" style={{ width: "100%", height: "16px" }} />
+					<span className="skeleton" style={{ width: "100%", height: "220px" }} />
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div>
-			<h1>Edit Post</h1>
+			{crumbs}
+			<div className="page-header">
+				<div>
+					<h1>Edit Post</h1>
+					<p className="dashboard-subtitle">{blog.title}</p>
+				</div>
+			</div>
 			<BlogForm initialValues={blog} onSubmit={handleSubmit} submitLabel="Save Changes" />
 		</div>
 	);
