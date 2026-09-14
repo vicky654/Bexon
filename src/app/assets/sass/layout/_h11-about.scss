@@ -1,0 +1,106 @@
+@use "../utilities" as *;
+
+/**----------------------------------------
+START: Home 11 About CSS
+----------------------------------------*/
+.h11-sec-heading {
+	margin-bottom: 52px;
+	.sub-title {
+		height: 100%;
+		align-items: center;
+	}
+	.sec-title {
+		font-weight: var(--tj-fw-sbold);
+	}
+
+	@media #{$md,$sm,$xs} {
+		margin-bottom: 35px;
+	}
+}
+.h11-about {
+	&-content {
+		width: 60%;
+		.desc {
+			max-width: 530px;
+			margin-bottom: 0;
+		}
+		.about-btn-area-2 {
+			margin-top: 30px;
+		}
+		@media #{$xl} {
+			width: 55%;
+		}
+		@media #{$lg} {
+			width: 50%;
+		}
+		@media #{$md,$sm,$xs} {
+			width: 100%;
+		}
+	}
+	&-funfact {
+		max-width: 770px;
+		width: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 18px;
+		margin-bottom: 30px;
+		.countup-item {
+			flex: 1;
+			.count-icon {
+				background-color: transparent;
+				width: auto;
+				height: auto;
+			}
+			.count-inner {
+				padding-top: 40px;
+				@media #{$xs} {
+					padding-top: 30px;
+				}
+			}
+			.inline-content {
+				font-weight: var(--tj-fw-sbold);
+				margin-top: 0;
+				margin-bottom: 15px;
+				.odometer {
+					font-weight: var(--tj-fw-sbold);
+					.odometer-digit,
+					span {
+						font-weight: var(--tj-fw-sbold);
+					}
+				}
+				@media #{$lg} {
+					font-size: 60px;
+				}
+				@media #{$xs} {
+					margin-bottom: 5px;
+				}
+			}
+			.count-text {
+				max-width: 205px;
+				color: var(--tj-color-text-body);
+				font-weight: var(--tj-fw-regular);
+			}
+			@media #{$xs} {
+				flex: auto;
+				padding: 25px 20px;
+			}
+		}
+	}
+	&-img {
+		max-width: 450px;
+		width: 50%;
+		margin-inline-start: 0;
+		@media #{$md,$sm,$xs} {
+			max-width: 100%;
+			width: 100%;
+		}
+		@media #{$lg} {
+			max-width: 420px;
+		}
+		@media #{$md,$sm,$xs} {
+			margin: 0 auto 30px;
+		}
+	}
+}
+
+/* !END: Home 9 About CSS  */

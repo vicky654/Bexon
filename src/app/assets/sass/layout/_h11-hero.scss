@@ -1,0 +1,155 @@
+@use "../utilities" as *;
+
+/**----------------------------------------
+START: Hero CSS
+----------------------------------------*/
+.h11-banner {
+	&-section {
+		background-color: transparent;
+		position: relative;
+		padding-top: 225px;
+		padding-bottom: 85px;
+		.h11-shape-1 {
+			max-width: 510px;
+			position: absolute;
+			top: 0;
+			inset-inline-start: 0;
+			pointer-events: none;
+			@media #{$lg,$md} {
+				max-width: 450px;
+			}
+			@media #{$sm,$xs} {
+				max-width: 320px;
+			}
+		}
+		.h11-shape-2 {
+			max-width: 143px;
+			position: absolute;
+			bottom: -144px;
+			inset-inline-start: 0;
+			pointer-events: none;
+			@media #{$xxl,$xl} {
+				max-width: 110px;
+				bottom: -110px;
+			}
+			@media #{$lg,$md} {
+				max-width: 80px;
+				bottom: -80px;
+			}
+			@media #{$sm,$xs} {
+				max-width: 70px;
+				bottom: -70px;
+			}
+		}
+		.banner-content-2 {
+			max-width: 630px;
+			.banner-title {
+				font-size: 90px;
+				font-weight: var(--tj-fw-sbold);
+				margin-bottom: 15px;
+				@media #{$xxl} {
+					font-size: 76px;
+				}
+				@media #{$xl} {
+					font-size: 70px;
+				}
+				@media #{$lg,$md} {
+					font-size: 50px;
+				}
+				@media #{$sm,$xs} {
+					font-size: 45px;
+				}
+			}
+			.desc {
+				font-size: 18px;
+				line-height: 26px;
+				max-width: 530px;
+				border-top: 1px solid var(--tj-color-border-1);
+				padding-top: 25px;
+				@media #{$sm, $xs} {
+					font-size: 16px;
+					padding-top: 20px;
+				}
+			}
+			.btn-area {
+				margin-top: 25px;
+				@media #{$sm, $xs} {
+					margin-top: 20px;
+				}
+			}
+			@media #{$xl} {
+				max-width: 600px;
+			}
+			@media #{$lg} {
+				max-width: 400px;
+			}
+		}
+		@media #{$xxl} {
+			padding-top: 180px;
+		}
+		@media #{$xl} {
+			padding-top: 180px;
+			padding-bottom: 60px;
+		}
+		@media #{$lg} {
+			padding-top: 190px;
+			padding-bottom: 50px;
+		}
+		@media #{$md, $sm, $xs} {
+			padding-top: 120px;
+			padding-bottom: 0;
+		}
+	}
+
+	@media #{$sm, $xs} {
+		border-radius: 12px;
+		margin: 0 12px 0;
+	}
+	&-img {
+		mask-image: url("/images/shape/h11-hero-img-shape.svg");
+		mask-repeat: no-repeat;
+		mask-size: cover;
+		mask-position: top right;
+		position: absolute;
+		inset-inline-end: 0;
+		top: 0;
+		z-index: -1;
+		height: 100%;
+		aspect-ratio: 928 / 893;
+		img {
+			height: 100%;
+			width: 100%;
+			object-fit: cover;
+		}
+		&::before {
+			content: "";
+			background-color: var(--tj-color-theme-primary);
+			width: 32px;
+			height: 400px;
+			position: absolute;
+			top: -70px;
+			inset-inline-start: 110px;
+			transform: rotate(45deg);
+			@media #{$xxl} {
+				top: -92px;
+			}
+			@media #{$xl} {
+				top: -95px;
+				inset-inline-start: 88px;
+			}
+			@media #{$lg} {
+				top: -85px;
+				inset-inline-start: 55px;
+			}
+			@media #{$md, $sm, $xs} {
+				display: none;
+			}
+		}
+		@media #{$md, $sm, $xs} {
+			position: relative;
+			mask-image: none;
+		}
+	}
+}
+
+/* !END: Hero CSS */

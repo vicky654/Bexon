@@ -1,0 +1,229 @@
+@use "../utilities" as *;
+
+/**----------------------------------------
+START: Coming soon CSS
+----------------------------------------*/
+.tj_coming_soon {
+	max-width: 100vw;
+	width: 100%;
+	min-height: 100vh;
+	background-color: var(--tj-color-theme-dark);
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	padding: 120px 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	&::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background-color: transparent;
+		z-index: -1;
+	}
+	&_content {
+		.title {
+			font-weight: var(--tj-fw-medium);
+			font-size: 155px;
+			line-height: 1.2;
+			letter-spacing: -0.03em;
+			color: var(--tj-color-common-white);
+			margin: 0;
+			@media #{$xl} {
+				font-size: 115px;
+			}
+			@media #{$lg,$md} {
+				font-size: 85px;
+			}
+			@media #{$sm} {
+				font-size: 65px;
+			}
+			@media #{$xs} {
+				font-size: 50px;
+			}
+		}
+		.desc {
+			font-size: 18px;
+			line-height: 1.6;
+			color: var(--tj-color-text-body-2);
+			margin-top: 5px;
+			@media #{$xs} {
+				font-size: 16px;
+			}
+		}
+	}
+	.query_form {
+		margin-top: 56px;
+		form {
+			max-width: 816px;
+			width: 100%;
+			margin: 0 auto;
+			position: relative;
+			z-index: 1;
+			input[type="email"] {
+				background-color: transparent;
+				border-width: 0 0 1px 0;
+				border-style: solid;
+				border-color: var(--tj-color-common-white);
+				padding: 14px 0;
+				font-size: 16px;
+				line-height: 1.5;
+				color: var(--tj-color-common-white);
+				&::placeholder {
+					color: var(--tj-color-text-body-2);
+				}
+				&:focus,
+				&:focus-visible {
+					border-color: var(--tj-color-common-white);
+				}
+			}
+			input[type="submit"],
+			button[type="submit"] {
+				font-size: 24px;
+				line-height: 1;
+				color: var(--tj-color-common-white);
+				position: absolute;
+				inset-inline-end: 0;
+				top: 11px;
+				transform: rotate(0);
+				transition: all 0.4s ease-in-out;
+				z-index: 2;
+				&:hover,
+				&:hover {
+					transform: rotate(45deg);
+					color: var(--tj-color-common-white);
+				}
+			}
+		}
+		.form_note {
+			display: inline-flex;
+			font-size: 16px;
+			line-height: 1.5;
+			color: var(--tj-color-common-white);
+			margin-top: 53px;
+			@media #{$md} {
+				margin-top: 35px;
+			}
+			@media #{$sm,$xs} {
+				margin-top: 30px;
+			}
+		}
+		@media #{$md} {
+			margin-top: 50px;
+		}
+		@media #{$sm,$xs} {
+			margin-top: 40px;
+		}
+	}
+	@media #{$lg} {
+		padding: 100px 20px;
+	}
+	@media #{$md,$sm,$xs} {
+		padding: 70px 20px;
+	}
+}
+
+.countdown {
+	margin-top: 54px;
+	display: inline-flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 20px;
+
+	&-container {
+		display: inline-flex;
+		flex-direction: column;
+		gap: 2px;
+	}
+	&-value {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-family: var(--tj-ff-heading);
+		font-weight: var(--tj-fw-medium);
+		font-size: 42px;
+		line-height: 1;
+		letter-spacing: -0.025em;
+		color: var(--tj-color-common-white);
+		width: 126px;
+		height: 96px;
+		padding: 10px;
+		background-color: rgba(247, 247, 247, 0.1);
+		backdrop-filter: blur(35px);
+		border-radius: 6px 6px 0 0;
+		@media #{$md} {
+			font-size: 35px;
+			width: 110px;
+			height: 90px;
+		}
+		@media #{$sm} {
+			font-size: 30px;
+			width: 100px;
+			height: 80px;
+		}
+		@media #{$xs} {
+			font-size: 24px;
+			width: 60px;
+			height: 60px;
+		}
+	}
+	&-heading {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 16px;
+		line-height: 1;
+		color: var(--tj-color-text-body-2);
+		height: 40px;
+		padding: 5px 10px;
+		background-color: rgba(247, 247, 247, 0.1);
+		backdrop-filter: blur(35px);
+		border-radius: 0 0 6px 6px;
+		@media #{$sm} {
+			font-size: 16px;
+			height: 35px;
+		}
+		@media #{$xs} {
+			font-size: 14px;
+			height: 30px;
+		}
+	}
+	.divider {
+		display: inline-flex;
+		font-size: 42px;
+		line-height: 1;
+		font-weight: 500;
+		color: var(--tj-color-common-white);
+		font-family: "Roboto";
+		@media #{$md} {
+			font-size: 30px;
+		}
+		@media #{$sm} {
+			font-size: 26px;
+		}
+		@media #{$xs} {
+			font-size: 20px;
+		}
+	}
+	@media #{$md} {
+		margin-top: 50px;
+	}
+	@media #{$sm} {
+		gap: 15px;
+		margin-top: 45px;
+	}
+	@media #{$xs} {
+		gap: 10px;
+		margin-top: 40px;
+	}
+}
+
+/* !END: Coming soon CSS */

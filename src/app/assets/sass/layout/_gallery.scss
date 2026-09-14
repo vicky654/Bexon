@@ -1,0 +1,29 @@
+@use "../utilities" as *;
+
+/**----------------------------------------
+START: Gallery CSS
+----------------------------------------*/
+.tj-gallery {
+	&-section {
+		.heading-wrap-content {
+			.sec-heading {
+				max-width: 520px;
+			}
+			.desc {
+				max-width: 455px;
+			}
+		}
+	}
+	&-wrap {
+		.image-box {
+			margin-bottom: 25px;
+			border-radius: 12px;
+			overflow: hidden;
+			img {
+				width: 100%;
+			}
+		}
+	}
+}
+
+/* !END: Gallery CSS */

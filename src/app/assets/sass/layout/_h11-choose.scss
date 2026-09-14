@@ -1,0 +1,18 @@
+@use "../utilities" as *;
+
+/**----------------------------------------
+START: Choose CSS
+----------------------------------------*/
+.h11-choose {
+	background-color: var(--tj-color-theme-bg);
+	.choose-box {
+		background-color: var(--tj-color-common-white);
+		border-radius: 10px;
+		padding: 35px 28px 50px;
+		.choose-icon {
+			margin-bottom: 25px;
+		}
+	}
+}
+
+/* !END: Choose CSS */
