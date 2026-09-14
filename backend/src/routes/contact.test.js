@@ -44,6 +44,39 @@ test("saves a submission and succeeds even with no SMTP configured", async () =>
 	assert.equal(saved.status, "new");
 });
 
+test("still returns 201 and saves the submission when SMTP is configured but sending fails", async () => {
+	process.env.SMTP_HOST = "smtp.example.com";
+	process.env.SMTP_USER = "sender@example.com";
+
+	const nodemailer = require("nodemailer");
+	const originalCreateTransport = nodemailer.createTransport;
+	nodemailer.createTransport = () => ({
+		sendMail: async () => {
+			throw new Error("SMTP send failed");
+		},
+	});
+
+	try {
+		const res = await request(buildApp()).post("/api/contact").send({
+			name: "Test User Two",
+			email: "test2@example.com",
+			message: "This send should fail but the request should still succeed",
+		});
+
+		assert.equal(res.status, 201);
+
+		const saved = await prisma.contactSubmission.findUnique({
+			where: { id: res.body.id },
+		});
+		assert.equal(saved.name, "Test User Two");
+		assert.equal(saved.status, "new");
+	} finally {
+		nodemailer.createTransport = originalCreateTransport;
+		delete process.env.SMTP_HOST;
+		delete process.env.SMTP_USER;
+	}
+});
+
 test("rejects a missing message", async () => {
 	const res = await request(buildApp())
 		.post("/api/contact")

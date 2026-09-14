@@ -47,6 +47,7 @@ async function main() {
 					authorRole: blog.author_role || "",
 					status: blog.status || "",
 					published: true,
+					publishedAt: new Date(blog.date),
 				},
 			});
 		}

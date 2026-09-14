@@ -1,5 +1,4 @@
-const fs = require("fs");
-const path = require("path");
+const localBlogs = require("../../public/fakedata/blogs.json");
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
 
@@ -10,8 +9,7 @@ function makePath(text) {
 }
 
 function readLocalBlogs() {
-	const blogsJsonPath = path.join(process.cwd(), "public/fakedata/blogs.json");
-	return JSON.parse(fs.readFileSync(blogsJsonPath, "utf8"));
+	return localBlogs;
 }
 
 function localFilteredBlogs({ category, tag, author_role, search } = {}) {
@@ -30,8 +28,8 @@ function localFilteredBlogs({ category, tag, author_role, search } = {}) {
 		return items.filter(item => makePath(item.author_role) === author_role);
 	}
 	if (search) {
-		const pattern = new RegExp(search, "i");
-		return items.filter(item => pattern.test(item.title));
+		const target = search.toLowerCase();
+		return items.filter(item => item.title.toLowerCase().includes(target));
 	}
 	return items;
 }

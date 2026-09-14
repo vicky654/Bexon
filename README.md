@@ -83,3 +83,12 @@ fall back to the bundled `public/fakedata/blogs.json` instead of failing.
 SMTP is not configured yet — contact submissions are saved and visible in
 Admin either way; email notifications start working once `backend/.env`'s
 `SMTP_*` values are filled in.
+
+## Deploying
+
+Once the site, backend, and admin app are deployed on three separate
+domains, run the backend with `NODE_ENV=production` set and serve it over
+HTTPS. This is required for the admin auth cookie (`SameSite=None; Secure`)
+to actually be sent by browsers on the admin app's cross-site requests —
+without it, login on the deployed admin panel appears to succeed but every
+subsequent request is unauthenticated.

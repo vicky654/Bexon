@@ -103,6 +103,13 @@ test("GET /api/blogs/:slug returns the matching published blog", async t => {
 	assert.equal(res.body.blog.title, "Findable Post");
 });
 
+test("GET /api/blogs?search=[ returns 200 instead of throwing on malformed regex input", async () => {
+	const res = await request(buildApp()).get("/api/blogs").query({ search: "[" });
+
+	assert.equal(res.status, 200);
+	assert.ok(Array.isArray(res.body.blogs));
+});
+
 test("GET /api/blogs/:slug returns 404 for an unpublished blog", async t => {
 	await prisma.blog.create({
 		data: { slug: "hidden-post", title: "Hidden Post", published: false },

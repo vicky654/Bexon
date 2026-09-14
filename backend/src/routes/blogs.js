@@ -25,8 +25,8 @@ router.get("/", async (req, res) => {
 	} else if (authorRole) {
 		mapped = mapped.filter(blog => makePath(blog.author_role) === authorRole);
 	} else if (search) {
-		const pattern = new RegExp(search, "i");
-		mapped = mapped.filter(blog => pattern.test(blog.title));
+		const target = search.toLowerCase();
+		mapped = mapped.filter(blog => blog.title.toLowerCase().includes(target));
 	}
 
 	res.json({ blogs: mapped });

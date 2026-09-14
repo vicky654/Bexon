@@ -35,6 +35,20 @@ test("getBlogFromBackendBySlug falls back to local data by slug", async () => {
 	}
 });
 
+test("getBlogsFromBackend does not throw on a malformed search value when the backend is unreachable", async () => {
+	const originalFetch = global.fetch;
+	global.fetch = async () => {
+		throw new Error("network error");
+	};
+
+	try {
+		const { getBlogsFromBackend } = require("./blogsApi");
+		await assert.doesNotReject(() => getBlogsFromBackend({ search: "[" }));
+	} finally {
+		global.fetch = originalFetch;
+	}
+});
+
 test("getBlogFromBackendBySlug returns null when the slug doesn't exist locally either", async () => {
 	const originalFetch = global.fetch;
 	global.fetch = async () => {
