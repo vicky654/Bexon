@@ -1,40 +1,29 @@
 "use client";
 import BlogsPrimary from "@/components/sections/blogs/BlogsPrimary";
 import HeroInner from "@/components/sections/hero/HeroInner";
-import filterItems from "@/libs/filterItems";
-import getBlogs from "@/libs/getBlogs";
 import makeText from "@/libs/makeText";
 import { useSearchParams } from "next/navigation";
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 const BlogMain = () => {
-	const allItems = useMemo(() => getBlogs());
+	const [filteredItems, setFilteredItems] = useState([]);
 	const category = useSearchParams()?.get("category");
 	const tag = useSearchParams()?.get("tag");
 	const author_role = useSearchParams()?.get("author_role");
 	const search = useSearchParams()?.get("search");
-	// Filter Items
-	const filteredItems = filterItems(
-		allItems,
-		category
-			? "category"
-			: tag
-			? "tags"
-			: author_role
-			? "role"
-			: search
-			? "search"
-			: "",
-		category
-			? category
-			: tag
-			? tag
-			: author_role
-			? author_role
-			: search
-			? search
-			: ""
-	);
+
+	useEffect(() => {
+		const params = new URLSearchParams();
+		if (category) params.set("category", category);
+		if (tag) params.set("tag", tag);
+		if (author_role) params.set("author_role", author_role);
+		if (search) params.set("search", search);
+
+		fetch(`/api/blogs?${params.toString()}`)
+			.then(res => res.json())
+			.then(data => setFilteredItems(data?.blogs || []))
+			.catch(() => setFilteredItems([]));
+	}, [category, tag, author_role, search]);
 
 	return (
 		<div>
