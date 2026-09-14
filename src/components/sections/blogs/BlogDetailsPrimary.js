@@ -8,7 +8,11 @@ import Link from "next/link";
 const BlogDetailsPrimary = ({ option }) => {
 	const { prevSlug, nextSlug, currentItem, isPrevItem, isNextItem } =
 		option || {};
-	const { title, img, tags, slug } = currentItem || {};
+	const { title, img, tags, slug, content } = currentItem || {};
+	const contentParagraphs = content
+		?.split(/\n{2,}/)
+		?.map(paragraph => paragraph.trim())
+		?.filter(Boolean);
 	return (
 		<section className="tj-blog-section section-gap slidebar-stickiy-container">
 			<div className="container">
@@ -65,25 +69,35 @@ const BlogDetailsPrimary = ({ option }) => {
 								</div>
 							</div>
 							<div className="blog-text">
-								<p className="wow fadeInUp" data-wow-delay=".3s">
-									In today’s competitive landscape, businesses must continuously
-									adapt and innovate to thrive. Unlocking Business Potential
-									means identifying untapped opportunities and leveraging
-									innovative solutions to drive growth, enhance efficiency, and
-									foster lasting success. At [Company Name], we believe that
-									success is not just about working harder—it's about working
-									smarter. By harnessing cutting-edge technologies, data-driven
-									insights, and creative problem-solving, we provide businesses
-									with the tools and strategies needed to stay ahead.
-								</p>
-								<p className="wow fadeInUp" data-wow-delay=".3s">
-									The curve. Whether you're looking to streamline operations,
-									enhance customer experiences, or explore new market
-									opportunities, our tailored solutions are designed to empower
-									your business to achieve unparalleled success. With a focus on
-									sustainability, scalability, and adaptability, we help your
-									business.
-								</p>
+								{contentParagraphs?.length ? (
+									contentParagraphs.map((paragraph, idx) => (
+										<p key={idx} className="wow fadeInUp" data-wow-delay=".3s">
+											{paragraph}
+										</p>
+									))
+								) : (
+									<>
+										<p className="wow fadeInUp" data-wow-delay=".3s">
+											In today’s competitive landscape, businesses must continuously
+											adapt and innovate to thrive. Unlocking Business Potential
+											means identifying untapped opportunities and leveraging
+											innovative solutions to drive growth, enhance efficiency, and
+											foster lasting success. At [Company Name], we believe that
+											success is not just about working harder—it’s about working
+											smarter. By harnessing cutting-edge technologies, data-driven
+											insights, and creative problem-solving, we provide businesses
+											with the tools and strategies needed to stay ahead.
+										</p>
+										<p className="wow fadeInUp" data-wow-delay=".3s">
+											The curve. Whether you’re looking to streamline operations,
+											enhance customer experiences, or explore new market
+											opportunities, our tailored solutions are designed to empower
+											your business to achieve unparalleled success. With a focus on
+											sustainability, scalability, and adaptability, we help your
+											business.
+										</p>
+									</>
+								)}
 								<blockquote className="wow fadeInUp" data-wow-delay=".3s">
 									<p>
 										The true entrepreneur is a doer, not a dreamer. Innovation
