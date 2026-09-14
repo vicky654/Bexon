@@ -1,9 +1,9 @@
-import getBlogs from "@/libs/getBlogs";
+import { getBlogFromBackendBySlug } from "@/libs/blogsApi";
 import { NextResponse } from "next/server";
 
 export async function GET(request, { params }) {
 	const { slug } = await params;
-	const blog = getBlogs()?.find((item) => item.slug === slug);
+	const blog = await getBlogFromBackendBySlug(slug);
 
 	if (!blog) {
 		return NextResponse.json({ message: "Blog not found" }, { status: 404 });
