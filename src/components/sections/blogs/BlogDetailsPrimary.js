@@ -1,4 +1,4 @@
-﻿import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
+import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import PopupVideo from "@/components/shared/popup-video/PopupVideo";
 import BlogSidebar from "@/components/shared/sidebar/BlogSidebar";
 import makePath from "@/libs/makePath";
@@ -102,7 +102,7 @@ const BlogDetailsPrimary = ({ option }) => {
 									<p>
 										The true entrepreneur is a doer, not a dreamer. Innovation
 										is the catalyst that transforms ideas into reality. In
-										today's fast-paced world, success depends not on just
+										today’s fast-paced world, success depends not on just
 										surviving change.
 									</p>
 									<cite>Kevin Hooks</cite>
@@ -226,7 +226,7 @@ const BlogDetailsPrimary = ({ option }) => {
 									Conclusions
 								</h3>
 								<p className="wow fadeInUp" data-wow-delay=".3s">
-									Unlocking your business's full potential is a journey that
+									Unlocking your business’s full potential is a journey that
 									requires vision, innovation, and strategic on our execution.
 									By embracing key lessons such as leveraging data, focusing on
 									customer are experience, fostering of adaptability, and
