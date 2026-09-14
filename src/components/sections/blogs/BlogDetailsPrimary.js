@@ -1,4 +1,4 @@
-import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
+﻿import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import PopupVideo from "@/components/shared/popup-video/PopupVideo";
 import BlogSidebar from "@/components/shared/sidebar/BlogSidebar";
 import makePath from "@/libs/makePath";
@@ -78,18 +78,18 @@ const BlogDetailsPrimary = ({ option }) => {
 								) : (
 									<>
 										<p className="wow fadeInUp" data-wow-delay=".3s">
-											In today’s competitive landscape, businesses must continuously
+											In today's competitive landscape, businesses must continuously
 											adapt and innovate to thrive. Unlocking Business Potential
 											means identifying untapped opportunities and leveraging
 											innovative solutions to drive growth, enhance efficiency, and
 											foster lasting success. At [Company Name], we believe that
-											success is not just about working harder—it’s about working
+											success is not just about working harder—it's about working
 											smarter. By harnessing cutting-edge technologies, data-driven
 											insights, and creative problem-solving, we provide businesses
 											with the tools and strategies needed to stay ahead.
 										</p>
 										<p className="wow fadeInUp" data-wow-delay=".3s">
-											The curve. Whether you’re looking to streamline operations,
+											The curve. Whether you're looking to streamline operations,
 											enhance customer experiences, or explore new market
 											opportunities, our tailored solutions are designed to empower
 											your business to achieve unparalleled success. With a focus on
@@ -102,7 +102,7 @@ const BlogDetailsPrimary = ({ option }) => {
 									<p>
 										The true entrepreneur is a doer, not a dreamer. Innovation
 										is the catalyst that transforms ideas into reality. In
-										today’s fast-paced world, success depends not on just
+										today's fast-paced world, success depends not on just
 										surviving change.
 									</p>
 									<cite>Kevin Hooks</cite>
@@ -226,7 +226,7 @@ const BlogDetailsPrimary = ({ option }) => {
 									Conclusions
 								</h3>
 								<p className="wow fadeInUp" data-wow-delay=".3s">
-									Unlocking your business’s full potential is a journey that
+									Unlocking your business's full potential is a journey that
 									requires vision, innovation, and strategic on our execution.
 									By embracing key lessons such as leveraging data, focusing on
 									customer are experience, fostering of adaptability, and
