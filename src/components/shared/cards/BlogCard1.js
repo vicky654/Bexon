@@ -5,11 +5,11 @@ import Link from "next/link";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 
 const BlogCard1 = ({ blog, idx }) => {
-	const { title, desc, id, img, category, date, day, month } = blog || {};
+	const { title, desc, slug, img, category, date, day, month } = blog || {};
 	return (
 		<div className="blog-item wow fadeInUp" data-wow-delay={`0.${idx + 1}s`}>
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					{" "}
 					<Image
 						src={img ? img : "/images/blog/blog-1.webp"}
@@ -32,15 +32,15 @@ const BlogCard1 = ({ blog, idx }) => {
 						</Link>
 					</span>
 					<span>
-						By <Link href={`/blogs/${id}`}>Ellinien Loma</Link>
+						By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
 					</span>
 				</div>
 				<h4 className="title">
-					<Link href={`/blogs/${id}`}>{title}.</Link>
+					<Link href={`/blogs/${slug}`}>{title}.</Link>
 				</h4>
 				<ButtonPrimary
 					text={"Read More"}
-					url={`/blogs/${id}`}
+					url={`/blogs/${slug}`}
 					isTextBtn={true}
 				/>
 			</div>

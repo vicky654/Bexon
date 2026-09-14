@@ -4,14 +4,14 @@ import modifyNumber from "@/libs/modifyNumber";
 import Link from "next/link";
 
 const BlogCard3 = ({ blog, idx }) => {
-	const { title, desc, id, img2, category, date, day, month } = blog || {};
+	const { title, desc, slug, img2, category, date, day, month } = blog || {};
 	return (
 		<div
 			className="blog-item style-3 wow fadeInUp"
 			data-wow-delay={makeWowDelay(idx, 0.2)}
 		>
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					<img src={img2 ? img2 : "/images/blog/blog-6.webp"} alt="" />
 				</Link>
 				<div className="blog-date">
@@ -27,13 +27,13 @@ const BlogCard3 = ({ blog, idx }) => {
 						</Link>
 					</span>
 					<span>
-						By <Link href={`/blogs/${id}`}>Ellinien Loma</Link>
+						By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
 					</span>
 				</div>
 				<h4 className="title">
-					<Link href={`/blogs/${id}`}>{title}.</Link>
+					<Link href={`/blogs/${slug}`}>{title}.</Link>
 				</h4>
-				<Link className="text-btn" href={`/blogs/${id}`}>
+				<Link className="text-btn" href={`/blogs/${slug}`}>
 					<span className="btn-text">
 						<span>Read More</span>
 					</span>

@@ -1,9 +1,18 @@
 "use client";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import ReactNiceSelect from "@/components/shared/Inputs/ReactNiceSelect";
+import useContactForm from "@/hooks/useContactForm";
 import Link from "next/link";
 
 const Contact2 = () => {
+	const {
+		formData,
+		isSubmitting,
+		handleChange,
+		handleServiceChange,
+		handleSubmit,
+	} = useContactForm();
+
 	return (
 		<section className="tj-contact-section section-gap section-gap-x">
 			<div className="container">
@@ -58,14 +67,16 @@ const Contact2 = () => {
 									Drop Us a <span>Line.</span>
 								</h2>
 							</div>
-							<form id="contact-form-2">
+							<form id="contact-form-2" onSubmit={handleSubmit}>
 								<div className="row wow fadeInUp" data-wow-delay=".5s">
 									<div className="col-sm-6">
 										<div className="form-input">
 											<input
 												type="text"
-												name="cfName2"
+												name="name"
 												placeholder="Full Name *"
+												value={formData.name}
+												onChange={handleChange}
 											/>
 										</div>
 									</div>
@@ -73,8 +84,10 @@ const Contact2 = () => {
 										<div className="form-input">
 											<input
 												type="email"
-												name="cfEmail2"
+												name="email"
 												placeholder="Email Address *"
+												value={formData.email}
+												onChange={handleChange}
 											/>
 										</div>
 									</div>
@@ -82,8 +95,10 @@ const Contact2 = () => {
 										<div className="form-input">
 											<input
 												type="tel"
-												name="cfPhone2"
+												name="phone"
 												placeholder="Phone number *"
+												value={formData.phone}
+												onChange={handleChange}
 											/>
 										</div>
 									</div>
@@ -93,6 +108,7 @@ const Contact2 = () => {
 												<div className="tj-select">
 													<ReactNiceSelect
 														selectedIndex={0}
+														getSelectedOption={handleServiceChange}
 														options={[
 															{ value: "0", optionName: "Chose a option" },
 															{ value: "1", optionName: "Business Strategy" },
@@ -122,14 +138,20 @@ const Contact2 = () => {
 									<div className="col-sm-12">
 										<div className="form-input message-input">
 											<textarea
-												name="cfMessage2"
+												name="message"
 												id="message"
 												placeholder="Type message *"
+												value={formData.message}
+												onChange={handleChange}
 											></textarea>
 										</div>
 									</div>
 									<div className="submit-btn">
-										<ButtonPrimary text={"Send Message"} type={"submit"} />
+										<ButtonPrimary
+											text={isSubmitting ? "Sending..." : "Send Message"}
+											type={"submit"}
+											disabled={isSubmitting}
+										/>
 									</div>
 								</div>
 							</form>

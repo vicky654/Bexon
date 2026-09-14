@@ -7,7 +7,7 @@ const BlogCard5 = ({ blog, idx, hasNoDesc }) => {
 	const {
 		title,
 		desc,
-		id,
+		slug,
 		img3 = "/images/blog/h5-blog-1.webp",
 		category,
 		date,
@@ -20,7 +20,7 @@ const BlogCard5 = ({ blog, idx, hasNoDesc }) => {
 			data-wow-delay={`${makeWowDelay(idx, 0.3, 2)}`}
 		>
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					<img src={img3} alt="" />
 				</Link>
 				<div className="blog-date">
@@ -37,15 +37,15 @@ const BlogCard5 = ({ blog, idx, hasNoDesc }) => {
 							</Link>
 						</span>
 						<span>
-							By <Link href={`/blogs/${id}`}>Ellinien Loma</Link>
+							By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
 						</span>
 					</div>
 					<h4 className="title">
-						<Link href={`/blogs/${id}`}>{title}</Link>
+						<Link href={`/blogs/${slug}`}>{title}</Link>
 					</h4>
 					{idx === 0 ? hasNoDesc ? "" : <p className="desc">{desc}</p> : ""}
 				</div>
-				<Link className="text-btn" href={`/blogs/${id}`}>
+				<Link className="text-btn" href={`/blogs/${slug}`}>
 					<span className="btn-text">
 						<span>Read More</span>
 					</span>

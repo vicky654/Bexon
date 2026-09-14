@@ -16,7 +16,7 @@ const RecentBlogWidget = () => {
 					? recentBlogs?.map(
 							(
 								{
-									id,
+									slug,
 									smallImg = "/images/blog/post-1.webp",
 									title,
 									blogTopList,
@@ -27,7 +27,7 @@ const RecentBlogWidget = () => {
 							) => (
 								<li key={idx}>
 									<div className="post-thumb">
-										<Link href={`/blogs/${id}`}>
+										<Link href={`/blogs/${slug}`}>
 											{" "}
 											<Image
 												src={smallImg}
@@ -39,7 +39,7 @@ const RecentBlogWidget = () => {
 									</div>
 									<div className="post-content">
 										<h6 className="post-title">
-											<Link href={`/blogs/${id}`}>
+											<Link href={`/blogs/${slug}`}>
 												{sliceText(title, 32, true)}
 											</Link>
 										</h6>

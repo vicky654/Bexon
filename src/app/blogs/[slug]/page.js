@@ -10,8 +10,8 @@ import { notFound } from "next/navigation";
 const items = getBlogs();
 
 export default async function BlogDetails({ params }) {
-	const { id } = await params;
-	const isExistItem = items?.find(({ id: id1 }) => id1 === parseInt(id));
+	const { slug } = await params;
+	const isExistItem = items?.find(({ slug: slug1 }) => slug1 === slug);
 	if (!isExistItem) {
 		notFound();
 	}
@@ -24,7 +24,7 @@ export default async function BlogDetails({ params }) {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<BlogDetailsMain currentItemId={parseInt(id)} />
+						<BlogDetailsMain currentSlug={slug} />
 						<Cta />
 					</main>
 					<Footer />
@@ -36,5 +36,5 @@ export default async function BlogDetails({ params }) {
 }
 
 export async function generateStaticParams() {
-	return items?.map(({ id }) => ({ id: id.toString() }));
+	return items?.map(({ slug }) => ({ slug }));
 }

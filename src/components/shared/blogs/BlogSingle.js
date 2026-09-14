@@ -8,7 +8,7 @@ import ButtonPrimary from "../buttons/ButtonPrimary";
 
 const BlogSingle = ({ blog, idx }) => {
 	const {
-		id,
+		slug,
 		detailsImg,
 		img = "/images/blog/blog-1.webp",
 		title,
@@ -30,7 +30,7 @@ const BlogSingle = ({ blog, idx }) => {
 			data-wow-delay={makeWowDelay(idx, 0.1)}
 		>
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					<Image src={img} alt="" width={870} height={450} />
 				</Link>
 				<div className="blog-date">
@@ -46,11 +46,11 @@ const BlogSingle = ({ blog, idx }) => {
 						</Link>
 					</span>
 					<span>
-						By <Link href={`/blogs/${id}`}>Ellinien Loma</Link>
+						By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
 					</span>
 				</div>
 				<h3 className="title">
-					<Link href={`/blogs/${id}`}>{title}</Link>
+					<Link href={`/blogs/${slug}`}>{title}</Link>
 				</h3>
 				<p className="desc">
 					In today’s fast-paced business environment, the key to staying ahead
@@ -61,7 +61,7 @@ const BlogSingle = ({ blog, idx }) => {
 				</p>
 				<ButtonPrimary
 					text={"Read More"}
-					url={`/blogs/${id}`}
+					url={`/blogs/${slug}`}
 					isTextBtn={true}
 				/>
 			</div>

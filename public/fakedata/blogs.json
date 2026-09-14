@@ -2,6 +2,7 @@
 	{
 		"id": 1,
 		"title": "Innovative Solutions for every Business Success",
+		"slug": "innovative-solutions-for-every-business-success",
 		"img": "/images/blog/blog-1.webp",
 		"img1": "/images/blog/blog-4.webp",
 		"img2": "/images/blog/blog-6.webp",
@@ -19,7 +20,10 @@
 		"day": 28,
 		"month": "JUL",
 		"category": "Corporate",
-		"tags": ["Corporate", "Business"],
+		"tags": [
+			"Corporate",
+			"Business"
+		],
 		"author_role": "Analysis",
 		"author": "gerold",
 		"status": "Tutorial",
@@ -107,6 +111,7 @@
 	{
 		"id": 2,
 		"title": "Harnessing Digital Transform a Roadmap Businesses",
+		"slug": "harnessing-digital-transform-a-roadmap-businesses",
 		"img": "/images/blog/blog-2.webp",
 		"img1": "/images/blog/blog-5.webp",
 		"img2": "/images/blog/blog-7.webp",
@@ -123,7 +128,10 @@
 		"day": 6,
 		"month": "NOV",
 		"category": "Business",
-		"tags": ["Business", "Design"],
+		"tags": [
+			"Business",
+			"Design"
+		],
 		"author_name": "Silvester Scott",
 		"author_role": "admin",
 		"author": "gerold",
@@ -215,6 +223,7 @@
 	{
 		"id": 3,
 		"title": "Mastering Change Management Lessons for Businesses",
+		"slug": "mastering-change-management-lessons-for-businesses",
 		"img": "/images/blog/blog-3.webp",
 		"img1": "/images/blog/blog-4.webp",
 		"img2": "/images/blog/blog-8.webp",
@@ -232,7 +241,11 @@
 		"day": 24,
 		"month": "AUG",
 		"category": "Consuting",
-		"tags": ["Design", "Marketing", "Strategy"],
+		"tags": [
+			"Design",
+			"Marketing",
+			"Strategy"
+		],
 		"author_role": "admin",
 		"author": "gerold",
 		"status": "TIPS",
@@ -241,7 +254,6 @@
 			"/images/blog/tj-blog-6.webp",
 			"/images/blog/tj-blog-7.webp"
 		],
-
 		"blogTopList": [
 			{
 				"iconName": "fa-light fa-user",
@@ -326,6 +338,7 @@
 	{
 		"id": 4,
 		"title": "Designing a Modern Brand Identity for Competitive Edge",
+		"slug": "designing-a-modern-brand-identity-for-competitive-edge",
 		"img": "/images/blog/blog-video.webp",
 		"img1": "/images/blog/blog-5.webp",
 		"img2": "/images/blog/h2-blog-1.webp",
@@ -342,7 +355,11 @@
 		"day": 28,
 		"month": "AUG",
 		"category": "Innovations",
-		"tags": ["Business", "Design", "Marketing"],
+		"tags": [
+			"Business",
+			"Design",
+			"Marketing"
+		],
 		"author_role": "admin",
 		"author": "gerold",
 		"status": "FREEBIES",
@@ -430,6 +447,7 @@
 	{
 		"id": 5,
 		"title": "Proven Lessons for Effective Change Management in Business",
+		"slug": "proven-lessons-for-effective-change-management-in-business",
 		"img": "/images/project/project-4.webp",
 		"img1": "/images/blog/blog-thumb-1.webp",
 		"img2": "/images/blog/h2-blog-1.webp",
@@ -446,7 +464,11 @@
 		"day": 28,
 		"month": "AUG",
 		"category": "Managements",
-		"tags": ["Corporate", "Design", "Strategy"],
+		"tags": [
+			"Corporate",
+			"Design",
+			"Strategy"
+		],
 		"author_role": "admin",
 		"author": "gerold",
 		"status": "Tutorial",
@@ -534,6 +556,7 @@
 	{
 		"id": 6,
 		"title": "Measuring success key metrics every business track",
+		"slug": "measuring-success-key-metrics-every-business-track",
 		"img": "/images/project/project-1.webp",
 		"img1": "/images/blog/blog-thumb-1.webp",
 		"img2": "/images/blog/h2-blog-1.webp",
@@ -550,7 +573,10 @@
 		"day": 28,
 		"month": "AUG",
 		"category": "Marketing",
-		"tags": ["Business", "Marketing"],
+		"tags": [
+			"Business",
+			"Marketing"
+		],
 		"author_role": "admin",
 		"author": "gerold",
 		"status": "Tutorial",
@@ -638,6 +664,7 @@
 	{
 		"id": 7,
 		"title": "How to navigate consulting tips for transforming",
+		"slug": "how-to-navigate-consulting-tips-for-transforming",
 		"img": "/images/blog/blog-1.webp",
 		"img1": "/images/blog/blog-thumb-1.webp",
 		"img2": "/images/blog/h2-blog-1.webp",
@@ -654,7 +681,10 @@
 		"day": 28,
 		"month": "AUG",
 		"category": "Corporate",
-		"tags": ["Marketing", "Strategy"],
+		"tags": [
+			"Marketing",
+			"Strategy"
+		],
 		"author_role": "admin",
 		"author": "gerold",
 		"status": "Tutorial",
@@ -742,6 +772,7 @@
 	{
 		"id": 8,
 		"title": "Innovation in action examples of consulting successt",
+		"slug": "innovation-in-action-examples-of-consulting-successt",
 		"img": "/images/blog/blog-2.webp",
 		"img1": "/images/blog/blog-thumb-1.webp",
 		"img2": "/images/blog/h2-blog-1.webp",
@@ -758,7 +789,10 @@
 		"day": 28,
 		"month": "AUG",
 		"category": "Business",
-		"tags": ["Design", "Marketing"],
+		"tags": [
+			"Design",
+			"Marketing"
+		],
 		"author_role": "admin",
 		"author": "gerold",
 		"status": "Tutorial",
@@ -846,6 +880,7 @@
 	{
 		"id": 9,
 		"title": "Innovative solutions for business success from today",
+		"slug": "innovative-solutions-for-business-success-from-today",
 		"img": "/images/blog/blog-3.webp",
 		"img1": "/images/blog/blog-thumb-1.webp",
 		"img2": "/images/blog/h2-blog-1.webp",
@@ -862,7 +897,12 @@
 		"day": 28,
 		"month": "AUG",
 		"category": "Consuting",
-		"tags": ["Business", "Design", "Marketing", "Strategy"],
+		"tags": [
+			"Business",
+			"Design",
+			"Marketing",
+			"Strategy"
+		],
 		"author_role": "admin",
 		"author": "gerold",
 		"status": "Tutorial",

@@ -6,8 +6,9 @@ import Image from "next/image";
 import Link from "next/link";
 
 const BlogDetailsPrimary = ({ option }) => {
-	const { prevId, nextId, currentItem, isPrevItem, isNextItem } = option || {};
-	const { title, id, img, tags } = currentItem || {};
+	const { prevSlug, nextSlug, currentItem, isPrevItem, isNextItem } =
+		option || {};
+	const { title, img, tags, slug } = currentItem || {};
 	return (
 		<section className="tj-blog-section section-gap slidebar-stickiy-container">
 			<div className="container">
@@ -40,7 +41,7 @@ const BlogDetailsPrimary = ({ option }) => {
 									<div className="cate-text">
 										<span className="degination">Authored by</span>
 										<h6 className="title">
-											<Link href="/blogs/1">Burdee Nicolas</Link>
+											<Link href={`/blogs/${slug}`}>Burdee Nicolas</Link>
 										</h6>
 									</div>
 								</div>
@@ -272,7 +273,7 @@ const BlogDetailsPrimary = ({ option }) => {
 									style={{ visibility: isPrevItem ? "visible" : "hidden" }}
 								>
 									<div className="tj-nav-post__nav prev_post">
-										<Link href={isPrevItem ? `/blogs/${prevId}` : "#"}>
+										<Link href={isPrevItem ? `/blogs/${prevSlug}` : "#"}>
 											<span>
 												<i className="tji-arrow-left"></i>
 											</span>
@@ -289,7 +290,7 @@ const BlogDetailsPrimary = ({ option }) => {
 									style={{ visibility: isNextItem ? "visible" : "hidden" }}
 								>
 									<div className="tj-nav-post__nav next_post">
-										<Link href={isNextItem ? `/blogs/${nextId}` : "#"}>
+										<Link href={isNextItem ? `/blogs/${nextSlug}` : "#"}>
 											Next
 											<span>
 												<i className="tji-arrow-right"></i>
@@ -320,14 +321,14 @@ const BlogDetailsPrimary = ({ option }) => {
 													<div className="comments-header">
 														<div className="avatar-name">
 															<h6 className="title">
-																<Link href="/blogs/1">Great insights!</Link>
+																<Link href={`/blogs/${slug}`}>Great insights!</Link>
 															</h6>
 														</div>
 														<div className="comment-text">
 															<span className="date">
 																June 18, 2024 at 06:00 pm
 															</span>
-															<Link className="reply" href="/blogs/1">
+															<Link className="reply" href={`/blogs/${slug}`}>
 																Reply
 															</Link>
 														</div>
@@ -360,7 +361,7 @@ const BlogDetailsPrimary = ({ option }) => {
 															<div className="comments-header">
 																<div className="avatar-name">
 																	<h6 className="title">
-																		<Link href="/blogs/1">
+																		<Link href={`/blogs/${slug}`}>
 																			This was a fantastic read
 																		</Link>
 																	</h6>
@@ -402,7 +403,7 @@ const BlogDetailsPrimary = ({ option }) => {
 													<div className="comments-header">
 														<div className="avatar-name">
 															<h6 className="title">
-																<Link href="/blogs/1">
+																<Link href={`/blogs/${slug}`}>
 																	This was a fantastic read
 																</Link>
 															</h6>
@@ -411,7 +412,7 @@ const BlogDetailsPrimary = ({ option }) => {
 															<span className="date">
 																June 18, 2024 at 06:00 pm
 															</span>
-															<Link className="reply" href="/blogs/1">
+															<Link className="reply" href={`/blogs/${slug}`}>
 																Reply
 															</Link>
 														</div>

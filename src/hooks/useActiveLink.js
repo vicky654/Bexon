@@ -8,7 +8,7 @@ const makeForcelyInactive = (pathname, currentPathname) => {
 		"/portfolios",
 		"/portfolios/1",
 		"/blogs",
-		"/blogs/1",
+		"/blogs/innovative-solutions-for-every-business-success",
 		"/blog-grid",
 		"/blog-sidebar",
 		"/contact",

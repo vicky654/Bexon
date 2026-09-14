@@ -6,7 +6,7 @@ const BlogCard7 = ({ blog, idx }) => {
 	const {
 		title,
 		desc,
-		id,
+		slug,
 		img = "/images/blog/blog-1.webp",
 		category,
 		date,
@@ -16,7 +16,7 @@ const BlogCard7 = ({ blog, idx }) => {
 	return (
 		<div className="blog-item wow fadeInUp" data-wow-delay=".3s">
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					<Image src={img} alt="Images" width={870} height={450} />
 				</Link>
 				<div className="blog-meta">
@@ -33,9 +33,9 @@ const BlogCard7 = ({ blog, idx }) => {
 				</div>
 				<div className="title-wrapper">
 					<h4 className="title">
-						<Link href={`/blogs/${id}`}>{title}.</Link>
+						<Link href={`/blogs/${slug}`}>{title}.</Link>
 					</h4>
-					<Link className="text-btn" href={`/blogs/${id}`}>
+					<Link className="text-btn" href={`/blogs/${slug}`}>
 						<span className="btn-icon">
 							<i className="tji-arrow-right-long"></i>
 						</span>

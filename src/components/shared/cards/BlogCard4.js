@@ -8,7 +8,7 @@ const BlogCard4 = ({ blog, idx }) => {
 	const {
 		title,
 		desc,
-		id,
+		slug,
 		img = "/images/blog/blog-1.webp",
 		category,
 		date,
@@ -21,7 +21,7 @@ const BlogCard4 = ({ blog, idx }) => {
 			data-wow-delay={makeWowDelay(idx, 0.2)}
 		>
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					<img src={img} alt="" />
 				</Link>
 				{idx === 0 ? (
@@ -41,15 +41,15 @@ const BlogCard4 = ({ blog, idx }) => {
 						</Link>
 					</span>
 					<span>
-						By <Link href={`/blogs/${id}`}>Ellinien Loma</Link>
+						By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
 					</span>
 				</div>
 				<h4 className="title">
-					<Link href={`/blogs/${id}`}>{title}.</Link>
+					<Link href={`/blogs/${slug}`}>{title}.</Link>
 				</h4>
 				<ButtonPrimary
 					text={"Read More"}
-					url={`/blogs/${id}`}
+					url={`/blogs/${slug}`}
 					isTextBtn={true}
 				/>
 			</div>

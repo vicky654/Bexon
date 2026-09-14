@@ -6,7 +6,7 @@ const BlogCard10 = ({ blog, idx, hasNoDesc }) => {
 	const {
 		title,
 		desc,
-		id,
+		slug,
 		img = "/images/blog/h5-blog-1.webp",
 		category,
 		date2,
@@ -19,7 +19,7 @@ const BlogCard10 = ({ blog, idx, hasNoDesc }) => {
 			data-wow-delay={makeWowDelay(idx, 0.2, 2)}
 		>
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					<img src={img} alt="" />
 				</Link>
 			</div>
@@ -27,7 +27,7 @@ const BlogCard10 = ({ blog, idx, hasNoDesc }) => {
 				<div className="blog-meta">
 					<div className="blog-date-wrapper">
 						<span className="blog-author">
-							By <Link href={`/blogs/${id}`}>Ellinien Loma</Link>
+							By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
 						</span>
 						<span className="blog-date">{date2}</span>
 					</div>
@@ -40,9 +40,9 @@ const BlogCard10 = ({ blog, idx, hasNoDesc }) => {
 				</div>
 				<div className="title-area">
 					<h3 className="title">
-						<Link href={`/blogs/${id}`}>{title}</Link>
+						<Link href={`/blogs/${slug}`}>{title}</Link>
 					</h3>
-					<Link className="text-btn" href={`/blogs/${id}`}>
+					<Link className="text-btn" href={`/blogs/${slug}`}>
 						<span className="btn-text">
 							<span>Read More</span>
 						</span>

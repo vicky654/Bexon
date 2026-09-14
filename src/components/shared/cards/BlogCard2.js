@@ -4,11 +4,11 @@ import Link from "next/link";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 
 const BlogCard2 = ({ blog, idx }) => {
-	const { title, desc, id, img1, category, date, day, month } = blog || {};
+	const { title, desc, slug, img1, category, date, day, month } = blog || {};
 	return (
 		<div className="blog-item style-2">
 			<div className="blog-thumb">
-				<Link href={`/blogs/${id}`}>
+				<Link href={`/blogs/${slug}`}>
 					<img src={img1 ? img1 : "/images/blog/blog-4.webp"} alt="" />
 				</Link>
 				<div className="blog-date">
@@ -25,16 +25,16 @@ const BlogCard2 = ({ blog, idx }) => {
 							</Link>
 						</span>
 						<span>
-							By <Link href={`/blogs/${id}`}>Ellinien Loma</Link>
+							By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
 						</span>
 					</div>
 					<h4 className="title">
-						<Link href={`/blogs/${id}`}>{title}.</Link>
+						<Link href={`/blogs/${slug}`}>{title}.</Link>
 					</h4>
 				</div>
 				<ButtonPrimary
 					text={"Read More"}
-					url={`/blogs/${id}`}
+					url={`/blogs/${slug}`}
 					isTextBtn={true}
 				/>
 			</div>
