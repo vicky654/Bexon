@@ -1,4 +1,4 @@
-import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
+﻿import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import PopupVideo from "@/components/shared/popup-video/PopupVideo";
 import BlogSidebar from "@/components/shared/sidebar/BlogSidebar";
 import makePath from "@/libs/makePath";
@@ -78,7 +78,7 @@ const BlogDetailsPrimary = ({ option }) => {
 								) : (
 									<>
 										<p className="wow fadeInUp" data-wow-delay=".3s">
-											In today's competitive landscape, businesses must continuously
+											In today’s competitive landscape, businesses must continuously
 											adapt and innovate to thrive. Unlocking Business Potential
 											means identifying untapped opportunities and leveraging
 											innovative solutions to drive growth, enhance efficiency, and
