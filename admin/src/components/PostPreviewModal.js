@@ -40,12 +40,14 @@ export default function PostPreviewModal({ values, onClose }) {
 
 					{excerpt ? <p className="preview-excerpt">{excerpt}</p> : null}
 
-					<div
-						className="editor-content preview-content"
-						dangerouslySetInnerHTML={{
-							__html: content || "<p><em>No content yet.</em></p>",
-						}}
-					/>
+					<div className="editor-content preview-content">
+						<div
+							className="tiptap"
+							dangerouslySetInnerHTML={{
+								__html: content || "<p><em>No content yet.</em></p>",
+							}}
+						/>
+					</div>
 
 					{tags?.length ? (
 						<div className="preview-tags">

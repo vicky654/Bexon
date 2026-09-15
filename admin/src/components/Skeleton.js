@@ -30,8 +30,8 @@ export function SkeletonStatCards({ count = 5 }) {
 				<div className="stat-card" key={idx}>
 					<span className="skeleton skeleton-icon" />
 					<div className="stat-card-body">
-						<span className="skeleton" style={{ width: "40px", height: "22px" }} />
-						<span className="skeleton" style={{ width: "70px", height: "11px", marginTop: "4px" }} />
+						<span className="skeleton" style={{ width: "50px", height: "30px" }} />
+						<span className="skeleton" style={{ width: "80px", height: "11px", marginTop: "4px" }} />
 					</div>
 				</div>
 			))}
