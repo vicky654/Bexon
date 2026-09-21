@@ -258,12 +258,17 @@ function BlogsList() {
 								</td>
 								<td>{blog.title}</td>
 								<td className="table-muted">{blog.slug}</td>
-								<td>
-									<span
-										className={`badge ${blog.published ? "badge-good" : "badge-neutral"}`}
+								<td onClick={e => e.stopPropagation()}>
+									<button
+										type="button"
+										className={`badge badge-toggle ${
+											blog.published ? "badge-good" : "badge-neutral"
+										}`}
+										onClick={() => handleTogglePublished(blog)}
+										title={blog.published ? "Click to unpublish" : "Click to publish"}
 									>
 										{blog.published ? "Published" : "Draft"}
-									</span>
+									</button>
 								</td>
 							</tr>
 						))
