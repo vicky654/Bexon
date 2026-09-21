@@ -41,3 +41,14 @@ model Admin {
   email        String @unique
   passwordHash String
 }
+
+model SiteSettings {
+  id              Int      @id @default(1)
+  primaryColor    String   @default("#02092c")
+  secondaryColor  String   @default("#0c1e21")
+  hoverColor      String   @default("#02092c")
+  textColor       String   @default("#364e52")
+  headingColor    String   @default("#0c1e21")
+  backgroundColor String   @default("#d8e5e5")
+  updatedAt       DateTime @updatedAt
+}

@@ -138,7 +138,7 @@
 			}
 		}
 		.btn-icon {
-			background-color: var(--tj-color-theme-primary);
+			background-color: var(--tj-color-theme-hover, var(--tj-color-theme-primary));
 			i {
 				transform: rotate(0);
 			}
@@ -162,7 +162,7 @@
 		transition: all 0.3s ease-in-out;
 	}
 	&:hover {
-		background-color: var(--tj-color-theme-primary);
+		background-color: var(--tj-color-theme-hover, var(--tj-color-theme-primary));
 		i {
 			color: var(--tj-color-common-white);
 			transform: rotate(0);

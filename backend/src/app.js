@@ -9,6 +9,8 @@ const adminAuthRouter = require("./routes/adminAuth");
 const adminBlogsRouter = require("./routes/adminBlogs");
 const adminMessagesRouter = require("./routes/adminMessages");
 const uploadRouter = require("./routes/upload");
+const settingsRouter = require("./routes/settings");
+const adminSettingsRouter = require("./routes/adminSettings");
 
 function buildApp() {
 	const app = express();
@@ -27,9 +29,11 @@ function buildApp() {
 
 	app.use("/api/blogs", blogsRouter);
 	app.use("/api/contact", contactRouter);
+	app.use("/api/settings", settingsRouter);
 	app.use("/api/admin", adminAuthRouter);
 	app.use("/api/admin/blogs", adminBlogsRouter);
 	app.use("/api/admin/messages", adminMessagesRouter);
+	app.use("/api/admin/settings", adminSettingsRouter);
 	app.use("/api/admin/upload", uploadRouter);
 
 	app.use((err, req, res, next) => {
