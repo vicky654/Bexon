@@ -1279,6 +1279,62 @@ a {
 	box-shadow: 0 0 0 3px rgba(2, 9, 44, 0.1);
 }
 
+.settings-preview {
+	margin-top: 20px;
+}
+
+.settings-preview-label {
+	font-weight: 600;
+	font-size: 13px;
+	color: #374151;
+	margin: 0 0 8px;
+}
+
+.settings-preview-card {
+	border-radius: 14px;
+	border: 1px solid #eceef2;
+	padding: 24px;
+	transition: background-color 0.15s ease;
+}
+
+.settings-preview-card h3 {
+	margin: 0 0 8px;
+	font-size: 20px;
+}
+
+.settings-preview-card p {
+	margin: 0 0 16px;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.settings-preview-row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	flex-wrap: wrap;
+}
+
+.settings-preview-btn {
+	display: inline-flex;
+	align-items: center;
+	padding: 9px 18px;
+	border-radius: 7px;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.settings-preview-badge {
+	display: inline-flex;
+	align-items: center;
+	padding: 6px 14px;
+	border-radius: 999px;
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+}
+
 .settings-actions {
 	display: flex;
 	align-items: center;

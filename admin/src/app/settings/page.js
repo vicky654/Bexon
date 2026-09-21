@@ -140,6 +140,39 @@ function SettingsForm() {
 						))}
 					</div>
 
+					<div className="settings-preview">
+						<p className="settings-preview-label">Live Preview</p>
+						<div
+							className="settings-preview-card"
+							style={{ background: values.backgroundColor }}
+						>
+							<h3 style={{ color: values.headingColor }}>Preview Heading</h3>
+							<p style={{ color: values.textColor }}>
+								This is how your site&apos;s body text will look.
+							</p>
+							<div className="settings-preview-row">
+								<span
+									className="settings-preview-btn"
+									style={{ background: values.primaryColor }}
+								>
+									Primary Button
+								</span>
+								<span
+									className="settings-preview-btn"
+									style={{ background: values.hoverColor }}
+								>
+									Hover State
+								</span>
+								<span
+									className="settings-preview-badge"
+									style={{ background: values.secondaryColor }}
+								>
+									Secondary Accent
+								</span>
+							</div>
+						</div>
+					</div>
+
 					{error ? (
 						<div className="settings-alert settings-alert-error">
 							<AlertIcon />
