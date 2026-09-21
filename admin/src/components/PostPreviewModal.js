@@ -81,7 +81,11 @@ export default function PostPreviewModal({ values, onClose, editHref, viewHref, 
 						<img src={img} alt="" className="preview-hero" />
 					) : null}
 
-					{category ? <span className="badge badge-neutral preview-category">{category}</span> : null}
+					{category ? (
+						<span className={`badge-tag preview-category badge-tag-${tagColorIndex(category)}`}>
+							{category}
+						</span>
+					) : null}
 
 					<h1 className="preview-title">{title || "Untitled post"}</h1>
 
