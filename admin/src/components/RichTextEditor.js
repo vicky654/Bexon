@@ -976,16 +976,31 @@ export default function RichTextEditor({ content, onChange, placeholder }) {
 		const el = sentinelRef.current;
 		if (!el || typeof IntersectionObserver === "undefined") return undefined;
 
+		// Debounced: right at the sticky boundary, tiny scroll jitter (e.g. from
+		// clicking/dragging an image near the top of the editor) can flip
+		// isIntersecting on every frame. Since toggling "pinned" changes the
+		// toolbar's own height (collapsed vs. full), each flip was retriggering
+		// the observer again immediately, producing a visible blinking loop.
+		// Waiting for the scroll position to settle before committing a new
+		// state breaks that feedback loop.
+		let settleTimer = null;
+
 		const observer = new IntersectionObserver(
 			([entry]) => {
-				const pinned = !entry.isIntersecting;
-				setIsPinned(pinned);
-				if (!pinned) setManualExpand(false);
+				if (settleTimer) clearTimeout(settleTimer);
+				settleTimer = setTimeout(() => {
+					const pinned = !entry.isIntersecting;
+					setIsPinned(pinned);
+					if (!pinned) setManualExpand(false);
+				}, 120);
 			},
 			{ threshold: 0, rootMargin: "-13px 0px 0px 0px" }
 		);
 		observer.observe(el);
-		return () => observer.disconnect();
+		return () => {
+			if (settleTimer) clearTimeout(settleTimer);
+			observer.disconnect();
+		};
 	}, []);
 
 	const editor = useEditor({
