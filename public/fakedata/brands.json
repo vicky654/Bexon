@@ -1,62 +1,368 @@
 [
-	{
-		"img": "/images/brands/brand-1.webp",
-		"img2": "/images/brands/brand-1-light.webp",
-		"img3": "/images/brands/h5-brand-1.webp"
-	},
-	{
-		"img": "/images/brands/brand-2.webp",
-		"img2": "/images/brands/brand-2-light.webp",
-		"img3": "/images/brands/h5-brand-2.webp"
-	},
-	{
-		"img": "/images/brands/brand-3.webp",
-		"img2": "/images/brands/brand-3-light.webp",
-		"img3": "/images/brands/h5-brand-3.webp"
-	},
-	{
-		"img": "/images/brands/brand-4.webp",
-		"img2": "/images/brands/brand-4-light.webp",
-		"img3": "/images/brands/h5-brand-4.webp"
-	},
-	{
-		"img": "/images/brands/brand-5.webp",
-		"img2": "/images/brands/brand-5-light.webp",
-		"img3": "/images/brands/h5-brand-5.webp"
-	},
-	{
-		"img": "/images/brands/brand-6.webp",
-		"img2": "/images/brands/brand-6-light.webp",
-		"img3": "/images/brands/h5-brand-6.webp"
-	},
-	{
-		"img": "/images/brands/brand-1.webp",
-		"img2": "/images/brands/brand-1-light.webp",
-		"img3": "/images/brands/h5-brand-1.webp"
-	},
-	{
-		"img": "/images/brands/brand-2.webp",
-		"img2": "/images/brands/brand-2-light.webp",
-		"img3": "/images/brands/h5-brand-2.webp"
-	},
-	{
-		"img": "/images/brands/brand-3.webp",
-		"img2": "/images/brands/brand-3-light.webp",
-		"img3": "/images/brands/h5-brand-3.webp"
-	},
-	{
-		"img": "/images/brands/brand-4.webp",
-		"img2": "/images/brands/brand-4-light.webp",
-		"img3": "/images/brands/h5-brand-4.webp"
-	},
-	{
-		"img": "/images/brands/brand-5.webp",
-		"img2": "/images/brands/brand-5-light.webp",
-		"img3": "/images/brands/h5-brand-5.webp"
-	},
-	{
-		"img": "/images/brands/brand-6.webp",
-		"img2": "/images/brands/brand-6-light.webp",
-		"img3": "/images/brands/h5-brand-6.webp"
-	}
+  {
+    "img": "/images/client-logo/Ajanta_Pharma_Logo.svg",
+    "img2": "/images/client-logo/Ajanta_Pharma_Logo.svg",
+    "img3": "/images/client-logo/Ajanta_Pharma_Logo.svg",
+    "alt": "Ajanta Pharma"
+  },
+  {
+    "img": "/images/client-logo/applo.svg",
+    "img2": "/images/client-logo/applo.svg",
+    "img3": "/images/client-logo/applo.svg",
+    "alt": "Applo"
+  },
+  {
+    "img": "/images/client-logo/apraava.png",
+    "img2": "/images/client-logo/apraava.png",
+    "img3": "/images/client-logo/apraava.png",
+    "alt": "Apraava"
+  },
+  {
+    "img": "/images/client-logo/Art-House-Finance.svg",
+    "img2": "/images/client-logo/Art-House-Finance.svg",
+    "img3": "/images/client-logo/Art-House-Finance.svg",
+    "alt": "Art House Finance"
+  },
+  {
+    "img": "/images/client-logo/ashok-leyland-vector-logo.png",
+    "img2": "/images/client-logo/ashok-leyland-vector-logo.png",
+    "img3": "/images/client-logo/ashok-leyland-vector-logo.png",
+    "alt": "Ashok Leyland"
+  },
+  {
+    "img": "/images/client-logo/avaso.svg",
+    "img2": "/images/client-logo/avaso.svg",
+    "img3": "/images/client-logo/avaso.svg",
+    "alt": "Avaso"
+  },
+  {
+    "img": "/images/client-logo/bajaj-finserv.jpg",
+    "img2": "/images/client-logo/bajaj-finserv.jpg",
+    "img3": "/images/client-logo/bajaj-finserv.jpg",
+    "alt": "Bajaj Finserv"
+  },
+  {
+    "img": "/images/client-logo/Bajaj-Housing-Finance.svg",
+    "img2": "/images/client-logo/Bajaj-Housing-Finance.svg",
+    "img3": "/images/client-logo/Bajaj-Housing-Finance.svg",
+    "alt": "Bajaj Housing Finance"
+  },
+  {
+    "img": "/images/client-logo/cotton.svg",
+    "img2": "/images/client-logo/cotton.svg",
+    "img3": "/images/client-logo/cotton.svg",
+    "alt": "Cotton"
+  },
+  {
+    "img": "/images/client-logo/Cumi_Murgappa.svg",
+    "img2": "/images/client-logo/Cumi_Murgappa.svg",
+    "img3": "/images/client-logo/Cumi_Murgappa.svg",
+    "alt": "CUMI Murugappa"
+  },
+  {
+    "img": "/images/client-logo/delta.png",
+    "img2": "/images/client-logo/delta.png",
+    "img3": "/images/client-logo/delta.png",
+    "alt": "Delta"
+  },
+  {
+    "img": "/images/client-logo/Digilytics.svg",
+    "img2": "/images/client-logo/Digilytics.svg",
+    "img3": "/images/client-logo/Digilytics.svg",
+    "alt": "Digilytics"
+  },
+  {
+    "img": "/images/client-logo/droom.svg",
+    "img2": "/images/client-logo/droom.svg",
+    "img3": "/images/client-logo/droom.svg",
+    "alt": "Droom"
+  },
+  {
+    "img": "/images/client-logo/ECU.svg",
+    "img2": "/images/client-logo/ECU.svg",
+    "img3": "/images/client-logo/ECU.svg",
+    "alt": "ECU"
+  },
+  {
+    "img": "/images/client-logo/EG_Software.svg",
+    "img2": "/images/client-logo/EG_Software.svg",
+    "img3": "/images/client-logo/EG_Software.svg",
+    "alt": "EG Software"
+  },
+  {
+    "img": "/images/client-logo/Emaar-Logo.png",
+    "img2": "/images/client-logo/Emaar-Logo.png",
+    "img3": "/images/client-logo/Emaar-Logo.png",
+    "alt": "Emaar"
+  },
+  {
+    "img": "/images/client-logo/eZee.png",
+    "img2": "/images/client-logo/eZee.png",
+    "img3": "/images/client-logo/eZee.png",
+    "alt": "eZee"
+  },
+  {
+    "img": "/images/client-logo/FujiFilm.png",
+    "img2": "/images/client-logo/FujiFilm.png",
+    "img3": "/images/client-logo/FujiFilm.png",
+    "alt": "FujiFilm"
+  },
+  {
+    "img": "/images/client-logo/gocl.svg",
+    "img2": "/images/client-logo/gocl.svg",
+    "img3": "/images/client-logo/gocl.svg",
+    "alt": "GOCL"
+  },
+  {
+    "img": "/images/client-logo/Griham1.png",
+    "img2": "/images/client-logo/Griham1.png",
+    "img3": "/images/client-logo/Griham1.png",
+    "alt": "Griham"
+  },
+  {
+    "img": "/images/client-logo/GULF_OIL.svg",
+    "img2": "/images/client-logo/GULF_OIL.svg",
+    "img3": "/images/client-logo/GULF_OIL.svg",
+    "alt": "Gulf Oil"
+  },
+  {
+    "img": "/images/client-logo/HDFC-Capital-Logo.png",
+    "img2": "/images/client-logo/HDFC-Capital-Logo.png",
+    "img3": "/images/client-logo/HDFC-Capital-Logo.png",
+    "alt": "HDFC Capital"
+  },
+  {
+    "img": "/images/client-logo/Health_Glow.svg",
+    "img2": "/images/client-logo/Health_Glow.svg",
+    "img3": "/images/client-logo/Health_Glow.svg",
+    "alt": "Health Glow"
+  },
+  {
+    "img": "/images/client-logo/hindalco.jpg",
+    "img2": "/images/client-logo/hindalco.jpg",
+    "img3": "/images/client-logo/hindalco.jpg",
+    "alt": "Hindalco"
+  },
+  {
+    "img": "/images/client-logo/Hinduja_funduation.png",
+    "img2": "/images/client-logo/Hinduja_funduation.png",
+    "img3": "/images/client-logo/Hinduja_funduation.png",
+    "alt": "Hinduja Foundation"
+  },
+  {
+    "img": "/images/client-logo/indusind.png",
+    "img2": "/images/client-logo/indusind.png",
+    "img3": "/images/client-logo/indusind.png",
+    "alt": "IndusInd"
+  },
+  {
+    "img": "/images/client-logo/infinite.png",
+    "img2": "/images/client-logo/infinite.png",
+    "img3": "/images/client-logo/infinite.png",
+    "alt": "Infinite"
+  },
+  {
+    "img": "/images/client-logo/Insight_Assist.svg",
+    "img2": "/images/client-logo/Insight_Assist.svg",
+    "img3": "/images/client-logo/Insight_Assist.svg",
+    "alt": "Insight Assist"
+  },
+  {
+    "img": "/images/client-logo/Jaguar_landrover.svg",
+    "img2": "/images/client-logo/Jaguar_landrover.svg",
+    "img3": "/images/client-logo/Jaguar_landrover.svg",
+    "alt": "Jaguar Land Rover"
+  },
+  {
+    "img": "/images/client-logo/Jeena_seekho.png",
+    "img2": "/images/client-logo/Jeena_seekho.png",
+    "img3": "/images/client-logo/Jeena_seekho.png",
+    "alt": "Jeena Seekho"
+  },
+  {
+    "img": "/images/client-logo/Kanpur_Plastic_Pack_Limited.svg",
+    "img2": "/images/client-logo/Kanpur_Plastic_Pack_Limited.svg",
+    "img3": "/images/client-logo/Kanpur_Plastic_Pack_Limited.svg",
+    "alt": "Kanpur Plastic Pack"
+  },
+  {
+    "img": "/images/client-logo/KEI_Cables_Logo.svg",
+    "img2": "/images/client-logo/KEI_Cables_Logo.svg",
+    "img3": "/images/client-logo/KEI_Cables_Logo.svg",
+    "alt": "KEI Cables"
+  },
+  {
+    "img": "/images/client-logo/Magic-EdTech-Logo.svg",
+    "img2": "/images/client-logo/Magic-EdTech-Logo.svg",
+    "img3": "/images/client-logo/Magic-EdTech-Logo.svg",
+    "alt": "Magic EdTech"
+  },
+  {
+    "img": "/images/client-logo/mamenta-logo.png",
+    "img2": "/images/client-logo/mamenta-logo.png",
+    "img3": "/images/client-logo/mamenta-logo.png",
+    "alt": "Mamenta"
+  },
+  {
+    "img": "/images/client-logo/Mindforce-research-logo.svg",
+    "img2": "/images/client-logo/Mindforce-research-logo.svg",
+    "img3": "/images/client-logo/Mindforce-research-logo.svg",
+    "alt": "Mindforce Research"
+  },
+  {
+    "img": "/images/client-logo/montra.png",
+    "img2": "/images/client-logo/montra.png",
+    "img3": "/images/client-logo/montra.png",
+    "alt": "Montra"
+  },
+  {
+    "img": "/images/client-logo/motors_xcelion.png",
+    "img2": "/images/client-logo/motors_xcelion.png",
+    "img3": "/images/client-logo/motors_xcelion.png",
+    "alt": "Motors Xcelion"
+  },
+  {
+    "img": "/images/client-logo/National_Health_Authority_of_India.svg",
+    "img2": "/images/client-logo/National_Health_Authority_of_India.svg",
+    "img3": "/images/client-logo/National_Health_Authority_of_India.svg",
+    "alt": "National Health Authority of India"
+  },
+  {
+    "img": "/images/client-logo/netradyne.png",
+    "img2": "/images/client-logo/netradyne.png",
+    "img3": "/images/client-logo/netradyne.png",
+    "alt": "Netradyne"
+  },
+  {
+    "img": "/images/client-logo/netsub.svg",
+    "img2": "/images/client-logo/netsub.svg",
+    "img3": "/images/client-logo/netsub.svg",
+    "alt": "Netsub"
+  },
+  {
+    "img": "/images/client-logo/Nuziveedu_Seeds_Logo.svg",
+    "img2": "/images/client-logo/Nuziveedu_Seeds_Logo.svg",
+    "img3": "/images/client-logo/Nuziveedu_Seeds_Logo.svg",
+    "alt": "Nuziveedu Seeds"
+  },
+  {
+    "img": "/images/client-logo/quinnox-logo.jpg",
+    "img2": "/images/client-logo/quinnox-logo.jpg",
+    "img3": "/images/client-logo/quinnox-logo.jpg",
+    "alt": "Quinnox"
+  },
+  {
+    "img": "/images/client-logo/Relaxo_Logo.svg",
+    "img2": "/images/client-logo/Relaxo_Logo.svg",
+    "img3": "/images/client-logo/Relaxo_Logo.svg",
+    "alt": "Relaxo"
+  },
+  {
+    "img": "/images/client-logo/retarget-logo.png",
+    "img2": "/images/client-logo/retarget-logo.png",
+    "img3": "/images/client-logo/retarget-logo.png",
+    "alt": "Retarget"
+  },
+  {
+    "img": "/images/client-logo/Seelam_Param.png",
+    "img2": "/images/client-logo/Seelam_Param.png",
+    "img3": "/images/client-logo/Seelam_Param.png",
+    "alt": "Seelam Param"
+  },
+  {
+    "img": "/images/client-logo/Sharda_Healthcity.svg",
+    "img2": "/images/client-logo/Sharda_Healthcity.svg",
+    "img3": "/images/client-logo/Sharda_Healthcity.svg",
+    "alt": "Sharda Healthcity"
+  },
+  {
+    "img": "/images/client-logo/Sharda_Hospital.svg",
+    "img2": "/images/client-logo/Sharda_Hospital.svg",
+    "img3": "/images/client-logo/Sharda_Hospital.svg",
+    "alt": "Sharda Hospital"
+  },
+  {
+    "img": "/images/client-logo/Signature_Global_Logo.svg",
+    "img2": "/images/client-logo/Signature_Global_Logo.svg",
+    "img3": "/images/client-logo/Signature_Global_Logo.svg",
+    "alt": "Signature Global"
+  },
+  {
+    "img": "/images/client-logo/sk-finance.png",
+    "img2": "/images/client-logo/sk-finance.png",
+    "img3": "/images/client-logo/sk-finance.png",
+    "alt": "SK Finance"
+  },
+  {
+    "img": "/images/client-logo/Tata-Autocomp.png",
+    "img2": "/images/client-logo/Tata-Autocomp.png",
+    "img3": "/images/client-logo/Tata-Autocomp.png",
+    "alt": "Tata Autocomp"
+  },
+  {
+    "img": "/images/client-logo/tata-motos.svg",
+    "img2": "/images/client-logo/tata-motos.svg",
+    "img3": "/images/client-logo/tata-motos.svg",
+    "alt": "Tata Motors"
+  },
+  {
+    "img": "/images/client-logo/tata-the-hospital.png",
+    "img2": "/images/client-logo/tata-the-hospital.png",
+    "img3": "/images/client-logo/tata-the-hospital.png",
+    "alt": "Tata Hospital"
+  },
+  {
+    "img": "/images/client-logo/TBSI.png",
+    "img2": "/images/client-logo/TBSI.png",
+    "img3": "/images/client-logo/TBSI.png",
+    "alt": "TBSI"
+  },
+  {
+    "img": "/images/client-logo/TI-Clean-Mobility.svg",
+    "img2": "/images/client-logo/TI-Clean-Mobility.svg",
+    "img3": "/images/client-logo/TI-Clean-Mobility.svg",
+    "alt": "TI Clean Mobility"
+  },
+  {
+    "img": "/images/client-logo/TICM_Logo.svg",
+    "img2": "/images/client-logo/TICM_Logo.svg",
+    "img3": "/images/client-logo/TICM_Logo.svg",
+    "alt": "TICM"
+  },
+  {
+    "img": "/images/client-logo/trackwizz.png",
+    "img2": "/images/client-logo/trackwizz.png",
+    "img3": "/images/client-logo/trackwizz.png",
+    "alt": "Trackwizz"
+  },
+  {
+    "img": "/images/client-logo/trident-group.png",
+    "img2": "/images/client-logo/trident-group.png",
+    "img3": "/images/client-logo/trident-group.png",
+    "alt": "Trident Group"
+  },
+  {
+    "img": "/images/client-logo/WWStay-Logo.svg",
+    "img2": "/images/client-logo/WWStay-Logo.svg",
+    "img3": "/images/client-logo/WWStay-Logo.svg",
+    "alt": "WWStay"
+  },
+  {
+    "img": "/images/client-logo/zebpay.jpg",
+    "img2": "/images/client-logo/zebpay.jpg",
+    "img3": "/images/client-logo/zebpay.jpg",
+    "alt": "ZebPay"
+  },
+  {
+    "img": "/images/client-logo/zeiss_logo.png",
+    "img2": "/images/client-logo/zeiss_logo.png",
+    "img3": "/images/client-logo/zeiss_logo.png",
+    "alt": "Zeiss"
+  },
+  {
+    "img": "/images/client-logo/zyter-care.jpg",
+    "img2": "/images/client-logo/zyter-care.jpg",
+    "img3": "/images/client-logo/zyter-care.jpg",
+    "alt": "Zyter Care"
+  }
 ]

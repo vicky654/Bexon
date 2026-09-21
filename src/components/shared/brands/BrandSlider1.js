@@ -23,12 +23,12 @@ const BrandSlider1 = ({ className }) => {
 			modules={[Autoplay]}
 		>
 			{brands?.length
-				? brands?.map(({ img }, idx) => (
+				? brands?.map(({ img, alt }, idx) => (
 						<SwiperSlide key={idx} className="client-item">
 							<div className="client-logo">
 								<img
 									src={img ? img : "/images/brands/brand-1.webp"}
-									alt="Brand"
+									alt={alt || "Client logo"}
 								/>
 							</div>
 						</SwiperSlide>

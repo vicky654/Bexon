@@ -200,6 +200,7 @@ START: Client CSS
 .client-logo {
 	width: 284px;
 	height: 120px;
+	padding: 24px 32px;
 	background-color: var(--tj-color-common-white);
 	display: inline-flex;
 	align-items: center;
@@ -207,6 +208,14 @@ START: Client CSS
 	position: relative;
 	z-index: 5;
 	border-radius: 8px;
+
+	img {
+		max-width: 100%;
+		max-height: 100%;
+		width: auto;
+		height: auto;
+		object-fit: contain;
+	}
 
 	@media #{$lg, $md} {
 		width: 220px;
