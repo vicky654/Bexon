@@ -1586,6 +1586,10 @@ a {
 	box-shadow: inset 3px 0 0 #02092c;
 }
 
+.table-row-clickable {
+	cursor: pointer;
+}
+
 .table-muted {
 	color: #6b7280;
 }
@@ -1819,6 +1823,31 @@ a {
 	color: #6b7280;
 }
 
+.preview-modal-actions {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.preview-edit-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 14px;
+	background: #02092c;
+	color: #fff;
+	border-radius: 7px;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.preview-edit-btn:hover {
+	background: #131a45;
+	transform: translateY(-1px);
+}
+
 .preview-close {
 	width: 28px;
 	height: 28px;
@@ -1828,6 +1857,12 @@ a {
 	color: #6b7280;
 	cursor: pointer;
 	font-size: 14px;
+	transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.preview-close:hover {
+	background: #eceef2;
+	transform: scale(1.1);
 }
 
 .preview-close:hover {

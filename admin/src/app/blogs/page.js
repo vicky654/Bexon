@@ -8,6 +8,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { SkeletonTableRows } from "@/components/Skeleton";
 import { EyeIcon, PencilIcon, TrashIcon, DownloadIcon, UploadIcon } from "@/components/Icons";
 import { exportBlogs, downloadSampleImportFile, parseImportFile } from "@/lib/blogImportExport";
+import PostPreviewModal from "@/components/PostPreviewModal";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:4000";
 
@@ -15,6 +16,7 @@ function BlogsList() {
 	const [blogs, setBlogs] = useState(null);
 	const [error, setError] = useState("");
 	const [selectedIds, setSelectedIds] = useState([]);
+	const [previewBlog, setPreviewBlog] = useState(null);
 	const [isBulkWorking, setIsBulkWorking] = useState(false);
 	const [isImporting, setIsImporting] = useState(false);
 	const [importSummary, setImportSummary] = useState(null);
@@ -238,9 +240,16 @@ function BlogsList() {
 										aria-label={`Select ${blog.title}`}
 									/>
 								</td>
-								<td>{blog.title}</td>
-								<td className="table-muted">{blog.slug}</td>
-								<td>
+								<td className="table-row-clickable" onClick={() => setPreviewBlog(blog)}>
+									{blog.title}
+								</td>
+								<td
+									className="table-muted table-row-clickable"
+									onClick={() => setPreviewBlog(blog)}
+								>
+									{blog.slug}
+								</td>
+								<td className="table-row-clickable" onClick={() => setPreviewBlog(blog)}>
 									<span
 										className={`badge ${blog.published ? "badge-good" : "badge-neutral"}`}
 									>
@@ -317,6 +326,14 @@ function BlogsList() {
 						✕
 					</button>
 				</div>
+			) : null}
+
+			{previewBlog ? (
+				<PostPreviewModal
+					values={previewBlog}
+					onClose={() => setPreviewBlog(null)}
+					editHref={`/blogs/${previewBlog.id}/edit`}
+				/>
 			) : null}
 		</div>
 	);
