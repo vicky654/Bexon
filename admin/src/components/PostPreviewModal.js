@@ -3,7 +3,14 @@
 import Link from "next/link";
 import { PencilIcon, TrashIcon, ExternalLinkIcon } from "./Icons";
 
-export default function PostPreviewModal({ values, onClose, editHref, viewHref, onDelete }) {
+export default function PostPreviewModal({
+	values,
+	onClose,
+	editHref,
+	viewHref,
+	onDelete,
+	onTogglePublished,
+}) {
 	const {
 		title,
 		excerpt,
@@ -13,6 +20,7 @@ export default function PostPreviewModal({ values, onClose, editHref, viewHref, 
 		author,
 		authorRole,
 		tags,
+		published,
 	} = values;
 
 	const tagList = Array.isArray(tags)
@@ -33,8 +41,22 @@ export default function PostPreviewModal({ values, onClose, editHref, viewHref, 
 			<div className="preview-modal" onClick={e => e.stopPropagation()}>
 				<div className="preview-modal-header">
 					<div className="preview-modal-header-top">
-						<span className="preview-modal-label">Preview</span>
+						<div className="preview-modal-label-group">
+							<span className="preview-modal-label">Preview</span>
+							<span className={`badge ${published ? "badge-good" : "badge-neutral"}`}>
+								{published ? "Published" : "Draft"}
+							</span>
+						</div>
 						<div className="preview-modal-actions">
+							{onTogglePublished ? (
+								<button
+									type="button"
+									className={published ? "preview-secondary-btn" : "preview-publish-btn"}
+									onClick={onTogglePublished}
+								>
+									{published ? "Unpublish" : "Publish"}
+								</button>
+							) : null}
 							{viewHref ? (
 								<a
 									href={viewHref}

@@ -3,6 +3,15 @@
 import { useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import PostPreviewModal from "./PostPreviewModal";
+import { ChevronDownIcon } from "./Icons";
+
+function slugify(text) {
+	return text
+		.toLowerCase()
+		.trim()
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/^-+|-+$/g, "");
+}
 
 const initialState = {
 	title: "",
@@ -27,12 +36,22 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 	const [error, setError] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [showPreview, setShowPreview] = useState(false);
+	const [showAdvanced, setShowAdvanced] = useState(false);
+	// Once editing an existing post (it already has a slug), or once the user
+	// edits the slug themselves, stop auto-deriving it from the title.
+	const [slugTouched, setSlugTouched] = useState(Boolean(initialValues?.slug));
 
 	const handleChange = e => {
 		const { name, value, type, checked } = e.target;
+
+		if (name === "slug") {
+			setSlugTouched(true);
+		}
+
 		setValues(prev => ({
 			...prev,
 			[name]: type === "checkbox" ? checked : value,
+			...(name === "title" && !slugTouched ? { slug: slugify(value) } : {}),
 		}));
 	};
 
@@ -96,36 +115,67 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 
 			<div className="form-row">
 				<div className="form-field">
-					<label htmlFor="img">Image URL</label>
-					<input id="img" name="img" value={values.img} onChange={handleChange} placeholder="https://..." />
-				</div>
-				<div className="form-field">
 					<label htmlFor="category">Category</label>
 					<input id="category" name="category" value={values.category} onChange={handleChange} />
 				</div>
-			</div>
-
-			<div className="form-row">
 				<div className="form-field">
 					<label htmlFor="tags">Tags (comma separated)</label>
 					<input id="tags" name="tags" value={values.tags} onChange={handleChange} placeholder="Business, Strategy" />
 				</div>
-				<div className="form-field">
-					<label htmlFor="status">Status badge</label>
-					<input id="status" name="status" value={values.status} onChange={handleChange} placeholder="Tutorial, Tips..." />
-				</div>
 			</div>
 
-			<div className="form-row">
-				<div className="form-field">
-					<label htmlFor="author">Author</label>
-					<input id="author" name="author" value={values.author} onChange={handleChange} />
+			<button
+				type="button"
+				className="form-advanced-toggle"
+				onClick={() => setShowAdvanced(prev => !prev)}
+				aria-expanded={showAdvanced}
+			>
+				<ChevronDownIcon size={16} className={showAdvanced ? "form-advanced-chevron-open" : ""} />
+				{showAdvanced ? "Hide advanced options" : "Show advanced options"}
+			</button>
+
+			{showAdvanced ? (
+				<div className="form-advanced-section">
+					<div className="form-row">
+						<div className="form-field">
+							<label htmlFor="img">Image URL</label>
+							<input
+								id="img"
+								name="img"
+								value={values.img}
+								onChange={handleChange}
+								placeholder="https://..."
+							/>
+						</div>
+						<div className="form-field">
+							<label htmlFor="status">Status badge</label>
+							<input
+								id="status"
+								name="status"
+								value={values.status}
+								onChange={handleChange}
+								placeholder="Tutorial, Tips..."
+							/>
+						</div>
+					</div>
+
+					<div className="form-row">
+						<div className="form-field">
+							<label htmlFor="author">Author</label>
+							<input id="author" name="author" value={values.author} onChange={handleChange} />
+						</div>
+						<div className="form-field">
+							<label htmlFor="authorRole">Author role</label>
+							<input
+								id="authorRole"
+								name="authorRole"
+								value={values.authorRole}
+								onChange={handleChange}
+							/>
+						</div>
+					</div>
 				</div>
-				<div className="form-field">
-					<label htmlFor="authorRole">Author role</label>
-					<input id="authorRole" name="authorRole" value={values.authorRole} onChange={handleChange} />
-				</div>
-			</div>
+			) : null}
 
 			<div className="form-field form-field-checkbox">
 				<label htmlFor="published" className="form-checkbox-label">

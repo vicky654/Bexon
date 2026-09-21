@@ -56,6 +56,19 @@ function BlogsList() {
 		}
 	};
 
+	const handleTogglePublished = async blog => {
+		try {
+			const data = await apiFetch(`/api/admin/blogs/${blog.id}`, {
+				method: "PUT",
+				body: JSON.stringify({ published: !blog.published }),
+			});
+			setPreviewBlog(prev => (prev && prev.id === blog.id ? data.blog : prev));
+			loadBlogs();
+		} catch (err) {
+			setError(err.message);
+		}
+	};
+
 	const handleBulkDelete = async () => {
 		if (!confirm(`Delete ${selectedIds.length} selected post(s)?`)) return;
 		setIsBulkWorking(true);
@@ -303,6 +316,7 @@ function BlogsList() {
 					editHref={`/blogs/${previewBlog.id}/edit`}
 					viewHref={`${SITE_URL}/blogs/${previewBlog.slug}`}
 					onDelete={() => handleDelete(previewBlog.id)}
+					onTogglePublished={() => handleTogglePublished(previewBlog)}
 				/>
 			) : null}
 		</div>

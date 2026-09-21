@@ -653,6 +653,39 @@ a {
 	gap: 10px;
 }
 
+.form-advanced-toggle {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	width: fit-content;
+	background: none;
+	border: none;
+	color: #1d4ed8;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	padding: 4px 0;
+}
+
+.form-advanced-toggle svg {
+	transition: transform 0.15s ease;
+}
+
+.form-advanced-chevron-open {
+	transform: rotate(180deg);
+}
+
+.form-advanced-section {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	padding: 16px;
+	background: #fafbfc;
+	border: 1px solid #eceef2;
+	border-radius: 10px;
+	animation: admin-fade-in 0.2s ease both;
+}
+
 .button-secondary {
 	background: #fff;
 	color: #101223;
@@ -1915,6 +1948,13 @@ a {
 	transform: translateY(-1px);
 }
 
+.preview-modal-label-group {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.preview-publish-btn,
 .preview-secondary-btn,
 .preview-delete-btn {
 	display: inline-flex;
@@ -1932,7 +1972,8 @@ a {
 	transition: background 0.15s ease, transform 0.15s ease;
 }
 
-.preview-secondary-btn:hover {
+.preview-secondary-btn:hover,
+.preview-publish-btn:hover {
 	background: #f7f8fb;
 	transform: translateY(-1px);
 }
@@ -1940,6 +1981,15 @@ a {
 .preview-delete-btn {
 	color: #b91c1c;
 	border-color: #fecaca;
+}
+
+.preview-publish-btn {
+	color: #15803d;
+	border-color: #bbf7d0;
+}
+
+.preview-publish-btn:hover {
+	background: #f0fdf4;
 }
 
 .preview-delete-btn:hover {
