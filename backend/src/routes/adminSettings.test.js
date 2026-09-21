@@ -79,3 +79,16 @@ test("rejects an invalid hex value and saves nothing", async t => {
 	const stored = await prisma.siteSettings.findUnique({ where: { id: 1 } });
 	assert.equal(stored, null);
 });
+
+test("rejects a non-string field value with 400, not 500", async t => {
+	t.after(async () => {
+		await prisma.siteSettings.deleteMany();
+	});
+
+	const res = await request(buildApp())
+		.put("/api/admin/settings")
+		.set("Cookie", authCookie())
+		.send({ ...VALID_BODY, primaryColor: ["#111111"] });
+
+	assert.equal(res.status, 400);
+});

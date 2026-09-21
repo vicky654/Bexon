@@ -20,7 +20,7 @@ router.put("/", async (req, res) => {
 	const body = req.body || {};
 
 	for (const field of COLOR_FIELDS) {
-		if (!HEX_COLOR.test(body[field] || "")) {
+		if (typeof body[field] !== "string" || !HEX_COLOR.test(body[field])) {
 			return res.status(400).json({ message: `${field} must be a hex color like #02092c.` });
 		}
 	}

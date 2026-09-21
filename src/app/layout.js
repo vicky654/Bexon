@@ -37,11 +37,19 @@ export const metadata = {
 	description: "Bexon - Corporate Business React NextJs Template",
 };
 
+// Every value here comes straight from the backend, which already rejects
+// anything that isn't ^#[0-9A-Fa-f]{6}$ before persisting it (see
+// backend/src/routes/adminSettings.js) — getSiteSettings() only ever reads
+// from that backend, so raw interpolation into this CSS string is safe.
+// secondaryColor maps to both --tj-color-theme-secondary (reserved for
+// future direct use) and --tj-color-theme-dark, which is the variable the
+// site's SCSS actually consumes (195 usages) for this color.
 function buildThemeOverrideCss(settings) {
 	if (!settings) return null;
 	return `:root {
   --tj-color-theme-primary: ${settings.primaryColor};
   --tj-color-theme-secondary: ${settings.secondaryColor};
+  --tj-color-theme-dark: ${settings.secondaryColor};
   --tj-color-theme-hover: ${settings.hoverColor};
   --tj-color-text-body: ${settings.textColor};
   --tj-color-heading-primary: ${settings.headingColor};

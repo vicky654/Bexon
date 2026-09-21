@@ -29,7 +29,7 @@ model SiteSettings {
   id              Int      @id @default(1)
   primaryColor    String   @default("#02092c")
   secondaryColor  String   @default("#0c1e21")
-  hoverColor      String   @default("#364e52")
+  hoverColor      String   @default("#02092c")
   textColor       String   @default("#364e52")
   headingColor    String   @default("#0c1e21")
   backgroundColor String   @default("#d8e5e5")
@@ -39,8 +39,10 @@ model SiteSettings {
 
 Defaults mirror the current hardcoded values in
 `src/app/assets/sass/utilities/_colors.scss` (`theme.primary`, `theme.dark`,
-`theme.dark-3`, `text.body`, `heading.primary`, `theme.bg` respectively), so a
-freshly-seeded row changes nothing until an admin edits it.
+`text.body`, `heading.primary`, `theme.bg` respectively). `hoverColor`
+defaults to the same value as `primaryColor` (`#02092c`), because today's
+hover states are hardcoded to reuse the primary color rather than a distinct
+one. So a freshly-seeded row changes nothing until an admin edits it.
 
 ## Backend API
 
