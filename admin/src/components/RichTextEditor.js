@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useEditor, EditorContent, NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react";
 import { Extension, Node, mergeAttributes } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
@@ -480,14 +480,37 @@ function RangeControl({ label, min, max, step = 1, value, unit = "", onChange, i
 	);
 }
 
-function Toolbar({ editor }) {
+function MainToolbar({ editor, wrapRef, position, onPositionChange }) {
 	const fileInputRef = useRef(null);
 	const rowFileInputRef = useRef(null);
 	const [isUploading, setIsUploading] = useState(false);
 	const [isRowUploading, setIsRowUploading] = useState(false);
 	const [rowColumns, setRowColumns] = useState(2);
+	const [isDragging, setIsDragging] = useState(false);
 
 	if (!editor) return null;
+
+	// Position is only committed once, on mouseup — never live during the
+	// drag itself. Live-updating the dock (and therefore the toolbar's own
+	// layout) on every mousemove is exactly the kind of scroll/layout
+	// feedback loop that caused the earlier sticky-toolbar blinking bug.
+	const handleDragHandleMouseDown = e => {
+		e.preventDefault();
+		setIsDragging(true);
+
+		const onMouseUp = upEvent => {
+			setIsDragging(false);
+			document.removeEventListener("mouseup", onMouseUp);
+			const rect = wrapRef.current?.getBoundingClientRect();
+			if (!rect || rect.width === 0) return;
+			const fraction = (upEvent.clientX - rect.left) / rect.width;
+			if (fraction < 0.22) onPositionChange("left");
+			else if (fraction > 0.78) onPositionChange("right");
+			else onPositionChange("top");
+		};
+
+		document.addEventListener("mouseup", onMouseUp);
+	};
 
 	const setLink = () => {
 		const previousUrl = editor.getAttributes("link").href;
@@ -563,29 +586,20 @@ function Toolbar({ editor }) {
 			.run();
 	};
 
-	const removeImage = () => {
-		editor.chain().focus().deleteSelection().run();
-	};
-
-	const isImageActive = editor.isActive("image");
-	const isTableActive = editor.isActive("table");
-	// A selected image inside an image-row node also reports isActive("imageRow")
-	// true (the selection is contained within it) — without this guard both the
-	// "Image options" and "Image row options" panels rendered at once.
-	const isImageRowActive = editor.isActive("imageRow") && !isImageActive;
 	const currentFontSize = editor.getAttributes("textStyle").fontSize || "";
 	const currentColor = editor.getAttributes("textStyle").color || "#000000";
 
-	const imageAttrs = isImageActive ? editor.getAttributes("image") : {};
-	const imageWidthPercent = parseInt(imageAttrs.width, 10) || 100;
-	const imageHeightRaw = imageAttrs.height || "auto";
-	const imageHeightIsAuto = imageHeightRaw === "auto";
-	const imageHeightPx = imageHeightIsAuto ? 320 : parseInt(imageHeightRaw, 10) || 320;
-	const imageGapPx = parseInt(imageAttrs.gap, 10);
-	const imageGapValue = Number.isNaN(imageGapPx) ? 16 : imageGapPx;
-
 	return (
-		<div className="editor-toolbar">
+		<div className={`editor-toolbar${position !== "top" ? " editor-toolbar-rail" : ""}`}>
+			<button
+				type="button"
+				className={`editor-toolbar-drag-handle${isDragging ? " editor-toolbar-drag-handle-active" : ""}`}
+				onMouseDown={handleDragHandleMouseDown}
+				aria-label="Drag to reposition toolbar (drop on the left, right, or top of the editor)"
+				data-tooltip="Drag to move this toolbar"
+			>
+				<GripIcon />
+			</button>
 			<div className="editor-toolbar-group">
 				<ToolbarButton
 					label="Bold"
@@ -778,7 +792,40 @@ function Toolbar({ editor }) {
 					<span className="editor-toolbar-btn-text">Table</span>
 				</ToolbarButton>
 			</div>
+		</div>
+	);
+}
 
+// Rendered separately from MainToolbar, always in the wide content column
+// regardless of where the main toolbar is docked (top/left/right) — the
+// sliders and multi-button rows here need real width and wouldn't fit in a
+// narrow side rail.
+function ContextPanels({ editor }) {
+	if (!editor) return null;
+
+	const isImageActive = editor.isActive("image");
+	const isTableActive = editor.isActive("table");
+	// A selected image inside an image-row node also reports isActive("imageRow")
+	// true (the selection is contained within it) — without this guard both the
+	// "Image options" and "Image row options" panels rendered at once.
+	const isImageRowActive = editor.isActive("imageRow") && !isImageActive;
+
+	if (!isImageActive && !isImageRowActive && !isTableActive) return null;
+
+	const removeImage = () => {
+		editor.chain().focus().deleteSelection().run();
+	};
+
+	const imageAttrs = isImageActive ? editor.getAttributes("image") : {};
+	const imageWidthPercent = parseInt(imageAttrs.width, 10) || 100;
+	const imageHeightRaw = imageAttrs.height || "auto";
+	const imageHeightIsAuto = imageHeightRaw === "auto";
+	const imageHeightPx = imageHeightIsAuto ? 320 : parseInt(imageHeightRaw, 10) || 320;
+	const imageGapPx = parseInt(imageAttrs.gap, 10);
+	const imageGapValue = Number.isNaN(imageGapPx) ? 16 : imageGapPx;
+
+	return (
+		<>
 			{isImageActive ? (
 				<div className="editor-image-panel">
 					<div className="editor-image-panel-header">
@@ -926,7 +973,7 @@ function Toolbar({ editor }) {
 					</ToolbarButton>
 				</div>
 			) : null}
-		</div>
+		</>
 	);
 }
 
@@ -946,7 +993,30 @@ function countWordsAndChars(text) {
 }
 
 export default function RichTextEditor({ content, onChange, placeholder }) {
+	const wrapRef = useRef(null);
 	const [counts, setCounts] = useState({ words: 0, chars: 0 });
+	const [toolbarPosition, setToolbarPosition] = useState("top");
+
+	// Remember the user's chosen toolbar position across visits.
+	useEffect(() => {
+		try {
+			const saved = window.localStorage.getItem("blogEditorToolbarPosition");
+			if (saved === "left" || saved === "right" || saved === "top") {
+				setToolbarPosition(saved);
+			}
+		} catch {
+			// Ignore (e.g. localStorage disabled) — falls back to "top".
+		}
+	}, []);
+
+	const handleToolbarPositionChange = position => {
+		setToolbarPosition(position);
+		try {
+			window.localStorage.setItem("blogEditorToolbarPosition", position);
+		} catch {
+			// Ignore — position just won't persist across reloads.
+		}
+	};
 
 	const editor = useEditor({
 		extensions: [
@@ -1023,12 +1093,20 @@ export default function RichTextEditor({ content, onChange, placeholder }) {
 	});
 
 	return (
-		<div className="editor-wrap">
-			<Toolbar editor={editor} />
-			<EditorContent editor={editor} className="editor-content" />
-			<div className="editor-footer">
-				<span>{counts.words} {counts.words === 1 ? "word" : "words"}</span>
-				<span>{counts.chars} {counts.chars === 1 ? "character" : "characters"}</span>
+		<div ref={wrapRef} className={`editor-wrap editor-wrap-${toolbarPosition}`}>
+			<MainToolbar
+				editor={editor}
+				wrapRef={wrapRef}
+				position={toolbarPosition}
+				onPositionChange={handleToolbarPositionChange}
+			/>
+			<div className="editor-body">
+				<ContextPanels editor={editor} />
+				<EditorContent editor={editor} className="editor-content" />
+				<div className="editor-footer">
+					<span>{counts.words} {counts.words === 1 ? "word" : "words"}</span>
+					<span>{counts.chars} {counts.chars === 1 ? "character" : "characters"}</span>
+				</div>
 			</div>
 		</div>
 	);

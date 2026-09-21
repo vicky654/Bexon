@@ -843,6 +843,8 @@ a {
 }
 
 .editor-wrap {
+	display: flex;
+	flex-direction: column;
 	border: 1px solid #e2e4ea;
 	border-radius: 14px;
 	background: #fff;
@@ -853,6 +855,40 @@ a {
 .editor-wrap:focus-within {
 	border-color: #2563eb;
 	box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+}
+
+/* Docked left/right: the toolbar and the content become two separate
+   cards side by side instead of one stacked card, since the toolbar
+   needs its own fully-rounded shape once it's no longer sitting flush
+   against the top of the content. */
+.editor-wrap-left,
+.editor-wrap-right {
+	flex-direction: row;
+	align-items: flex-start;
+	gap: 12px;
+	border: none;
+	background: transparent;
+	box-shadow: none;
+}
+
+.editor-wrap-right {
+	flex-direction: row-reverse;
+}
+
+.editor-body {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	border-radius: 14px;
+	overflow: hidden;
+}
+
+.editor-wrap-left .editor-body,
+.editor-wrap-right .editor-body {
+	border: 1px solid #e2e4ea;
+	background: #fff;
+	box-shadow: 0 1px 2px rgba(16, 18, 35, 0.03), 0 10px 24px rgba(16, 18, 35, 0.04);
 }
 
 .editor-toolbar {
@@ -868,6 +904,75 @@ a {
 	border-bottom: 1px solid #c7d2fe;
 	border-radius: 14px 14px 0 0;
 	box-shadow: 0 6px 14px rgba(16, 18, 35, 0.06);
+}
+
+.editor-toolbar-rail {
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-items: stretch;
+	align-self: flex-start;
+	width: 68px;
+	flex-shrink: 0;
+	max-height: calc(100vh - 24px);
+	overflow-y: auto;
+	border: 1px solid #c7d2fe;
+	border-radius: 14px;
+}
+
+.editor-toolbar-rail .editor-toolbar-group {
+	flex-direction: column;
+	width: 100%;
+}
+
+.editor-toolbar-rail .editor-toolbar-btn {
+	width: 100%;
+}
+
+.editor-toolbar-rail .editor-toolbar-btn-text {
+	display: none;
+}
+
+.editor-toolbar-rail .editor-toolbar-select,
+.editor-toolbar-rail .editor-toolbar-color {
+	width: 100%;
+}
+
+.editor-toolbar-rail .editor-toolbar-divider {
+	width: 100%;
+	height: 1px;
+	margin: 4px 0;
+}
+
+.editor-toolbar-drag-handle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 32px;
+	flex-shrink: 0;
+	border: none;
+	background: transparent;
+	color: #6366f1;
+	cursor: grab;
+	border-radius: 6px;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.editor-toolbar-rail .editor-toolbar-drag-handle {
+	width: 100%;
+	height: 22px;
+}
+
+.editor-toolbar-drag-handle:hover {
+	background: rgba(255, 255, 255, 0.6);
+	color: #4338ca;
+}
+
+.editor-toolbar-drag-handle-active,
+.editor-toolbar-drag-handle-active:hover {
+	cursor: grabbing;
+	background: #c7d2fe;
+	color: #312e81;
 }
 
 .editor-toolbar-group {
