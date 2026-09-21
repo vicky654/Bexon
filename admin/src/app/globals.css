@@ -1083,6 +1083,27 @@ a {
 	font-size: 14px;
 }
 
+.success {
+	color: #15803d;
+	font-size: 14px;
+}
+
+.settings-color-row {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.settings-color-row input[type="color"] {
+	width: 40px;
+	height: 40px;
+	padding: 2px;
+	border: 1px solid #d7dae2;
+	border-radius: 7px;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
 /* Tables */
 
 .table {

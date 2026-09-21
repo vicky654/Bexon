@@ -10,6 +10,7 @@ import {
 	MailIcon,
 	ExternalLinkIcon,
 	LogoutIcon,
+	SettingsIcon,
 } from "./Icons";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:4000";
@@ -18,6 +19,7 @@ const LINKS = [
 	{ href: "/", label: "Dashboard", Icon: DashboardIcon },
 	{ href: "/blogs", label: "Blogs", Icon: DocumentIcon },
 	{ href: "/messages", label: "Messages", Icon: MailIcon, badgeKey: "messages" },
+	{ href: "/settings", label: "Settings", Icon: SettingsIcon },
 ];
 
 export default function AdminSidebar() {
