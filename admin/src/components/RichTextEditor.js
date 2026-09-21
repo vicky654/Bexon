@@ -100,6 +100,14 @@ const QuoteIcon = () => (
 		<path d="M15 7h4v5c0 3-1.5 4.5-4 5" />
 	</Icon>
 );
+const TrashIcon = () => (
+	<Icon>
+		<path d="M3 6h18" />
+		<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+		<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+		<path d="M10 11v6M14 11v6" />
+	</Icon>
+);
 const LinkIcon = () => (
 	<Icon>
 		<path d="M9 17H7a5 5 0 0 1 0-10h2" />
@@ -560,6 +568,10 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 			.run();
 	};
 
+	const removeImage = () => {
+		editor.chain().focus().deleteSelection().run();
+	};
+
 	const isImageActive = editor.isActive("image");
 	const isTableActive = editor.isActive("table");
 	const isImageRowActive = editor.isActive("imageRow");
@@ -787,69 +799,106 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 			</div>
 
 			{isImageActive ? (
-				<div className="editor-subtoolbar editor-subtoolbar-sliders">
-					<RangeControl
-						label="Width"
-						min={MIN_IMAGE_WIDTH_PERCENT}
-						max={100}
-						unit="%"
-						value={imageWidthPercent}
-						onChange={v => editor.chain().focus().updateAttributes("image", { width: `${v}%` }).run()}
-					/>
-					<RangeControl
-						label="Height"
-						min={MIN_IMAGE_HEIGHT_PX}
-						max={MAX_IMAGE_HEIGHT_PX}
-						step={10}
-						unit="px"
-						value={imageHeightPx}
-						isAuto={imageHeightIsAuto}
-						onChange={v => editor.chain().focus().updateAttributes("image", { height: `${v}px` }).run()}
-						onAutoClick={() =>
-							editor.chain().focus().updateAttributes("image", { height: "auto" }).run()
-						}
-					/>
-					<RangeControl
-						label="Gap"
-						min={MIN_GAP_PX}
-						max={MAX_GAP_PX}
-						step={2}
-						unit="px"
-						value={imageGapValue}
-						onChange={v => editor.chain().focus().updateAttributes("image", { gap: `${v}px` }).run()}
-					/>
-					<span className="editor-toolbar-divider" />
-					<span className="editor-subtoolbar-label">Align:</span>
-					{IMAGE_ALIGNS.map(a => (
-						<ToolbarButton
-							key={a.value}
-							label={`Align ${a.label}`}
-							isActive={editor.getAttributes("image").align === a.value}
-							onClick={() =>
-								editor.chain().focus().updateAttributes("image", { align: a.value }).run()
-							}
-						>
-							{a.label}
+				<div className="editor-image-panel">
+					<div className="editor-image-panel-header">
+						<span className="editor-image-panel-title">Image options</span>
+						<ToolbarButton label="Remove image" onClick={removeImage}>
+							<TrashIcon />
+							<span className="editor-toolbar-btn-text">Remove image</span>
 						</ToolbarButton>
-					))}
+					</div>
+
+					<div className="editor-image-panel-section">
+						<span className="editor-image-panel-section-label">Size</span>
+						<div className="editor-image-panel-row">
+							<RangeControl
+								label="Width"
+								min={MIN_IMAGE_WIDTH_PERCENT}
+								max={100}
+								unit="%"
+								value={imageWidthPercent}
+								onChange={v =>
+									editor.chain().focus().updateAttributes("image", { width: `${v}%` }).run()
+								}
+							/>
+							<RangeControl
+								label="Height"
+								min={MIN_IMAGE_HEIGHT_PX}
+								max={MAX_IMAGE_HEIGHT_PX}
+								step={10}
+								unit="px"
+								value={imageHeightPx}
+								isAuto={imageHeightIsAuto}
+								onChange={v =>
+									editor.chain().focus().updateAttributes("image", { height: `${v}px` }).run()
+								}
+								onAutoClick={() =>
+									editor.chain().focus().updateAttributes("image", { height: "auto" }).run()
+								}
+							/>
+							<RangeControl
+								label="Gap"
+								min={MIN_GAP_PX}
+								max={MAX_GAP_PX}
+								step={2}
+								unit="px"
+								value={imageGapValue}
+								onChange={v =>
+									editor.chain().focus().updateAttributes("image", { gap: `${v}px` }).run()
+								}
+							/>
+						</div>
+					</div>
+
+					<div className="editor-image-panel-section">
+						<span className="editor-image-panel-section-label">Alignment</span>
+						<div className="editor-image-panel-row">
+							{IMAGE_ALIGNS.map(a => (
+								<ToolbarButton
+									key={a.value}
+									label={`Align ${a.label}`}
+									isActive={editor.getAttributes("image").align === a.value}
+									onClick={() =>
+										editor.chain().focus().updateAttributes("image", { align: a.value }).run()
+									}
+								>
+									{a.value === "left" ? (
+										<AlignLeftIcon />
+									) : a.value === "center" ? (
+										<AlignCenterIcon />
+									) : (
+										<AlignRightIcon />
+									)}
+									<span className="editor-toolbar-btn-text">{a.label}</span>
+								</ToolbarButton>
+							))}
+						</div>
+					</div>
 				</div>
 			) : null}
 
 			{isImageRowActive ? (
-				<div className="editor-subtoolbar">
-					<span className="editor-subtoolbar-label">Images per row:</span>
-					{ROW_COLUMN_OPTIONS.map(n => (
-						<ToolbarButton
-							key={n}
-							label={`${n} per row`}
-							isActive={editor.getAttributes("imageRow").columns === n}
-							onClick={() =>
-								editor.chain().focus().updateAttributes("imageRow", { columns: n }).run()
-							}
-						>
-							{n}
-						</ToolbarButton>
-					))}
+				<div className="editor-image-panel">
+					<div className="editor-image-panel-header">
+						<span className="editor-image-panel-title">Image row options</span>
+					</div>
+					<div className="editor-image-panel-section">
+						<span className="editor-image-panel-section-label">Images per row</span>
+						<div className="editor-image-panel-row">
+							{ROW_COLUMN_OPTIONS.map(n => (
+								<ToolbarButton
+									key={n}
+									label={`${n} per row`}
+									isActive={editor.getAttributes("imageRow").columns === n}
+									onClick={() =>
+										editor.chain().focus().updateAttributes("imageRow", { columns: n }).run()
+									}
+								>
+									{n}
+								</ToolbarButton>
+							))}
+						</div>
+					</div>
 				</div>
 			) : null}
 
