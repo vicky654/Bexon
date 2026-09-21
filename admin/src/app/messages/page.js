@@ -8,6 +8,16 @@ import MessageDetailModal from "@/components/MessageDetailModal";
 import { SkeletonTableRows } from "@/components/Skeleton";
 import { EyeIcon, CheckIcon } from "@/components/Icons";
 
+function initials(name) {
+	if (!name) return "?";
+	return name
+		.trim()
+		.split(/\s+/)
+		.slice(0, 2)
+		.map(part => part[0]?.toUpperCase())
+		.join("");
+}
+
 function MessagesList() {
 	const [messages, setMessages] = useState(null);
 	const [error, setError] = useState("");
@@ -68,7 +78,14 @@ function MessagesList() {
 					) : (
 						messages.map(message => (
 							<tr key={message.id}>
-								<td>{message.name}</td>
+								<td>
+									<div className="table-name-cell">
+										<span className="dashboard-avatar dashboard-avatar-purple">
+											{initials(message.name)}
+										</span>
+										{message.name}
+									</div>
+								</td>
 								<td className="table-muted">{message.email}</td>
 								<td className="table-muted">{message.service || "-"}</td>
 								<td className="table-message">{message.message}</td>

@@ -1,7 +1,7 @@
 import "./globals.css";
 
 export const metadata = {
-	title: "Bexon Admin",
+	title: "DPDP Admin",
 	description: "Manage blog posts and contact submissions.",
 };
 

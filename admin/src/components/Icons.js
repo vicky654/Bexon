@@ -97,3 +97,4 @@ export const UploadIcon = props => (
 		<path d="M5 3h14" />
 	</Svg>
 );
+

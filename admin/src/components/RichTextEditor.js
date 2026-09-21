@@ -277,23 +277,27 @@ function ResizableImageView({ node, updateAttributes, selected }) {
 			/>
 			{selected ? (
 				<>
-					<div className="editor-image-drag-handle" title="Drag to move this image" aria-label="Drag to move">
+					<div
+						className="editor-image-drag-handle"
+						data-tooltip="Drag to move this image"
+						aria-label="Drag to move"
+					>
 						<GripIcon />
 					</div>
 					<div
 						className="editor-image-resize-handle editor-image-resize-handle-width"
 						onMouseDown={onWidthResizeStart}
-						title="Drag to resize width"
+						data-tooltip="Drag to resize width"
 					/>
 					<div
 						className="editor-image-resize-handle editor-image-resize-handle-height"
 						onMouseDown={onHeightResizeStart}
-						title="Drag to resize height"
+						data-tooltip="Drag to resize height"
 					/>
 					<div
 						className="editor-image-resize-handle editor-image-resize-handle-corner"
 						onMouseDown={onCornerResizeStart}
-						title="Drag to resize width & height"
+						data-tooltip="Drag to resize width & height"
 					/>
 				</>
 			) : null}
@@ -436,7 +440,7 @@ function ToolbarButton({ onClick, isActive, label, children }) {
 			onMouseDown={e => e.preventDefault()}
 			onClick={onClick}
 			aria-label={label}
-			title={label}
+			data-tooltip={label}
 		>
 			{children}
 		</button>
@@ -609,7 +613,7 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 					className="editor-toolbar-collapse-btn"
 					onMouseDown={e => e.preventDefault()}
 					onClick={onToggleCollapse}
-					title={isCollapsed ? "Show full toolbar" : "Collapse toolbar"}
+					data-tooltip={isCollapsed ? "Show full toolbar" : "Collapse toolbar"}
 					aria-label={isCollapsed ? "Show full toolbar" : "Collapse toolbar"}
 					aria-expanded={!isCollapsed}
 				>
@@ -620,6 +624,21 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 
 			{!isCollapsed ? (
 				<>
+			<div className="editor-toolbar-group">
+				<ToolbarButton
+					label="Undo"
+					onClick={() => editor.chain().focus().undo().run()}
+				>
+					<UndoIcon />
+				</ToolbarButton>
+				<ToolbarButton
+					label="Redo"
+					onClick={() => editor.chain().focus().redo().run()}
+				>
+					<RedoIcon />
+				</ToolbarButton>
+			</div>
+
 			<div className="editor-toolbar-group">
 				<ToolbarButton
 					label="Heading 2"
@@ -652,7 +671,7 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 						</option>
 					))}
 				</select>
-				<label className="editor-toolbar-color" title="Text color">
+				<label className="editor-toolbar-color" data-tooltip="Text color">
 					<span style={{ background: currentColor }} />
 					<input
 						type="color"
@@ -660,6 +679,30 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 						onChange={e => editor.chain().focus().setColor(e.target.value).run()}
 					/>
 				</label>
+			</div>
+
+			<div className="editor-toolbar-group">
+				<ToolbarButton
+					label="Align text left"
+					isActive={editor.isActive({ textAlign: "left" })}
+					onClick={() => editor.chain().focus().setTextAlign("left").run()}
+				>
+					<AlignLeftIcon />
+				</ToolbarButton>
+				<ToolbarButton
+					label="Center text"
+					isActive={editor.isActive({ textAlign: "center" })}
+					onClick={() => editor.chain().focus().setTextAlign("center").run()}
+				>
+					<AlignCenterIcon />
+				</ToolbarButton>
+				<ToolbarButton
+					label="Align text right"
+					isActive={editor.isActive({ textAlign: "right" })}
+					onClick={() => editor.chain().focus().setTextAlign("right").run()}
+				>
+					<AlignRightIcon />
+				</ToolbarButton>
 			</div>
 
 			<div className="editor-toolbar-group">
@@ -690,30 +733,6 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 					onClick={setLink}
 				>
 					<LinkIcon />
-				</ToolbarButton>
-			</div>
-
-			<div className="editor-toolbar-group">
-				<ToolbarButton
-					label="Align text left"
-					isActive={editor.isActive({ textAlign: "left" })}
-					onClick={() => editor.chain().focus().setTextAlign("left").run()}
-				>
-					<AlignLeftIcon />
-				</ToolbarButton>
-				<ToolbarButton
-					label="Center text"
-					isActive={editor.isActive({ textAlign: "center" })}
-					onClick={() => editor.chain().focus().setTextAlign("center").run()}
-				>
-					<AlignCenterIcon />
-				</ToolbarButton>
-				<ToolbarButton
-					label="Align text right"
-					isActive={editor.isActive({ textAlign: "right" })}
-					onClick={() => editor.chain().focus().setTextAlign("right").run()}
-				>
-					<AlignRightIcon />
 				</ToolbarButton>
 			</div>
 
@@ -764,21 +783,6 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 				<ToolbarButton label="Insert table" onClick={insertTable}>
 					<TableIcon />
 					<span className="editor-toolbar-btn-text">Table</span>
-				</ToolbarButton>
-			</div>
-
-			<div className="editor-toolbar-group">
-				<ToolbarButton
-					label="Undo"
-					onClick={() => editor.chain().focus().undo().run()}
-				>
-					<UndoIcon />
-				</ToolbarButton>
-				<ToolbarButton
-					label="Redo"
-					onClick={() => editor.chain().focus().redo().run()}
-				>
-					<RedoIcon />
 				</ToolbarButton>
 			</div>
 

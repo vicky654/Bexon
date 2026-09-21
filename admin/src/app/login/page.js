@@ -67,9 +67,10 @@ export default function LoginPage() {
 		<div className="auth-page">
 			<div className="auth-card">
 				<div className="auth-brand">
-					<div className="auth-brand-mark">B</div>
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img src="/images/logo.png" alt="DPDP Consultants" className="auth-brand-logo" />
 					<div>
-						<h1 className="auth-title">Bexon Admin</h1>
+						<h1 className="auth-title">Admin Panel</h1>
 						<p className="auth-subtitle">Sign in to manage your site</p>
 					</div>
 				</div>

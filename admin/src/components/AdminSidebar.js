@@ -44,11 +44,11 @@ export default function AdminSidebar() {
 	return (
 		<aside className="admin-sidebar">
 			<div className="admin-sidebar-brand">
-				<div className="admin-header-mark">B</div>
-				<div>
-					<span className="admin-sidebar-brand-name">Bexon Admin</span>
-					<span className="admin-sidebar-brand-sub">Admin Panel</span>
+				<div className="admin-sidebar-logo-wrap">
+					{/* eslint-disable-next-line @next/next/no-img-element */}
+					<img src="/images/logo.png" alt="DPDP Consultants" className="admin-sidebar-logo" />
 				</div>
+				<span className="admin-sidebar-brand-sub">Admin Panel</span>
 			</div>
 
 			<div className="admin-sidebar-section">
