@@ -21,36 +21,59 @@ export default function PostPreviewModal({ values, onClose, editHref, viewHref, 
 		? tags.split(",").map(t => t.trim()).filter(Boolean)
 		: [];
 
+	const TAG_COLORS = 6;
+	const tagColorIndex = tag => {
+		let hash = 0;
+		for (let i = 0; i < tag.length; i++) hash = (hash * 31 + tag.charCodeAt(i)) >>> 0;
+		return hash % TAG_COLORS;
+	};
+
 	return (
 		<div className="preview-overlay" onClick={onClose}>
 			<div className="preview-modal" onClick={e => e.stopPropagation()}>
 				<div className="preview-modal-header">
-					<span className="preview-modal-label">Preview</span>
-					<div className="preview-modal-actions">
-						{viewHref ? (
-							<a
-								href={viewHref}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="preview-secondary-btn"
+					<div className="preview-modal-header-top">
+						<span className="preview-modal-label">Preview</span>
+						<div className="preview-modal-actions">
+							{viewHref ? (
+								<a
+									href={viewHref}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="preview-secondary-btn"
+								>
+									<ExternalLinkIcon size={14} /> View live
+								</a>
+							) : null}
+							{editHref ? (
+								<Link href={editHref} className="preview-edit-btn">
+									<PencilIcon size={14} /> Edit
+								</Link>
+							) : null}
+							{onDelete ? (
+								<button type="button" className="preview-delete-btn" onClick={onDelete}>
+									<TrashIcon size={14} /> Delete
+								</button>
+							) : null}
+							<button
+								type="button"
+								className="preview-close"
+								onClick={onClose}
+								aria-label="Close preview"
 							>
-								<ExternalLinkIcon size={14} /> View live
-							</a>
-						) : null}
-						{editHref ? (
-							<Link href={editHref} className="preview-edit-btn">
-								<PencilIcon size={14} /> Edit
-							</Link>
-						) : null}
-						{onDelete ? (
-							<button type="button" className="preview-delete-btn" onClick={onDelete}>
-								<TrashIcon size={14} /> Delete
+								✕
 							</button>
-						) : null}
-						<button type="button" className="preview-close" onClick={onClose} aria-label="Close preview">
-							✕
-						</button>
+						</div>
 					</div>
+					{tagList.length ? (
+						<div className="preview-modal-tags">
+							{tagList.map(tag => (
+								<span key={tag} className={`badge-tag badge-tag-${tagColorIndex(tag)}`}>
+									{tag}
+								</span>
+							))}
+						</div>
+					) : null}
 				</div>
 				<div className="preview-modal-body">
 					{img ? (
@@ -79,16 +102,6 @@ export default function PostPreviewModal({ values, onClose, editHref, viewHref, 
 							}}
 						/>
 					</div>
-
-					{tagList.length ? (
-						<div className="preview-tags">
-							{tagList.map(tag => (
-								<span key={tag} className="badge badge-neutral">
-									{tag}
-								</span>
-							))}
-						</div>
-					) : null}
 				</div>
 			</div>
 		</div>

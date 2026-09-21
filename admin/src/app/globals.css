@@ -1825,11 +1825,61 @@ a {
 
 .preview-modal-header {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	flex-direction: column;
+	gap: 10px;
 	padding: 14px 20px;
 	border-bottom: 1px solid #eceef2;
 	background: #fafbfc;
+}
+
+.preview-modal-header-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.preview-modal-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+}
+
+.badge-tag {
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.badge-tag-0 {
+	background: #dbeafe;
+	color: #1d4ed8;
+}
+
+.badge-tag-1 {
+	background: #ede9fe;
+	color: #6d28d9;
+}
+
+.badge-tag-2 {
+	background: #dcfce7;
+	color: #15803d;
+}
+
+.badge-tag-3 {
+	background: #fef3c7;
+	color: #b45309;
+}
+
+.badge-tag-4 {
+	background: #fce7f3;
+	color: #be185d;
+}
+
+.badge-tag-5 {
+	background: #ccfbf1;
+	color: #0f766e;
 }
 
 .preview-modal-label {
@@ -1976,14 +2026,6 @@ a {
 	font-size: 18px;
 }
 
-.preview-tags {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin-top: 24px;
-	padding-top: 20px;
-	border-top: 1px solid #eef0f3;
-}
 
 /* Breadcrumbs */
 
