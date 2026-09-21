@@ -4,14 +4,39 @@ import { useEffect, useState } from "react";
 import apiFetch from "@/lib/api";
 import RequireAuth from "@/components/RequireAuth";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { CheckIcon } from "@/components/Icons";
 
 const COLOR_FIELDS = [
-	{ key: "primaryColor", label: "Primary Color" },
-	{ key: "secondaryColor", label: "Secondary Color" },
-	{ key: "hoverColor", label: "Hover Color" },
-	{ key: "textColor", label: "Text Color" },
-	{ key: "headingColor", label: "Heading Color" },
-	{ key: "backgroundColor", label: "Background Color" },
+	{
+		key: "primaryColor",
+		label: "Primary Color",
+		help: "Main brand color used for buttons and highlights",
+	},
+	{
+		key: "secondaryColor",
+		label: "Secondary Color",
+		help: "Accent used in footers and dark sections",
+	},
+	{
+		key: "hoverColor",
+		label: "Hover Color",
+		help: "Shown when hovering links and buttons",
+	},
+	{
+		key: "textColor",
+		label: "Text Color",
+		help: "Default body text color across the site",
+	},
+	{
+		key: "headingColor",
+		label: "Heading Color",
+		help: "Used for headings and titles",
+	},
+	{
+		key: "backgroundColor",
+		label: "Background Color",
+		help: "Base background color for light sections",
+	},
 ];
 
 const DEFAULT_COLORS = {
@@ -22,6 +47,16 @@ const DEFAULT_COLORS = {
 	headingColor: "#0c1e21",
 	backgroundColor: "#d8e5e5",
 };
+
+function AlertIcon() {
+	return (
+		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+			<circle cx="12" cy="12" r="10" />
+			<line x1="12" y1="8" x2="12" y2="13" />
+			<line x1="12" y1="16" x2="12" y2="16.01" />
+		</svg>
+	);
+}
 
 function SettingsForm() {
 	const [values, setValues] = useState(null);
@@ -78,17 +113,21 @@ function SettingsForm() {
 				error ? <p className="error">{error}</p> : <p className="dashboard-subtitle">Loading...</p>
 			) : (
 				<form onSubmit={handleSubmit} className="form">
-					<div className="form-row">
+					<div className="settings-swatch-grid">
 						{COLOR_FIELDS.map(field => (
-							<div className="form-field" key={field.key}>
-								<label htmlFor={field.key}>{field.label}</label>
-								<div className="settings-color-row">
+							<div className="settings-swatch-card" key={field.key}>
+								<label className="settings-swatch-preview">
+									<span style={{ position: "absolute", inset: 0, background: values[field.key] }} />
 									<input
 										type="color"
 										aria-label={`${field.label} picker`}
 										value={values[field.key]}
 										onChange={e => handleChange(field.key, e.target.value)}
 									/>
+								</label>
+								<div className="settings-swatch-info">
+									<label htmlFor={field.key}>{field.label}</label>
+									<p className="settings-swatch-help">{field.help}</p>
 									<input
 										id={field.key}
 										value={values[field.key]}
@@ -100,9 +139,21 @@ function SettingsForm() {
 							</div>
 						))}
 					</div>
-					{error ? <p className="error">{error}</p> : null}
-					{success ? <p className="success">{success}</p> : null}
-					<div className="form-actions">
+
+					{error ? (
+						<div className="settings-alert settings-alert-error">
+							<AlertIcon />
+							{error}
+						</div>
+					) : null}
+					{success ? (
+						<div className="settings-alert settings-alert-success">
+							<CheckIcon size={16} />
+							{success}
+						</div>
+					) : null}
+
+					<div className="settings-actions">
 						<button type="submit" className="button" disabled={isSaving}>
 							{isSaving ? "Saving..." : "Save Colors"}
 						</button>
