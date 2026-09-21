@@ -192,7 +192,7 @@ function SettingsForm() {
 						</button>
 						<button
 							type="button"
-							className="button-secondary"
+							className="button button-secondary"
 							onClick={handleReset}
 							disabled={isSaving}
 						>
