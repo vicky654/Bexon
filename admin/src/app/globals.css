@@ -2,6 +2,35 @@
 	box-sizing: border-box;
 }
 
+@media (prefers-reduced-motion: reduce) {
+	* {
+		animation-duration: 0.001ms !important;
+		animation-delay: 0ms !important;
+		transition-duration: 0.001ms !important;
+	}
+}
+
+@keyframes admin-fade-in-up {
+	from {
+		opacity: 0;
+		transform: translateY(8px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes admin-badge-pulse {
+	0%,
+	100% {
+		box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.45);
+	}
+	50% {
+		box-shadow: 0 0 0 4px rgba(249, 115, 22, 0);
+	}
+}
+
 body {
 	margin: 0;
 	font-family: system-ui, -apple-system, sans-serif;
@@ -37,6 +66,7 @@ a {
 	max-width: 1400px;
 	margin: 0 auto;
 	padding: 32px 24px 64px;
+	animation: admin-fade-in-up 0.35s ease both;
 }
 
 .page-narrow {
@@ -199,6 +229,7 @@ a {
 	font-weight: 700;
 	padding: 1px 7px;
 	border-radius: 999px;
+	animation: admin-badge-pulse 2s ease infinite;
 }
 
 .admin-sidebar-footer {
@@ -219,6 +250,15 @@ a {
 	display: grid;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
 	gap: 24px;
+}
+
+.stat-grid .stat-card:nth-child(1) { animation-delay: 0.02s; }
+.stat-grid .stat-card:nth-child(2) { animation-delay: 0.07s; }
+.stat-grid .stat-card:nth-child(3) { animation-delay: 0.12s; }
+.stat-grid .stat-card:nth-child(4) { animation-delay: 0.17s; }
+.stat-grid .stat-card:nth-child(5) { animation-delay: 0.22s; }
+
+.stat-grid-placeholder {
 	margin-bottom: 36px;
 }
 
@@ -242,6 +282,7 @@ a {
 
 .stat-card {
 	position: relative;
+	animation: admin-fade-in-up 0.35s ease both;
 	background: #fff;
 	border: 1px solid #eceef2;
 	border-radius: 18px;
@@ -1114,8 +1155,16 @@ a {
 }
 
 .button:active:not(:disabled) {
-	transform: translateY(0);
+	transform: translateY(0) scale(0.97);
 	box-shadow: 0 1px 2px rgba(2, 9, 44, 0.12);
+}
+
+.button:focus-visible,
+.button-secondary:focus-visible,
+.admin-sidebar-link:focus-visible,
+.row-icon-btn:focus-visible {
+	outline: 2px solid #02092c;
+	outline-offset: 2px;
 }
 
 .button:disabled {
@@ -1170,6 +1219,7 @@ a {
 	padding: 12px 16px;
 	border-radius: 10px;
 	font-size: 14px;
+	animation: admin-fade-in-up 0.25s ease both;
 	font-weight: 500;
 }
 
@@ -1423,12 +1473,17 @@ a {
 	color: #6b7280;
 	cursor: pointer;
 	text-decoration: none;
-	transition: background 0.15s ease, color 0.15s ease;
+	transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .row-icon-btn:hover {
 	background: #eef0f3;
 	color: #101223;
+	transform: scale(1.1);
+}
+
+.row-icon-btn:active {
+	transform: scale(0.95);
 }
 
 .row-icon-btn-view:hover {
@@ -1453,6 +1508,7 @@ a {
 	margin: 14px auto 0;
 	padding: 8px 10px 8px 16px;
 	background: #101223;
+	animation: admin-fade-in-up 0.25s ease both;
 	color: #fff;
 	border-radius: 999px;
 	box-shadow: 0 12px 30px rgba(2, 9, 44, 0.35);
@@ -1510,11 +1566,24 @@ a {
 }
 
 .table tbody tr {
-	transition: background 0.12s ease;
+	transition: background 0.15s ease, box-shadow 0.15s ease;
+	animation: admin-fade-in-up 0.3s ease both;
 }
+
+.table tbody tr:nth-child(1) { animation-delay: 0.02s; }
+.table tbody tr:nth-child(2) { animation-delay: 0.05s; }
+.table tbody tr:nth-child(3) { animation-delay: 0.08s; }
+.table tbody tr:nth-child(4) { animation-delay: 0.11s; }
+.table tbody tr:nth-child(5) { animation-delay: 0.14s; }
+.table tbody tr:nth-child(6) { animation-delay: 0.17s; }
+.table tbody tr:nth-child(7) { animation-delay: 0.2s; }
+.table tbody tr:nth-child(8) { animation-delay: 0.23s; }
+.table tbody tr:nth-child(9) { animation-delay: 0.26s; }
+.table tbody tr:nth-child(10) { animation-delay: 0.29s; }
 
 .table tbody tr:hover {
 	background: #f5f7ff;
+	box-shadow: inset 3px 0 0 #02092c;
 }
 
 .table-muted {
@@ -1688,6 +1757,26 @@ a {
 
 /* Post preview modal */
 
+@keyframes admin-modal-in {
+	from {
+		opacity: 0;
+		transform: scale(0.97) translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1) translateY(0);
+	}
+}
+
+@keyframes admin-overlay-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 .preview-overlay {
 	position: fixed;
 	inset: 0;
@@ -1697,6 +1786,7 @@ a {
 	justify-content: center;
 	padding: 24px;
 	z-index: 100;
+	animation: admin-overlay-in 0.15s ease both;
 }
 
 .preview-modal {
@@ -1708,6 +1798,7 @@ a {
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	animation: admin-modal-in 0.2s ease both;
 	box-shadow: 0 30px 60px rgba(2, 9, 44, 0.4);
 }
 
