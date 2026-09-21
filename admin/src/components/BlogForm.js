@@ -84,11 +84,25 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 			<div className="form-row">
 				<div className="form-field">
 					<label htmlFor="title">Title</label>
-					<input id="title" name="title" value={values.title} onChange={handleChange} required />
+					<input
+						id="title"
+						name="title"
+						value={values.title}
+						onChange={handleChange}
+						placeholder="e.g. 5 Ways to Protect Customer Data"
+						required
+					/>
 				</div>
 				<div className="form-field">
 					<label htmlFor="slug">Slug</label>
-					<input id="slug" name="slug" value={values.slug} onChange={handleChange} required />
+					<input
+						id="slug"
+						name="slug"
+						value={values.slug}
+						onChange={handleChange}
+						placeholder="e.g. 5-ways-to-protect-customer-data"
+						required
+					/>
 				</div>
 			</div>
 
@@ -116,7 +130,13 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 			<div className="form-row">
 				<div className="form-field">
 					<label htmlFor="category">Category</label>
-					<input id="category" name="category" value={values.category} onChange={handleChange} />
+					<input
+						id="category"
+						name="category"
+						value={values.category}
+						onChange={handleChange}
+						placeholder="e.g. Compliance"
+					/>
 				</div>
 				<div className="form-field">
 					<label htmlFor="tags">Tags (comma separated)</label>
@@ -162,7 +182,13 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 					<div className="form-row">
 						<div className="form-field">
 							<label htmlFor="author">Author</label>
-							<input id="author" name="author" value={values.author} onChange={handleChange} />
+							<input
+								id="author"
+								name="author"
+								value={values.author}
+								onChange={handleChange}
+								placeholder="e.g. Jane Doe"
+							/>
 						</div>
 						<div className="form-field">
 							<label htmlFor="authorRole">Author role</label>
@@ -171,6 +197,7 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 								name="authorRole"
 								value={values.authorRole}
 								onChange={handleChange}
+								placeholder="e.g. Privacy Consultant"
 							/>
 						</div>
 					</div>

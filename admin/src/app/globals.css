@@ -914,7 +914,19 @@ a {
 	font-size: 14.5px;
 	line-height: 1.75;
 	color: #1f2430;
+}
+
+.editor-footer {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 16px;
+	padding: 8px 16px;
+	border-top: 1px solid #eceef2;
+	background: #fafbfc;
 	border-radius: 0 0 14px 14px;
+	font-size: 12px;
+	color: #9ca3af;
 }
 
 .editor-content .tiptap {

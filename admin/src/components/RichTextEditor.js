@@ -909,10 +909,19 @@ function buildImageNode(url) {
 	};
 }
 
+function countWordsAndChars(text) {
+	const trimmed = text.trim();
+	return {
+		words: trimmed ? trimmed.split(/\s+/).length : 0,
+		chars: text.length,
+	};
+}
+
 export default function RichTextEditor({ content, onChange, placeholder }) {
 	const sentinelRef = useRef(null);
 	const [isPinned, setIsPinned] = useState(false);
 	const [manualExpand, setManualExpand] = useState(false);
+	const [counts, setCounts] = useState({ words: 0, chars: 0 });
 
 	useEffect(() => {
 		const el = sentinelRef.current;
@@ -952,8 +961,12 @@ export default function RichTextEditor({ content, onChange, placeholder }) {
 		content: content || "",
 		immediatelyRender: false,
 		shouldRerenderOnTransaction: true,
+		onCreate: ({ editor }) => {
+			setCounts(countWordsAndChars(editor.getText()));
+		},
 		onUpdate: ({ editor }) => {
 			onChange(editor.getHTML());
+			setCounts(countWordsAndChars(editor.getText()));
 		},
 		editorProps: {
 			handleDrop: (view, event, slice, moved) => {
@@ -1012,6 +1025,10 @@ export default function RichTextEditor({ content, onChange, placeholder }) {
 				onToggleCollapse={() => setManualExpand(v => !v)}
 			/>
 			<EditorContent editor={editor} className="editor-content" />
+			<div className="editor-footer">
+				<span>{counts.words} {counts.words === 1 ? "word" : "words"}</span>
+				<span>{counts.chars} {counts.chars === 1 ? "character" : "characters"}</span>
+			</div>
 		</div>
 	);
 }
