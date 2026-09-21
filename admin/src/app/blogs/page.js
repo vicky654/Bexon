@@ -179,10 +179,10 @@ function BlogsList() {
 					</button>
 					<button
 						type="button"
-						className="button-link button-link-primary"
+						className="button button-secondary"
 						onClick={downloadSampleImportFile}
 					>
-						Sample file
+						<DownloadIcon size={16} /> Sample File
 					</button>
 					<input
 						ref={importInputRef}
