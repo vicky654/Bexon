@@ -14,6 +14,15 @@ const COLOR_FIELDS = [
 	{ key: "backgroundColor", label: "Background Color" },
 ];
 
+const DEFAULT_COLORS = {
+	primaryColor: "#02092c",
+	secondaryColor: "#0c1e21",
+	hoverColor: "#02092c",
+	textColor: "#364e52",
+	headingColor: "#0c1e21",
+	backgroundColor: "#d8e5e5",
+};
+
 function SettingsForm() {
 	const [values, setValues] = useState(null);
 	const [error, setError] = useState("");
@@ -28,6 +37,12 @@ function SettingsForm() {
 
 	const handleChange = (key, value) => {
 		setValues(prev => ({ ...prev, [key]: value }));
+	};
+
+	const handleReset = () => {
+		setError("");
+		setSuccess("");
+		setValues(DEFAULT_COLORS);
 	};
 
 	const handleSubmit = async e => {
@@ -90,6 +105,14 @@ function SettingsForm() {
 					<div className="form-actions">
 						<button type="submit" className="button" disabled={isSaving}>
 							{isSaving ? "Saving..." : "Save Colors"}
+						</button>
+						<button
+							type="button"
+							className="button-secondary"
+							onClick={handleReset}
+							disabled={isSaving}
+						>
+							Reset to Defaults
 						</button>
 					</div>
 				</form>
