@@ -21,6 +21,23 @@
 	}
 }
 
+/* Opacity-only: unlike admin-fade-in-up, this never leaves a lingering
+   `transform` on the element after it finishes. Any non-none transform
+   on an ancestor creates a new containing block for its `position: fixed`
+   descendants — since modals (PostPreviewModal, MessageDetailModal) render
+   as DOM children of .page, animating .page with admin-fade-in-up broke
+   their centering (they centered inside .page's box instead of the
+   viewport). Use this on any element that might contain a fixed-position
+   overlay. */
+@keyframes admin-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 @keyframes admin-badge-pulse {
 	0%,
 	100% {
@@ -66,7 +83,7 @@ a {
 	max-width: 1400px;
 	margin: 0 auto;
 	padding: 32px 24px 64px;
-	animation: admin-fade-in-up 0.35s ease both;
+	animation: admin-fade-in 0.35s ease both;
 }
 
 .page-narrow {
