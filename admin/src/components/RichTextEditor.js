@@ -178,6 +178,24 @@ const GripIcon = () => (
 		<circle cx="16" cy="18" r="1.8" />
 	</svg>
 );
+const DockTopIcon = () => (
+	<Icon size={16}>
+		<rect x="3" y="3" width="18" height="18" rx="2" />
+		<line x1="3" y1="8" x2="21" y2="8" />
+	</Icon>
+);
+const DockLeftIcon = () => (
+	<Icon size={16}>
+		<rect x="3" y="3" width="18" height="18" rx="2" />
+		<line x1="9" y1="3" x2="9" y2="21" />
+	</Icon>
+);
+const DockRightIcon = () => (
+	<Icon size={16}>
+		<rect x="3" y="3" width="18" height="18" rx="2" />
+		<line x1="15" y1="3" x2="15" y2="21" />
+	</Icon>
+);
 
 /* ---------- Resizable / draggable image node ---------- */
 
@@ -600,6 +618,29 @@ function MainToolbar({ editor, wrapRef, position, onPositionChange }) {
 			>
 				<GripIcon />
 			</button>
+			<div className="editor-toolbar-group">
+				<ToolbarButton
+					label="Dock toolbar on top"
+					isActive={position === "top"}
+					onClick={() => onPositionChange("top")}
+				>
+					<DockTopIcon />
+				</ToolbarButton>
+				<ToolbarButton
+					label="Dock toolbar on left"
+					isActive={position === "left"}
+					onClick={() => onPositionChange("left")}
+				>
+					<DockLeftIcon />
+				</ToolbarButton>
+				<ToolbarButton
+					label="Dock toolbar on right"
+					isActive={position === "right"}
+					onClick={() => onPositionChange("right")}
+				>
+					<DockRightIcon />
+				</ToolbarButton>
+			</div>
 			<div className="editor-toolbar-group">
 				<ToolbarButton
 					label="Bold"
