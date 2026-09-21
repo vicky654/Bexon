@@ -351,9 +351,9 @@ START: Theme Header CSS
 			&.current-menu-item,
 			&:hover {
 				> a {
-					color: var(--tj-color-theme-primary);
+					color: var(--tj-color-theme-hover, var(--tj-color-theme-primary));
 					&::after {
-						color: var(--tj-color-theme-primary);
+						color: var(--tj-color-theme-hover, var(--tj-color-theme-primary));
 					}
 					&::before {
 						opacity: 1;
@@ -412,14 +412,14 @@ START: Theme Header CSS
 					&.current-menu-item,
 					&:hover {
 						> a {
-							color: var(--tj-color-theme-primary);
+							color: var(--tj-color-theme-hover, var(--tj-color-theme-primary));
 							&::before {
 								opacity: 1;
 								visibility: visible;
 								width: 14px;
 							}
 							&::after {
-								color: var(--tj-color-theme-primary);
+								color: var(--tj-color-theme-hover, var(--tj-color-theme-primary));
 							}
 						}
 					}
