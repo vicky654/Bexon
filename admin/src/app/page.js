@@ -60,6 +60,29 @@ function initials(name) {
 		.join("");
 }
 
+function timeGreeting() {
+	const hour = new Date().getHours();
+	if (hour < 12) return "Good morning";
+	if (hour < 18) return "Good afternoon";
+	return "Good evening";
+}
+
+function formatRelativeTime(dateString) {
+	if (!dateString) return "";
+	const diffSec = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
+	if (diffSec < 60) return "just now";
+	const diffMin = Math.floor(diffSec / 60);
+	if (diffMin < 60) return `${diffMin} min${diffMin === 1 ? "" : "s"} ago`;
+	const diffHour = Math.floor(diffMin / 60);
+	if (diffHour < 24) return `${diffHour} hour${diffHour === 1 ? "" : "s"} ago`;
+	const diffDay = Math.floor(diffHour / 24);
+	if (diffDay < 30) return `${diffDay} day${diffDay === 1 ? "" : "s"} ago`;
+	const diffMonth = Math.floor(diffDay / 30);
+	if (diffMonth < 12) return `${diffMonth} month${diffMonth === 1 ? "" : "s"} ago`;
+	const diffYear = Math.floor(diffMonth / 12);
+	return `${diffYear} year${diffYear === 1 ? "" : "s"} ago`;
+}
+
 function StatCard({ label, value, tone, iconKey }) {
 	return (
 		<div className="stat-card">
@@ -96,17 +119,26 @@ function Dashboard() {
 	const newMessageCount = isLoading ? 0 : messages.filter(m => m.status === "new").length;
 	const recentBlogs = isLoading ? [] : blogs.slice(0, 5);
 	const recentMessages = isLoading ? [] : messages.slice(0, 5);
+	const totalForMix = isLoading || blogs.length === 0 ? 1 : blogs.length;
+	const publishedPercent = Math.round((publishedCount / totalForMix) * 100);
+	const draftPercent = 100 - publishedPercent;
+	const today = new Date().toLocaleDateString("en-US", {
+		weekday: "long",
+		month: "long",
+		day: "numeric",
+	});
 
 	return (
 		<div>
-			<div className="page-header">
+			<div className="dashboard-welcome">
 				<div>
-					<h1>Dashboard</h1>
-					<p className="dashboard-subtitle">
-						An overview of your content and inquiries.
+					<p className="dashboard-welcome-date">{today}</p>
+					<h1>{timeGreeting()}!</h1>
+					<p className="dashboard-welcome-subtitle">
+						Here&apos;s what&apos;s happening with your content today.
 					</p>
 				</div>
-				<Link href="/blogs/new" className="button">
+				<Link href="/blogs/new" className="dashboard-welcome-btn">
 					New Post
 				</Link>
 			</div>
@@ -122,6 +154,35 @@ function Dashboard() {
 					<StatCard label="New Queries" value={newMessageCount} tone="amber" iconKey="alerts" />
 				</div>
 			)}
+
+			{!isLoading && blogs.length > 0 ? (
+				<div className="content-mix">
+					<div className="content-mix-header">
+						<span>Content Mix</span>
+						<span className="content-mix-total">{blogs.length} posts</span>
+					</div>
+					<div className="content-mix-bar">
+						<div
+							className="content-mix-segment content-mix-segment-published"
+							style={{ width: `${publishedPercent}%` }}
+						/>
+						<div
+							className="content-mix-segment content-mix-segment-draft"
+							style={{ width: `${draftPercent}%` }}
+						/>
+					</div>
+					<div className="content-mix-legend">
+						<span className="content-mix-legend-item">
+							<span className="content-mix-dot content-mix-dot-published" />
+							Published ({publishedCount})
+						</span>
+						<span className="content-mix-legend-item">
+							<span className="content-mix-dot content-mix-dot-draft" />
+							Draft ({draftCount})
+						</span>
+					</div>
+				</div>
+			) : null}
 
 			<div className="dashboard-grid">
 				<div className="dashboard-panel">
@@ -140,7 +201,9 @@ function Dashboard() {
 									</span>
 									<div className="dashboard-list-main">
 										<Link href={`/blogs/${blog.id}/edit`}>{blog.title}</Link>
-										<span className="dashboard-list-meta">/{blog.slug}</span>
+										<span className="dashboard-list-meta">
+											/{blog.slug} · {formatRelativeTime(blog.publishedAt || blog.createdAt)}
+										</span>
 									</div>
 									<span
 										className={`badge ${blog.published ? "badge-good" : "badge-neutral"}`}
@@ -171,7 +234,9 @@ function Dashboard() {
 									</span>
 									<div className="dashboard-list-main">
 										<span>{message.name}</span>
-										<span className="dashboard-list-meta">{message.email}</span>
+										<span className="dashboard-list-meta">
+											{message.email} · {formatRelativeTime(message.createdAt)}
+										</span>
 									</div>
 									<span
 										className={`badge ${message.status === "new" ? "badge-alert" : "badge-neutral"}`}
