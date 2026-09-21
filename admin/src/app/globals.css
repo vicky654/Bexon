@@ -1848,6 +1848,38 @@ a {
 	transform: translateY(-1px);
 }
 
+.preview-secondary-btn,
+.preview-delete-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 14px;
+	background: #fff;
+	color: #101223;
+	border: 1px solid #d7dae2;
+	border-radius: 7px;
+	font-size: 13px;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.preview-secondary-btn:hover {
+	background: #f7f8fb;
+	transform: translateY(-1px);
+}
+
+.preview-delete-btn {
+	color: #b91c1c;
+	border-color: #fecaca;
+}
+
+.preview-delete-btn:hover {
+	background: #fef2f2;
+	transform: translateY(-1px);
+}
+
 .preview-close {
 	width: 28px;
 	height: 28px;

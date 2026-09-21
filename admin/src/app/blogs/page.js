@@ -6,7 +6,7 @@ import apiFetch from "@/lib/api";
 import RequireAuth from "@/components/RequireAuth";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { SkeletonTableRows } from "@/components/Skeleton";
-import { EyeIcon, PencilIcon, TrashIcon, DownloadIcon, UploadIcon } from "@/components/Icons";
+import { DownloadIcon, UploadIcon } from "@/components/Icons";
 import { exportBlogs, downloadSampleImportFile, parseImportFile } from "@/lib/blogImportExport";
 import PostPreviewModal from "@/components/PostPreviewModal";
 
@@ -49,6 +49,7 @@ function BlogsList() {
 		if (!confirm("Delete this post?")) return;
 		try {
 			await apiFetch(`/api/admin/blogs/${id}`, { method: "DELETE" });
+			setPreviewBlog(prev => (prev && prev.id === id ? null : prev));
 			loadBlogs();
 		} catch (err) {
 			setError(err.message);
@@ -220,19 +221,21 @@ function BlogsList() {
 						<th>Title</th>
 						<th>Slug</th>
 						<th>Status</th>
-						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					{isLoading ? (
-						<SkeletonTableRows columns={5} rows={6} />
+						<SkeletonTableRows columns={4} rows={6} />
 					) : (
 						blogs.map(blog => (
 							<tr
 								key={blog.id}
-								className={selectedIds.includes(blog.id) ? "table-row-selected" : ""}
+								className={`table-row-clickable ${
+									selectedIds.includes(blog.id) ? "table-row-selected" : ""
+								}`}
+								onClick={() => setPreviewBlog(blog)}
 							>
-								<td className="table-checkbox-col">
+								<td className="table-checkbox-col" onClick={e => e.stopPropagation()}>
 									<input
 										type="checkbox"
 										checked={selectedIds.includes(blog.id)}
@@ -240,49 +243,14 @@ function BlogsList() {
 										aria-label={`Select ${blog.title}`}
 									/>
 								</td>
-								<td className="table-row-clickable" onClick={() => setPreviewBlog(blog)}>
-									{blog.title}
-								</td>
-								<td
-									className="table-muted table-row-clickable"
-									onClick={() => setPreviewBlog(blog)}
-								>
-									{blog.slug}
-								</td>
-								<td className="table-row-clickable" onClick={() => setPreviewBlog(blog)}>
+								<td>{blog.title}</td>
+								<td className="table-muted">{blog.slug}</td>
+								<td>
 									<span
 										className={`badge ${blog.published ? "badge-good" : "badge-neutral"}`}
 									>
 										{blog.published ? "Published" : "Draft"}
 									</span>
-								</td>
-								<td>
-									<div className="row-icon-actions">
-										<a
-											href={`${SITE_URL}/blogs/${blog.slug}`}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="row-icon-btn row-icon-btn-view"
-											title="View on live site"
-										>
-											<EyeIcon size={16} />
-										</a>
-										<Link
-											href={`/blogs/${blog.id}/edit`}
-											className="row-icon-btn"
-											title="Edit"
-										>
-											<PencilIcon size={16} />
-										</Link>
-										<button
-											type="button"
-											className="row-icon-btn row-icon-btn-danger"
-											title="Delete"
-											onClick={() => handleDelete(blog.id)}
-										>
-											<TrashIcon size={16} />
-										</button>
-									</div>
 								</td>
 							</tr>
 						))
@@ -333,6 +301,8 @@ function BlogsList() {
 					values={previewBlog}
 					onClose={() => setPreviewBlog(null)}
 					editHref={`/blogs/${previewBlog.id}/edit`}
+					viewHref={`${SITE_URL}/blogs/${previewBlog.slug}`}
+					onDelete={() => handleDelete(previewBlog.id)}
 				/>
 			) : null}
 		</div>

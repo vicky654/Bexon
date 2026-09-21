@@ -6,7 +6,6 @@ import RequireAuth from "@/components/RequireAuth";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import MessageDetailModal from "@/components/MessageDetailModal";
 import { SkeletonTableRows } from "@/components/Skeleton";
-import { EyeIcon, CheckIcon } from "@/components/Icons";
 
 function initials(name) {
 	if (!name) return "?";
@@ -69,15 +68,18 @@ function MessagesList() {
 						<th>Service</th>
 						<th>Message</th>
 						<th>Status</th>
-						<th></th>
 					</tr>
 				</thead>
 				<tbody>
 					{isLoading ? (
-						<SkeletonTableRows columns={6} rows={6} />
+						<SkeletonTableRows columns={5} rows={6} />
 					) : (
 						messages.map(message => (
-							<tr key={message.id}>
+							<tr
+								key={message.id}
+								className="table-row-clickable"
+								onClick={() => setSelected(message)}
+							>
 								<td>
 									<div className="table-name-cell">
 										<span className="dashboard-avatar dashboard-avatar-purple">
@@ -95,28 +97,6 @@ function MessagesList() {
 									>
 										{message.status === "new" ? "New" : "Read"}
 									</span>
-								</td>
-								<td>
-									<div className="row-icon-actions">
-										<button
-											type="button"
-											className="row-icon-btn row-icon-btn-view"
-											title="View details"
-											onClick={() => setSelected(message)}
-										>
-											<EyeIcon size={16} />
-										</button>
-										{message.status === "new" ? (
-											<button
-												type="button"
-												className="row-icon-btn"
-												title="Mark as read"
-												onClick={() => handleMarkRead(message.id)}
-											>
-												<CheckIcon size={16} />
-											</button>
-										) : null}
-									</div>
 								</td>
 							</tr>
 						))

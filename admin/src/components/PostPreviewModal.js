@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { PencilIcon } from "./Icons";
+import { PencilIcon, TrashIcon, ExternalLinkIcon } from "./Icons";
 
-export default function PostPreviewModal({ values, onClose, editHref }) {
+export default function PostPreviewModal({ values, onClose, editHref, viewHref, onDelete }) {
 	const {
 		title,
 		excerpt,
@@ -15,16 +15,37 @@ export default function PostPreviewModal({ values, onClose, editHref }) {
 		tags,
 	} = values;
 
+	const tagList = Array.isArray(tags)
+		? tags.map(t => String(t).trim()).filter(Boolean)
+		: typeof tags === "string"
+		? tags.split(",").map(t => t.trim()).filter(Boolean)
+		: [];
+
 	return (
 		<div className="preview-overlay" onClick={onClose}>
 			<div className="preview-modal" onClick={e => e.stopPropagation()}>
 				<div className="preview-modal-header">
 					<span className="preview-modal-label">Preview</span>
 					<div className="preview-modal-actions">
+						{viewHref ? (
+							<a
+								href={viewHref}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="preview-secondary-btn"
+							>
+								<ExternalLinkIcon size={14} /> View live
+							</a>
+						) : null}
 						{editHref ? (
 							<Link href={editHref} className="preview-edit-btn">
 								<PencilIcon size={14} /> Edit
 							</Link>
+						) : null}
+						{onDelete ? (
+							<button type="button" className="preview-delete-btn" onClick={onDelete}>
+								<TrashIcon size={14} /> Delete
+							</button>
 						) : null}
 						<button type="button" className="preview-close" onClick={onClose} aria-label="Close preview">
 							✕
@@ -59,17 +80,13 @@ export default function PostPreviewModal({ values, onClose, editHref }) {
 						/>
 					</div>
 
-					{tags?.length ? (
+					{tagList.length ? (
 						<div className="preview-tags">
-							{tags
-								.split(",")
-								.map(t => t.trim())
-								.filter(Boolean)
-								.map(tag => (
-									<span key={tag} className="badge badge-neutral">
-										{tag}
-									</span>
-								))}
+							{tagList.map(tag => (
+								<span key={tag} className="badge badge-neutral">
+									{tag}
+								</span>
+							))}
 						</div>
 					) : null}
 				</div>
