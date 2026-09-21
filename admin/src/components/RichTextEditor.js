@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useEditor, EditorContent, NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react";
 import { Extension, Node, mergeAttributes } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
@@ -177,11 +177,6 @@ const GripIcon = () => (
 		<circle cx="8" cy="18" r="1.8" />
 		<circle cx="16" cy="18" r="1.8" />
 	</svg>
-);
-const ChevronIcon = ({ direction = "down" }) => (
-	<Icon size={15}>
-		{direction === "down" ? <polyline points="6 9 12 15 18 9" /> : <polyline points="18 15 12 9 6 15" />}
-	</Icon>
 );
 
 /* ---------- Resizable / draggable image node ---------- */
@@ -485,7 +480,7 @@ function RangeControl({ label, min, max, step = 1, value, unit = "", onChange, i
 	);
 }
 
-function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
+function Toolbar({ editor }) {
 	const fileInputRef = useRef(null);
 	const rowFileInputRef = useRef(null);
 	const [isUploading, setIsUploading] = useState(false);
@@ -574,7 +569,10 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 
 	const isImageActive = editor.isActive("image");
 	const isTableActive = editor.isActive("table");
-	const isImageRowActive = editor.isActive("imageRow");
+	// A selected image inside an image-row node also reports isActive("imageRow")
+	// true (the selection is contained within it) — without this guard both the
+	// "Image options" and "Image row options" panels rendered at once.
+	const isImageRowActive = editor.isActive("imageRow") && !isImageActive;
 	const currentFontSize = editor.getAttributes("textStyle").fontSize || "";
 	const currentColor = editor.getAttributes("textStyle").color || "#000000";
 
@@ -587,7 +585,7 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 	const imageGapValue = Number.isNaN(imageGapPx) ? 16 : imageGapPx;
 
 	return (
-		<div className={`editor-toolbar${isCollapsed ? " editor-toolbar-collapsed" : ""}`}>
+		<div className="editor-toolbar">
 			<div className="editor-toolbar-group">
 				<ToolbarButton
 					label="Bold"
@@ -619,23 +617,6 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 				</ToolbarButton>
 			</div>
 
-			{isPinned ? (
-				<button
-					type="button"
-					className="editor-toolbar-collapse-btn"
-					onMouseDown={e => e.preventDefault()}
-					onClick={onToggleCollapse}
-					data-tooltip={isCollapsed ? "Show full toolbar" : "Collapse toolbar"}
-					aria-label={isCollapsed ? "Show full toolbar" : "Collapse toolbar"}
-					aria-expanded={!isCollapsed}
-				>
-					<ChevronIcon direction={isCollapsed ? "down" : "up"} />
-					<span className="editor-toolbar-btn-text">{isCollapsed ? "More" : "Less"}</span>
-				</button>
-			) : null}
-
-			{!isCollapsed ? (
-				<>
 			<div className="editor-toolbar-group">
 				<ToolbarButton
 					label="Undo"
@@ -945,8 +926,6 @@ function Toolbar({ editor, isPinned, isCollapsed, onToggleCollapse }) {
 					</ToolbarButton>
 				</div>
 			) : null}
-				</>
-			) : null}
 		</div>
 	);
 }
@@ -967,41 +946,7 @@ function countWordsAndChars(text) {
 }
 
 export default function RichTextEditor({ content, onChange, placeholder }) {
-	const sentinelRef = useRef(null);
-	const [isPinned, setIsPinned] = useState(false);
-	const [manualExpand, setManualExpand] = useState(false);
 	const [counts, setCounts] = useState({ words: 0, chars: 0 });
-
-	useEffect(() => {
-		const el = sentinelRef.current;
-		if (!el || typeof IntersectionObserver === "undefined") return undefined;
-
-		// Debounced: right at the sticky boundary, tiny scroll jitter (e.g. from
-		// clicking/dragging an image near the top of the editor) can flip
-		// isIntersecting on every frame. Since toggling "pinned" changes the
-		// toolbar's own height (collapsed vs. full), each flip was retriggering
-		// the observer again immediately, producing a visible blinking loop.
-		// Waiting for the scroll position to settle before committing a new
-		// state breaks that feedback loop.
-		let settleTimer = null;
-
-		const observer = new IntersectionObserver(
-			([entry]) => {
-				if (settleTimer) clearTimeout(settleTimer);
-				settleTimer = setTimeout(() => {
-					const pinned = !entry.isIntersecting;
-					setIsPinned(pinned);
-					if (!pinned) setManualExpand(false);
-				}, 120);
-			},
-			{ threshold: 0, rootMargin: "-13px 0px 0px 0px" }
-		);
-		observer.observe(el);
-		return () => {
-			if (settleTimer) clearTimeout(settleTimer);
-			observer.disconnect();
-		};
-	}, []);
 
 	const editor = useEditor({
 		extensions: [
@@ -1077,17 +1022,9 @@ export default function RichTextEditor({ content, onChange, placeholder }) {
 		},
 	});
 
-	const isCollapsed = isPinned && !manualExpand;
-
 	return (
 		<div className="editor-wrap">
-			<div ref={sentinelRef} className="editor-toolbar-sentinel" />
-			<Toolbar
-				editor={editor}
-				isPinned={isPinned}
-				isCollapsed={isCollapsed}
-				onToggleCollapse={() => setManualExpand(v => !v)}
-			/>
+			<Toolbar editor={editor} />
 			<EditorContent editor={editor} className="editor-content" />
 			<div className="editor-footer">
 				<span>{counts.words} {counts.words === 1 ? "word" : "words"}</span>
