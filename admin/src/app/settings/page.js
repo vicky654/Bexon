@@ -5,6 +5,7 @@ import apiFetch from "@/lib/api";
 import RequireAuth from "@/components/RequireAuth";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { CheckIcon } from "@/components/Icons";
+import { SkeletonSwatchGrid } from "@/components/Skeleton";
 
 const COLOR_FIELDS = [
 	{
@@ -110,7 +111,17 @@ function SettingsForm() {
 				</div>
 			</div>
 			{values === null ? (
-				error ? <p className="error">{error}</p> : <p className="dashboard-subtitle">Loading...</p>
+				error ? (
+					<p className="error">{error}</p>
+				) : (
+					<div className="form">
+						<SkeletonSwatchGrid />
+						<div className="settings-preview">
+							<span className="skeleton" style={{ width: "90px", height: "13px", marginBottom: "8px" }} />
+							<span className="skeleton" style={{ width: "100%", height: "150px", borderRadius: "14px" }} />
+						</div>
+					</div>
+				)
 			) : (
 				<form onSubmit={handleSubmit} className="form">
 					<div className="settings-swatch-grid">

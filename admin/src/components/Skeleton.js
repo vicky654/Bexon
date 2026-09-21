@@ -39,6 +39,23 @@ export function SkeletonStatCards({ count = 5 }) {
 	);
 }
 
+export function SkeletonSwatchGrid({ count = 6 }) {
+	return (
+		<div className="settings-swatch-grid">
+			{Array.from({ length: count }).map((_, idx) => (
+				<div className="settings-swatch-card" key={idx}>
+					<span className="skeleton" style={{ width: "52px", height: "52px", borderRadius: "14px", flexShrink: 0 }} />
+					<div className="settings-swatch-info">
+						<span className="skeleton" style={{ width: "60%", height: "13px" }} />
+						<span className="skeleton" style={{ width: "85%", height: "11px", marginTop: "4px" }} />
+						<span className="skeleton" style={{ width: "100%", height: "32px", marginTop: "6px" }} />
+					</div>
+				</div>
+			))}
+		</div>
+	);
+}
+
 export function SkeletonListRows({ count = 5 }) {
 	return (
 		<ul className="dashboard-list">

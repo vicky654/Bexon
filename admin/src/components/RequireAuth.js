@@ -19,7 +19,30 @@ export default function RequireAuth({ children }) {
 	}, [router]);
 
 	if (status !== "authenticated") {
-		return <div className="admin-loading">Loading...</div>;
+		return (
+			<div className="admin-shell">
+				<aside className="admin-sidebar">
+					<div className="admin-sidebar-brand">
+						<span className="skeleton" style={{ width: "40px", height: "40px", borderRadius: "10px" }} />
+					</div>
+					<div className="admin-sidebar-section">
+						<span className="skeleton" style={{ width: "80%", height: "14px", margin: "10px 12px" }} />
+						<span className="skeleton" style={{ width: "70%", height: "14px", margin: "10px 12px" }} />
+						<span className="skeleton" style={{ width: "75%", height: "14px", margin: "10px 12px" }} />
+						<span className="skeleton" style={{ width: "65%", height: "14px", margin: "10px 12px" }} />
+					</div>
+				</aside>
+				<main className="admin-main">
+					<div className="page">
+						<div className="skeleton-form">
+							<span className="skeleton" style={{ width: "30%", height: "24px" }} />
+							<span className="skeleton" style={{ width: "100%", height: "120px" }} />
+							<span className="skeleton" style={{ width: "100%", height: "120px" }} />
+						</div>
+					</div>
+				</main>
+			</div>
+		);
 	}
 
 	return (
