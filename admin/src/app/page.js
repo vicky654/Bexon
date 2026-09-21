@@ -119,9 +119,6 @@ function Dashboard() {
 	const newMessageCount = isLoading ? 0 : messages.filter(m => m.status === "new").length;
 	const recentBlogs = isLoading ? [] : blogs.slice(0, 5);
 	const recentMessages = isLoading ? [] : messages.slice(0, 5);
-	const totalForMix = isLoading || blogs.length === 0 ? 1 : blogs.length;
-	const publishedPercent = Math.round((publishedCount / totalForMix) * 100);
-	const draftPercent = 100 - publishedPercent;
 	const today = new Date().toLocaleDateString("en-US", {
 		weekday: "long",
 		month: "long",
@@ -154,35 +151,6 @@ function Dashboard() {
 					<StatCard label="New Queries" value={newMessageCount} tone="amber" iconKey="alerts" />
 				</div>
 			)}
-
-			{!isLoading && blogs.length > 0 ? (
-				<div className="content-mix">
-					<div className="content-mix-header">
-						<span>Content Mix</span>
-						<span className="content-mix-total">{blogs.length} posts</span>
-					</div>
-					<div className="content-mix-bar">
-						<div
-							className="content-mix-segment content-mix-segment-published"
-							style={{ width: `${publishedPercent}%` }}
-						/>
-						<div
-							className="content-mix-segment content-mix-segment-draft"
-							style={{ width: `${draftPercent}%` }}
-						/>
-					</div>
-					<div className="content-mix-legend">
-						<span className="content-mix-legend-item">
-							<span className="content-mix-dot content-mix-dot-published" />
-							Published ({publishedCount})
-						</span>
-						<span className="content-mix-legend-item">
-							<span className="content-mix-dot content-mix-dot-draft" />
-							Draft ({draftCount})
-						</span>
-					</div>
-				</div>
-			) : null}
 
 			<div className="dashboard-grid">
 				<div className="dashboard-panel">
