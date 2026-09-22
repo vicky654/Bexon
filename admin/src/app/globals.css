@@ -949,6 +949,11 @@ a {
 	color: #b45309;
 }
 
+.badge-danger {
+	background: #fef2f2;
+	color: #b91c1c;
+}
+
 /* Forms */
 
 .form {
@@ -982,7 +987,8 @@ a {
 }
 
 .form-field input,
-.form-field textarea {
+.form-field textarea,
+.form-field select {
 	padding: 9px 11px;
 	border: 1px solid #d7dae2;
 	border-radius: 7px;
@@ -993,7 +999,8 @@ a {
 }
 
 .form-field input:focus,
-.form-field textarea:focus {
+.form-field textarea:focus,
+.form-field select:focus {
 	outline: none;
 	border-color: #02092c;
 	background: #fff;
@@ -2986,4 +2993,18 @@ a {
 .message-detail-actions {
 	display: flex;
 	gap: 10px;
+	flex-wrap: wrap;
+	align-items: center;
+}
+
+.application-status-select {
+	padding: 9px 11px;
+	border: 1px solid #d7dae2;
+	border-radius: 7px;
+	font-size: 13px;
+	font-weight: 600;
+	font-family: inherit;
+	background: #fafafa;
+	color: #374151;
+	cursor: pointer;
 }

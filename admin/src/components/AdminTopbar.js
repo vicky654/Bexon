@@ -12,15 +12,18 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:4000";
 export default function AdminTopbar({ onMenuClick, layout = "overlay", showMenuButton = true }) {
 	const router = useRouter();
 	const pathname = usePathname();
-	const [unreadCount, setUnreadCount] = useState(0);
+	const [counts, setCounts] = useState({ messages: 0, applications: 0 });
 
 	useEffect(() => {
-		apiFetch("/api/admin/messages")
-			.then(data => {
-				const count = (data.messages || []).filter(m => m.status === "new").length;
-				setUnreadCount(count);
-			})
-			.catch(() => {});
+		Promise.all([
+			apiFetch("/api/admin/messages").catch(() => ({ messages: [] })),
+			apiFetch("/api/admin/job-applications").catch(() => ({ applications: [] })),
+		]).then(([messagesData, applicationsData]) => {
+			setCounts({
+				messages: (messagesData.messages || []).filter(m => m.status === "new").length,
+				applications: (applicationsData.applications || []).filter(a => a.status === "new").length,
+			});
+		});
 	}, [pathname]);
 
 	const handleLogout = async () => {
@@ -59,8 +62,8 @@ export default function AdminTopbar({ onMenuClick, layout = "overlay", showMenuB
 							>
 								<Icon size={16} />
 								<span>{label}</span>
-								{badgeKey === "messages" && unreadCount > 0 ? (
-									<span className="admin-topbar-nav-badge">{unreadCount}</span>
+								{badgeKey && counts[badgeKey] > 0 ? (
+									<span className="admin-topbar-nav-badge">{counts[badgeKey]}</span>
 								) : null}
 							</Link>
 						))}
@@ -71,7 +74,7 @@ export default function AdminTopbar({ onMenuClick, layout = "overlay", showMenuB
 			<div className="admin-topbar-right">
 				<Link href="/messages" className="admin-topbar-icon-btn" title="Messages" aria-label="Messages">
 					<BellIcon size={18} />
-					{unreadCount > 0 ? <span className="admin-topbar-icon-badge">{unreadCount}</span> : null}
+					{counts.messages > 0 ? <span className="admin-topbar-icon-badge">{counts.messages}</span> : null}
 				</Link>
 				<a
 					href={SITE_URL}

@@ -2,7 +2,7 @@ import makeWowDelay from "@/libs/makeWowDelay";
 import Link from "next/link";
 
 const CareerCard = ({ careerSingle, idx }) => {
-	const { title, iconName, price, location, duration, category, need, id } =
+	const { title, iconName, salaryRange, salaryPeriod, location, type, department, id } =
 		careerSingle || {};
 
 	return (
@@ -14,13 +14,20 @@ const CareerCard = ({ careerSingle, idx }) => {
 				<i className={iconName ? iconName : "tji-strategy"}></i>
 			</div>
 			<div className="tj-careers-tag">
-				<span>{category}</span> <span>{need}</span>
+				{type ? <span>{type}</span> : null}
+				{department ? <span>{department}</span> : null}
 			</div>
 			<h4 className="tj-careers-title">
 				<Link href={`/careers/${id}`}>{title}</Link>
 			</h4>
 			<div className="tj-careers-salary">
-				<span>{price}</span> / {duration}
+				{salaryRange ? (
+					<>
+						<span>{salaryRange}</span> / {salaryPeriod || "year"}
+					</>
+				) : (
+					<span>Salary not disclosed</span>
+				)}
 			</div>
 			<div className="tj-careers-bottom">
 				<span className="location">

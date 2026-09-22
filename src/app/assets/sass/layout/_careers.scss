@@ -322,6 +322,11 @@
 }
 
 .tj-careers-form {
+	.form-error {
+		color: #d92d20;
+		font-size: 14px;
+		margin-bottom: 15px;
+	}
 	.form-input {
 		margin-bottom: 20px;
 		&.reduce {

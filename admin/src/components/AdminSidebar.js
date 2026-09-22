@@ -12,15 +12,18 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:4000";
 export default function AdminSidebar({ open, onClose, variant = "overlay", expanded = false }) {
 	const router = useRouter();
 	const pathname = usePathname();
-	const [unreadCount, setUnreadCount] = useState(0);
+	const [counts, setCounts] = useState({ messages: 0, applications: 0 });
 
 	useEffect(() => {
-		apiFetch("/api/admin/messages")
-			.then(data => {
-				const count = (data.messages || []).filter(m => m.status === "new").length;
-				setUnreadCount(count);
-			})
-			.catch(() => {});
+		Promise.all([
+			apiFetch("/api/admin/messages").catch(() => ({ messages: [] })),
+			apiFetch("/api/admin/job-applications").catch(() => ({ applications: [] })),
+		]).then(([messagesData, applicationsData]) => {
+			setCounts({
+				messages: (messagesData.messages || []).filter(m => m.status === "new").length,
+				applications: (applicationsData.applications || []).filter(a => a.status === "new").length,
+			});
+		});
 	}, [pathname]);
 
 	const handleLogout = async () => {
@@ -70,8 +73,8 @@ export default function AdminSidebar({ open, onClose, variant = "overlay", expan
 							>
 								<Icon size={18} />
 								<span className="admin-sidebar-link-label">{label}</span>
-								{badgeKey === "messages" && unreadCount > 0 ? (
-									<span className="admin-sidebar-badge">{unreadCount}</span>
+								{badgeKey && counts[badgeKey] > 0 ? (
+									<span className="admin-sidebar-badge">{counts[badgeKey]}</span>
 								) : null}
 							</Link>
 						))}

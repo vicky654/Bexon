@@ -13,6 +13,9 @@ const settingsRouter = require("./routes/settings");
 const adminSettingsRouter = require("./routes/adminSettings");
 const brandLogosRouter = require("./routes/brandLogos");
 const adminBrandLogosRouter = require("./routes/adminBrandLogos");
+const jobsRouter = require("./routes/jobs");
+const adminJobsRouter = require("./routes/adminJobs");
+const adminJobApplicationsRouter = require("./routes/adminJobApplications");
 
 function buildApp() {
 	const app = express();
@@ -44,6 +47,9 @@ function buildApp() {
 	app.use("/api/admin/upload", uploadRouter);
 	app.use("/api/brand-logos", brandLogosRouter);
 	app.use("/api/admin/brand-logos", adminBrandLogosRouter);
+	app.use("/api/jobs", jobsRouter);
+	app.use("/api/admin/jobs", adminJobsRouter);
+	app.use("/api/admin/job-applications", adminJobApplicationsRouter);
 
 	app.use((err, req, res, next) => {
 		console.error(err);

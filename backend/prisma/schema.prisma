@@ -50,6 +50,35 @@ model BrandLogo {
   createdAt DateTime @default(now())
 }
 
+model Job {
+  id           Int              @id @default(autoincrement())
+  title        String
+  department   String?
+  location     String?
+  type         String?
+  salaryRange  String?
+  salaryPeriod String?
+  description  String?
+  requirements String?
+  published    Boolean          @default(true)
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  applications JobApplication[]
+}
+
+model JobApplication {
+  id          Int      @id @default(autoincrement())
+  jobId       Int
+  job         Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  name        String
+  email       String
+  phone       String?
+  coverLetter String?
+  resumeUrl   String?
+  status      String   @default("new")
+  createdAt   DateTime @default(now())
+}
+
 model SiteSettings {
   id              Int      @id @default(1)
   primaryColor    String   @default("#02092c")
