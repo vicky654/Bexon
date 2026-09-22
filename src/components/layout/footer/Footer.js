@@ -79,7 +79,7 @@ const Footer = () => {
 										</Link>
 									</li>
 									<li>
-										<Link href="/blogs">News</Link>
+										<Link href="/blogs">Blogs</Link>
 									</li>
 									<li>
 										<Link href="#">Feedback</Link>
@@ -125,19 +125,27 @@ const Footer = () => {
 								<div className="footer-contact">
 									<ul>
 										<li>
-											<Link href="tel:10095447818">
+											<Link href="tel:0120-6930999">
 												<span className="icon">
 													<i className="tji-phone-2"></i>
 												</span>
-												<span className="text">+1 (009) 544-7818</span>
+												<span className="text">0120-6930999</span>
 											</Link>
 										</li>
 										<li>
-											<Link href="mailto:info@bexon.com">
+											<Link href="tel:1800-5711333">
+												<span className="icon">
+													<i className="tji-phone-2"></i>
+												</span>
+												<span className="text">1800-5711333</span>
+											</Link>
+										</li>
+										<li>
+											<Link href="mailto:info@dpdpconsultants.com">
 												<span className="icon">
 													<i className="tji-envelop-2"></i>
 												</span>
-												<span className="text">info@bexon.com</span>
+												<span className="text">info@dpdpconsultants.com</span>
 											</Link>
 										</li>
 									</ul>
@@ -145,38 +153,46 @@ const Footer = () => {
 								<div className="social-links">
 									<ul>
 										<li>
-											<Link href="https://www.facebook.com/" target="_blank">
+											<Link href="https://www.facebook.com/profile.php?id=61561140562760" target="_blank">
 												<i className="fa-brands fa-facebook-f"></i>
 											</Link>
 										</li>
 										<li>
-											<Link href="https://www.instagram.com/" target="_blank">
+											<Link href="https://www.instagram.com/dpdp.consultants/" target="_blank">
 												<i className="fa-brands fa-instagram"></i>
 											</Link>
 										</li>
 										<li>
-											<Link href="https://x.com/" target="_blank">
+											<Link href="https://x.com/socialdpdp43979" target="_blank">
 												<i className="fa-brands fa-x-twitter"></i>
 											</Link>
 										</li>
 										<li>
-											<Link href="https://www.linkedin.com/" target="_blank">
+											<Link href="https://www.linkedin.com/company/dpdpconsultants/" target="_blank">
 												<i className="fa-brands fa-linkedin-in"></i>
+											</Link>
+										</li>
+										<li>
+											<Link href="https://www.youtube.com/@DPDPConsultants" target="_blank">
+												<i className="fa-brands fa-youtube"></i>
+											</Link>
+										</li>
+										<li>
+											<Link href="https://www.quora.com/profile/DPDP-Consultants" target="_blank">
+												<i className="fa-brands fa-quora"></i>
+											</Link>
+										</li>
+										<li>
+											<Link href="https://pin.it/1nhQ1Ugv0" target="_blank">
+												<i className="fa-brands fa-pinterest-p"></i>
 											</Link>
 										</li>
 									</ul>
 								</div>
 								<div className="copyright-text">
 									<p>
-										&copy; 2025 
-										<Link
-											href="https://themeforest.net/user/theme-junction/portfolio"
-											target="_blank"
-										>
-											Bexon
-										</Link>{" "}
-										All right reserved
-									</p>
+									&copy; {new Date().getFullYear()} DPDP Consultants (Privacyium Tech Pvt. Ltd.) - All rights reserved
+								</p>
 								</div>
 							</div>
 						</div>
