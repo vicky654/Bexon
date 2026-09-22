@@ -17,7 +17,7 @@ const BrandSlider3 = ({ className }) => {
 			allowTouchMove={true}
 			autoplay={{
 				delay: 1,
-				disableOnInteraction: true,
+				disableOnInteraction: false,
 				pauseOnMouseEnter: true,
 			}}
 			className={`client-slider client-slider-3`}
