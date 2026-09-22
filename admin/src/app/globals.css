@@ -954,6 +954,70 @@ a {
 	color: #b91c1c;
 }
 
+/* AI draft panel */
+
+.ai-draft-panel {
+	display: flex;
+	gap: 12px;
+	padding: 14px 16px;
+	background: linear-gradient(135deg, #f5f3ff 0%, #eef2ff 100%);
+	border: 1px solid #ddd6fe;
+	border-radius: 12px;
+}
+
+.ai-draft-panel-icon {
+	flex-shrink: 0;
+	width: 32px;
+	height: 32px;
+	border-radius: 9px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: #7c3aed;
+	color: #fff;
+}
+
+.ai-draft-panel-body {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+}
+
+.ai-draft-panel-body label {
+	font-weight: 600;
+	font-size: 13px;
+	color: #4c1d95;
+}
+
+.ai-draft-panel-row {
+	display: flex;
+	gap: 8px;
+}
+
+.ai-draft-panel-row input {
+	flex: 1;
+	padding: 9px 11px;
+	border: 1px solid #ddd6fe;
+	border-radius: 7px;
+	font-size: 14px;
+	font-family: inherit;
+	background: #fff;
+}
+
+.ai-draft-panel-row input:focus {
+	outline: none;
+	border-color: #7c3aed;
+	box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+}
+
+.ai-draft-panel-error {
+	margin: 0;
+	font-size: 12.5px;
+	color: #b91c1c;
+}
+
 /* Forms */
 
 .form {

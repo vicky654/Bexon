@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import AiDraftPanel from "./AiDraftPanel";
 
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship", "Remote"];
 
@@ -40,8 +41,24 @@ export default function JobForm({ initialValues, onSubmit, submitLabel }) {
 		}
 	};
 
+	const handleAiGenerated = result => {
+		setValues(prev => ({
+			...prev,
+			title: result.title || prev.title,
+			description: result.description || prev.description,
+			requirements: result.requirements || prev.requirements,
+		}));
+	};
+
 	return (
 		<form onSubmit={handleSubmit} className="form">
+			<AiDraftPanel
+				type="job"
+				onGenerated={handleAiGenerated}
+				placeholder="e.g. Senior Privacy Consultant with DPDP Act experience"
+				hasExistingContent={Boolean(values.description || values.requirements)}
+			/>
+
 			<div className="form-row">
 				<div className="form-field">
 					<label htmlFor="title">Job Title</label>

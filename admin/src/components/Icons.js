@@ -151,6 +151,12 @@ export const BriefcaseIcon = props => (
 	</Svg>
 );
 
+export const SparkleIcon = props => (
+	<Svg {...props} fill="currentColor" stroke="none">
+		<path d="M12 2 14 9 21 12 14 15 12 22 10 15 3 12 10 9Z" />
+	</Svg>
+);
+
 export const InboxIcon = props => (
 	<Svg {...props}>
 		<path d="M22 12h-6l-2 3h-4l-2-3H2" />

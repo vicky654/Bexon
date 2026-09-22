@@ -3,6 +3,7 @@
 import { useState } from "react";
 import RichTextEditor from "./RichTextEditor";
 import PostPreviewModal from "./PostPreviewModal";
+import AiDraftPanel from "./AiDraftPanel";
 import { ChevronDownIcon } from "./Icons";
 
 function slugify(text) {
@@ -59,6 +60,16 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 		setValues(prev => ({ ...prev, content: html }));
 	};
 
+	const handleAiGenerated = result => {
+		setValues(prev => ({
+			...prev,
+			title: result.title || prev.title,
+			excerpt: result.excerpt || prev.excerpt,
+			content: result.content || prev.content,
+			...(result.title && !slugTouched ? { slug: slugify(result.title) } : {}),
+		}));
+	};
+
 	const handleSubmit = async e => {
 		e.preventDefault();
 		setError("");
@@ -81,6 +92,13 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 
 	return (
 		<form onSubmit={handleSubmit} className="form">
+			<AiDraftPanel
+				type="blog"
+				onGenerated={handleAiGenerated}
+				placeholder="e.g. What the DPDP Act means for HR teams"
+				hasExistingContent={Boolean(values.content)}
+			/>
+
 			<div className="form-row">
 				<div className="form-field">
 					<label htmlFor="title">Title</label>
