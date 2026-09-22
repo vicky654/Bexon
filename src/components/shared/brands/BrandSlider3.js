@@ -14,7 +14,7 @@ const BrandSlider3 = ({ className }) => {
 			centeredSlides={true}
 			loop={true}
 			speed={5000}
-			allowTouchMove={false}
+			allowTouchMove={true}
 			autoplay={{
 				delay: 1,
 				disableOnInteraction: false,

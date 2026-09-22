@@ -200,7 +200,7 @@ START: Client CSS
 .client-logo {
 	width: 284px;
 	height: 120px;
-	padding: 24px 32px;
+	padding: 12px 20px;
 	background-color: var(--tj-color-common-white);
 	display: inline-flex;
 	align-items: center;
@@ -224,7 +224,7 @@ START: Client CSS
 	@media #{$sm, $xs} {
 		width: 190px;
 		height: 70px;
-		padding: 20px;
+		padding: 10px;
 	}
 }
 
