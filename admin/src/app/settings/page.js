@@ -6,6 +6,7 @@ import RequireAuth from "@/components/RequireAuth";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { CheckIcon } from "@/components/Icons";
 import { SkeletonSwatchGrid } from "@/components/Skeleton";
+import { useSidebarLayout, SIDEBAR_LAYOUTS } from "@/lib/sidebarLayout";
 
 const COLOR_FIELDS = [
 	{
@@ -48,6 +49,54 @@ const DEFAULT_COLORS = {
 	headingColor: "#0c1e21",
 	backgroundColor: "#d8e5e5",
 };
+
+function LayoutDiagram({ variant }) {
+	return (
+		<div className={`layout-option-diagram layout-option-diagram-${variant}`}>
+			{variant === "horizontal" ? (
+				<div className="layout-option-diagram-content">
+					<div className="layout-option-diagram-topbar" />
+					<div className="layout-option-diagram-body" />
+				</div>
+			) : (
+				<>
+					<div className="layout-option-diagram-bar" />
+					<div className="layout-option-diagram-content">
+						<div className="layout-option-diagram-body" />
+					</div>
+				</>
+			)}
+		</div>
+	);
+}
+
+function SidebarLayoutPicker() {
+	const { layout, setLayout } = useSidebarLayout();
+
+	return (
+		<div className="layout-option-grid">
+			{SIDEBAR_LAYOUTS.map(option => (
+				<button
+					type="button"
+					key={option.value}
+					className={`layout-option-card${layout === option.value ? " layout-option-card-active" : ""}`}
+					onClick={() => setLayout(option.value)}
+				>
+					<LayoutDiagram variant={option.value} />
+					<div className="layout-option-info">
+						<h3>{option.label}</h3>
+						{layout === option.value ? (
+							<span className="layout-option-check">
+								<CheckIcon size={12} />
+							</span>
+						) : null}
+					</div>
+					<p className="layout-option-desc">{option.description}</p>
+				</button>
+			))}
+		</div>
+	);
+}
 
 function AlertIcon() {
 	return (
@@ -110,6 +159,15 @@ function SettingsForm() {
 					<p className="dashboard-subtitle">Colors used across the public website</p>
 				</div>
 			</div>
+
+			<div className="form" style={{ marginBottom: "32px" }}>
+				<h2 style={{ margin: "0 0 4px", fontSize: "16px" }}>Sidebar Layout</h2>
+				<p className="dashboard-subtitle" style={{ margin: "0 0 16px" }}>
+					Choose how navigation is shown in this admin panel. This is a per-browser preference.
+				</p>
+				<SidebarLayoutPicker />
+			</div>
+
 			{values === null ? (
 				error ? (
 					<p className="error">{error}</p>
@@ -124,6 +182,7 @@ function SettingsForm() {
 				)
 			) : (
 				<form onSubmit={handleSubmit} className="form">
+					<h2 style={{ margin: "0 0 4px", fontSize: "16px" }}>Site Colors</h2>
 					<div className="settings-swatch-grid">
 						{COLOR_FIELDS.map(field => (
 							<div className="settings-swatch-card" key={field.key}>

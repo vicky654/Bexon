@@ -4,25 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import apiFetch from "@/lib/api";
-import {
-	DashboardIcon,
-	DocumentIcon,
-	MailIcon,
-	ExternalLinkIcon,
-	LogoutIcon,
-	SettingsIcon,
-} from "./Icons";
+import { ExternalLinkIcon, LogoutIcon } from "./Icons";
+import { NAV_LINKS } from "@/lib/navLinks";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:4000";
 
-const LINKS = [
-	{ href: "/", label: "Dashboard", Icon: DashboardIcon },
-	{ href: "/blogs", label: "Blogs", Icon: DocumentIcon },
-	{ href: "/messages", label: "Messages", Icon: MailIcon, badgeKey: "messages" },
-	{ href: "/settings", label: "Settings", Icon: SettingsIcon },
-];
-
-export default function AdminSidebar({ open, onClose }) {
+export default function AdminSidebar({ open, onClose, variant = "overlay", expanded = false }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const [unreadCount, setUnreadCount] = useState(0);
@@ -43,12 +30,25 @@ export default function AdminSidebar({ open, onClose }) {
 
 	const isActive = href => (href === "/" ? pathname === "/" : pathname?.startsWith(href));
 
+	const isOverlay = variant === "overlay";
+	const isMini = variant === "mini";
+	const isCollapsedMini = isMini && !expanded;
+
+	const asideClassName = [
+		"admin-sidebar",
+		isOverlay ? (open ? "admin-sidebar-open" : "") : "admin-sidebar-docked",
+		isMini ? "admin-sidebar-mini" : "",
+		isMini && expanded ? "admin-sidebar-mini-expanded" : "",
+	]
+		.filter(Boolean)
+		.join(" ");
+
 	return (
 		<>
-			{open ? (
+			{isOverlay && open ? (
 				<div className="admin-sidebar-backdrop" onClick={onClose} aria-hidden="true" />
 			) : null}
-			<aside className={`admin-sidebar${open ? " admin-sidebar-open" : ""}`}>
+			<aside className={asideClassName}>
 				<div className="admin-sidebar-brand">
 					<div className="admin-sidebar-logo-wrap">
 						{/* eslint-disable-next-line @next/next/no-img-element */}
@@ -60,15 +60,16 @@ export default function AdminSidebar({ open, onClose }) {
 				<div className="admin-sidebar-section">
 					<span className="admin-sidebar-section-label">Main Menu</span>
 					<nav className="admin-sidebar-nav">
-						{LINKS.map(({ href, label, Icon, badgeKey }) => (
+						{NAV_LINKS.map(({ href, label, Icon, badgeKey }) => (
 							<Link
 								key={href}
 								href={href}
-								onClick={onClose}
+								onClick={isOverlay ? onClose : undefined}
+								title={isCollapsedMini ? label : undefined}
 								className={`admin-sidebar-link${isActive(href) ? " admin-sidebar-link-active" : ""}`}
 							>
 								<Icon size={18} />
-								<span>{label}</span>
+								<span className="admin-sidebar-link-label">{label}</span>
 								{badgeKey === "messages" && unreadCount > 0 ? (
 									<span className="admin-sidebar-badge">{unreadCount}</span>
 								) : null}
@@ -82,14 +83,20 @@ export default function AdminSidebar({ open, onClose }) {
 						href={SITE_URL}
 						target="_blank"
 						rel="noopener noreferrer"
+						title={isCollapsedMini ? "View Live Site" : undefined}
 						className="admin-sidebar-link"
 					>
 						<ExternalLinkIcon size={18} />
-						<span>View Live Site</span>
+						<span className="admin-sidebar-link-label">View Live Site</span>
 					</a>
-					<button type="button" className="admin-sidebar-link admin-sidebar-logout" onClick={handleLogout}>
+					<button
+						type="button"
+						title={isCollapsedMini ? "Log out" : undefined}
+						className="admin-sidebar-link admin-sidebar-logout"
+						onClick={handleLogout}
+					>
 						<LogoutIcon size={18} />
-						<span>Log out</span>
+						<span className="admin-sidebar-link-label">Log out</span>
 					</button>
 				</div>
 			</aside>
