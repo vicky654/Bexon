@@ -56,6 +56,19 @@ export function SkeletonSwatchGrid({ count = 6 }) {
 	);
 }
 
+export function SkeletonLogoGrid({ count = 8 }) {
+	return (
+		<div className="logo-grid">
+			{Array.from({ length: count }).map((_, idx) => (
+				<div className="logo-card" key={idx}>
+					<span className="skeleton" style={{ width: "100%", height: "70px", borderRadius: "8px" }} />
+					<span className="skeleton" style={{ width: "80%", height: "13px", marginTop: "10px" }} />
+				</div>
+			))}
+		</div>
+	);
+}
+
 export function SkeletonListRows({ count = 5 }) {
 	return (
 		<ul className="dashboard-list">

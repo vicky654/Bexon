@@ -11,13 +11,20 @@ const adminMessagesRouter = require("./routes/adminMessages");
 const uploadRouter = require("./routes/upload");
 const settingsRouter = require("./routes/settings");
 const adminSettingsRouter = require("./routes/adminSettings");
+const brandLogosRouter = require("./routes/brandLogos");
+const adminBrandLogosRouter = require("./routes/adminBrandLogos");
 
 function buildApp() {
 	const app = express();
 
+	const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3001,http://localhost:4000")
+		.split(",")
+		.map(origin => origin.trim())
+		.filter(Boolean);
+
 	app.use(
 		cors({
-			origin: process.env.CORS_ORIGIN || "http://localhost:3001",
+			origin: allowedOrigins,
 			credentials: true,
 		})
 	);
@@ -35,6 +42,8 @@ function buildApp() {
 	app.use("/api/admin/messages", adminMessagesRouter);
 	app.use("/api/admin/settings", adminSettingsRouter);
 	app.use("/api/admin/upload", uploadRouter);
+	app.use("/api/brand-logos", brandLogosRouter);
+	app.use("/api/admin/brand-logos", adminBrandLogosRouter);
 
 	app.use((err, req, res, next) => {
 		console.error(err);

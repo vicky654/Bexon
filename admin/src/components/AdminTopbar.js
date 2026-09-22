@@ -47,7 +47,7 @@ export default function AdminTopbar({ onMenuClick, layout = "overlay", showMenuB
 				<Link href="/" className="admin-topbar-brand">
 					{/* eslint-disable-next-line @next/next/no-img-element */}
 					<img src="/images/logo.png" alt="DPDP Consultants" />
-					<span>Admin Panel</span>
+					
 				</Link>
 				{isHorizontal ? (
 					<nav className="admin-topbar-nav">

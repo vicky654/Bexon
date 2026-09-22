@@ -1,11 +1,11 @@
 "use client";
 
-import getBrands from "@/libs/getBrands";
+import useBrands from "@/libs/useBrands";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const BrandSlider1 = ({ className }) => {
-	const brands = getBrands();
+	const brands = useBrands();
 	return (
 		<Swiper
 			slidesPerView="auto"

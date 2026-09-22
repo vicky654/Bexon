@@ -42,6 +42,14 @@ model Admin {
   passwordHash String
 }
 
+model BrandLogo {
+  id        Int      @id @default(autoincrement())
+  imageUrl  String
+  alt       String   @default("")
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
 model SiteSettings {
   id              Int      @id @default(1)
   primaryColor    String   @default("#02092c")

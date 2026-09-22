@@ -124,3 +124,22 @@ export const BellIcon = props => (
 		<path d="M13.73 21a2 2 0 0 1-3.46 0" />
 	</Svg>
 );
+
+export const GripIcon = props => (
+	<Svg {...props} fill="currentColor" stroke="none">
+		<circle cx="9" cy="6" r="1.5" />
+		<circle cx="15" cy="6" r="1.5" />
+		<circle cx="9" cy="12" r="1.5" />
+		<circle cx="15" cy="12" r="1.5" />
+		<circle cx="9" cy="18" r="1.5" />
+		<circle cx="15" cy="18" r="1.5" />
+	</Svg>
+);
+
+export const ImageIcon = props => (
+	<Svg {...props}>
+		<rect x="3" y="3" width="18" height="18" rx="2" />
+		<circle cx="9" cy="9" r="2" />
+		<path d="m21 15-5-5L5 21" />
+	</Svg>
+);

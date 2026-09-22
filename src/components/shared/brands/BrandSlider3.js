@@ -1,11 +1,11 @@
 "use client";
 
-import getBrands from "@/libs/getBrands";
+import useBrands from "@/libs/useBrands";
 import { Autoplay } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 const BrandSlider3 = ({ className }) => {
-	const brands = getBrands();
+	const brands = useBrands();
 	return (
 		<Swiper
 			slidesPerView="auto"
@@ -23,12 +23,12 @@ const BrandSlider3 = ({ className }) => {
 			modules={[Autoplay]}
 		>
 			{brands?.length
-				? brands?.map(({ img3 }, idx) => (
+				? brands?.map(({ img3, alt }, idx) => (
 						<SwiperSlide key={idx} className="client-item h5-client-item">
 							<div className="client-logo">
 								<img
 									src={img3 ? img3 : "/images/brands/h5-brand-1.webp"}
-									alt="Brand"
+									alt={alt || "Client logo"}
 								/>
 							</div>
 						</SwiperSlide>
