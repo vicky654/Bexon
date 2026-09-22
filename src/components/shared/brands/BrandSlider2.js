@@ -18,6 +18,7 @@ const BrandSlider2 = ({ type }) => {
 			autoplay={{
 				delay: 1,
 				disableOnInteraction: true,
+				pauseOnMouseEnter: true,
 			}}
 			className={`client-slider client-slider-2 ${
 				type === 2 ? "h6-client-slider" : ""

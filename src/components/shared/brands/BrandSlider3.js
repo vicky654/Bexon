@@ -18,6 +18,7 @@ const BrandSlider3 = ({ className }) => {
 			autoplay={{
 				delay: 1,
 				disableOnInteraction: true,
+				pauseOnMouseEnter: true,
 			}}
 			className={`client-slider client-slider-3`}
 			modules={[Autoplay]}
