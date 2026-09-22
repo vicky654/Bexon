@@ -17,7 +17,7 @@ const BrandSlider2 = ({ type }) => {
 			allowTouchMove={true}
 			autoplay={{
 				delay: 1,
-				disableOnInteraction: false,
+				disableOnInteraction: true,
 			}}
 			className={`client-slider client-slider-2 ${
 				type === 2 ? "h6-client-slider" : ""
