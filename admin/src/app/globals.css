@@ -1892,27 +1892,20 @@ a {
 .table th,
 .table td {
 	text-align: left;
-	padding: 12px 14px;
+	padding: 14px;
 	border-bottom: 1px solid #eef0f3;
 	font-size: 14px;
+	font-weight: 500;
+	color: #101223;
 }
 
 .table th {
-	font-size: 11.5px;
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-	color: rgba(255, 255, 255, 0.75);
-	background: #02092c;
-	border-bottom: none;
+	font-size: 13px;
+	text-transform: none;
+	letter-spacing: 0;
+	color: #374151;
+	background: transparent;
 	font-weight: 700;
-}
-
-.table th:first-child {
-	border-top-left-radius: 14px;
-}
-
-.table th:last-child {
-	border-top-right-radius: 14px;
 }
 
 .table-checkbox-col {
