@@ -33,6 +33,8 @@ export default function AdminTopbar({ onMenuClick, layout = "overlay", showMenuB
 
 	const isActive = href => (href === "/" ? pathname === "/" : pathname?.startsWith(href));
 	const isHorizontal = layout === "horizontal";
+	// Docked/mini sidebars already show the brand logo, so skip it here to avoid showing it twice.
+	const showBrandLogo = layout === "overlay" || layout === "horizontal";
 
 	return (
 		<header className="admin-topbar">
@@ -47,11 +49,12 @@ export default function AdminTopbar({ onMenuClick, layout = "overlay", showMenuB
 						<MenuIcon size={18} />
 					</button>
 				) : null}
-				<Link href="/" className="admin-topbar-brand">
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src="/images/logo.png" alt="DPDP Consultants" />
-					
-				</Link>
+				{showBrandLogo ? (
+					<Link href="/" className="admin-topbar-brand">
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img src="/images/logo.png" alt="DPDP Consultants" />
+					</Link>
+				) : null}
 				{isHorizontal ? (
 					<nav className="admin-topbar-nav">
 						{NAV_LINKS.map(({ href, label, Icon, badgeKey }) => (
