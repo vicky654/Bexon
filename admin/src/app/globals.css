@@ -423,8 +423,11 @@ a {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
-	transition: transform 0.25s ease;
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.5),
+		0 0 0 5px var(--stat-accent-soft, #f1f2f5),
+		0 4px 10px rgba(16, 18, 35, 0.08);
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .stat-card:hover .stat-card-icon {
@@ -478,6 +481,13 @@ a {
 	text-transform: uppercase;
 	letter-spacing: 0.04em;
 	white-space: nowrap;
+}
+
+.stat-card-caption {
+	font-size: 12.5px;
+	color: var(--stat-accent-strong, #6b7280);
+	font-weight: 600;
+	margin-top: -2px;
 }
 
 .dashboard-grid {

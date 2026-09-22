@@ -83,15 +83,38 @@ function formatRelativeTime(dateString) {
 	return `${diffYear} year${diffYear === 1 ? "" : "s"} ago`;
 }
 
-function StatCard({ label, value, tone, iconKey }) {
+function useCountUp(target, duration = 700) {
+	const [value, setValue] = useState(0);
+
+	useEffect(() => {
+		let frame;
+		const start = performance.now();
+
+		const tick = now => {
+			const progress = Math.min((now - start) / duration, 1);
+			const eased = 1 - Math.pow(1 - progress, 3);
+			setValue(Math.round(target * eased));
+			if (progress < 1) frame = requestAnimationFrame(tick);
+		};
+
+		frame = requestAnimationFrame(tick);
+		return () => cancelAnimationFrame(frame);
+	}, [target, duration]);
+
+	return value;
+}
+
+function StatCard({ label, value, tone, iconKey, caption }) {
+	const animatedValue = useCountUp(value);
 	return (
 		<div className="stat-card">
 			<div className={`stat-card-icon stat-card-icon-${tone || "default"}`}>
 				{ICONS[iconKey]}
 			</div>
 			<div className="stat-card-body">
-				<span className="stat-card-value">{value}</span>
+				<span className="stat-card-value">{animatedValue}</span>
 				<span className="stat-card-label">{label}</span>
+				{caption ? <span className="stat-card-caption">{caption}</span> : null}
 			</div>
 		</div>
 	);
@@ -145,10 +168,34 @@ function Dashboard() {
 			) : (
 				<div className="stat-grid">
 					<StatCard label="Total Posts" value={blogs.length} tone="blue" iconKey="posts" />
-					<StatCard label="Published" value={publishedCount} tone="green" iconKey="published" />
-					<StatCard label="Drafts" value={draftCount} tone="gray" iconKey="drafts" />
+					<StatCard
+						label="Published"
+						value={publishedCount}
+						tone="green"
+						iconKey="published"
+						caption={
+							blogs.length ? `${Math.round((publishedCount / blogs.length) * 100)}% of posts` : null
+						}
+					/>
+					<StatCard
+						label="Drafts"
+						value={draftCount}
+						tone="gray"
+						iconKey="drafts"
+						caption={blogs.length ? `${Math.round((draftCount / blogs.length) * 100)}% of posts` : null}
+					/>
 					<StatCard label="Total Messages" value={messages.length} tone="purple" iconKey="messages" />
-					<StatCard label="New Queries" value={newMessageCount} tone="amber" iconKey="alerts" />
+					<StatCard
+						label="New Queries"
+						value={newMessageCount}
+						tone="amber"
+						iconKey="alerts"
+						caption={
+							messages.length
+								? `${Math.round((newMessageCount / messages.length) * 100)}% unread`
+								: null
+						}
+					/>
 				</div>
 			)}
 
