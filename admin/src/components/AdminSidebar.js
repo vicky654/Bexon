@@ -22,7 +22,7 @@ const LINKS = [
 	{ href: "/settings", label: "Settings", Icon: SettingsIcon },
 ];
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ open, onClose }) {
 	const router = useRouter();
 	const pathname = usePathname();
 	const [unreadCount, setUnreadCount] = useState(0);
@@ -44,49 +44,55 @@ export default function AdminSidebar() {
 	const isActive = href => (href === "/" ? pathname === "/" : pathname?.startsWith(href));
 
 	return (
-		<aside className="admin-sidebar">
-			<div className="admin-sidebar-brand">
-				<div className="admin-sidebar-logo-wrap">
-					{/* eslint-disable-next-line @next/next/no-img-element */}
-					<img src="/images/logo.png" alt="DPDP Consultants" className="admin-sidebar-logo" />
+		<>
+			{open ? (
+				<div className="admin-sidebar-backdrop" onClick={onClose} aria-hidden="true" />
+			) : null}
+			<aside className={`admin-sidebar${open ? " admin-sidebar-open" : ""}`}>
+				<div className="admin-sidebar-brand">
+					<div className="admin-sidebar-logo-wrap">
+						{/* eslint-disable-next-line @next/next/no-img-element */}
+						<img src="/images/logo.png" alt="DPDP Consultants" className="admin-sidebar-logo" />
+					</div>
+					<span className="admin-sidebar-brand-sub">Admin Panel</span>
 				</div>
-				<span className="admin-sidebar-brand-sub">Admin Panel</span>
-			</div>
 
-			<div className="admin-sidebar-section">
-				<span className="admin-sidebar-section-label">Main Menu</span>
-				<nav className="admin-sidebar-nav">
-					{LINKS.map(({ href, label, Icon, badgeKey }) => (
-						<Link
-							key={href}
-							href={href}
-							className={`admin-sidebar-link${isActive(href) ? " admin-sidebar-link-active" : ""}`}
-						>
-							<Icon size={18} />
-							<span>{label}</span>
-							{badgeKey === "messages" && unreadCount > 0 ? (
-								<span className="admin-sidebar-badge">{unreadCount}</span>
-							) : null}
-						</Link>
-					))}
-				</nav>
-			</div>
+				<div className="admin-sidebar-section">
+					<span className="admin-sidebar-section-label">Main Menu</span>
+					<nav className="admin-sidebar-nav">
+						{LINKS.map(({ href, label, Icon, badgeKey }) => (
+							<Link
+								key={href}
+								href={href}
+								onClick={onClose}
+								className={`admin-sidebar-link${isActive(href) ? " admin-sidebar-link-active" : ""}`}
+							>
+								<Icon size={18} />
+								<span>{label}</span>
+								{badgeKey === "messages" && unreadCount > 0 ? (
+									<span className="admin-sidebar-badge">{unreadCount}</span>
+								) : null}
+							</Link>
+						))}
+					</nav>
+				</div>
 
-			<div className="admin-sidebar-footer">
-				<a
-					href={SITE_URL}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="admin-sidebar-link"
-				>
-					<ExternalLinkIcon size={18} />
-					<span>View Live Site</span>
-				</a>
-				<button type="button" className="admin-sidebar-link admin-sidebar-logout" onClick={handleLogout}>
-					<LogoutIcon size={18} />
-					<span>Log out</span>
-				</button>
-			</div>
-		</aside>
+				<div className="admin-sidebar-footer">
+					<a
+						href={SITE_URL}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="admin-sidebar-link"
+					>
+						<ExternalLinkIcon size={18} />
+						<span>View Live Site</span>
+					</a>
+					<button type="button" className="admin-sidebar-link admin-sidebar-logout" onClick={handleLogout}>
+						<LogoutIcon size={18} />
+						<span>Log out</span>
+					</button>
+				</div>
+			</aside>
+		</>
 	);
 }

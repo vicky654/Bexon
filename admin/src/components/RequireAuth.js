@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import apiFetch from "@/lib/api";
-import AdminSidebar from "./AdminSidebar";
+import AdminShell from "./AdminShell";
 
 export default function RequireAuth({ children }) {
 	const router = useRouter();
@@ -21,18 +21,11 @@ export default function RequireAuth({ children }) {
 	if (status !== "authenticated") {
 		return (
 			<div className="admin-shell">
-				<aside className="admin-sidebar">
-					<div className="admin-sidebar-brand">
-						<span className="skeleton" style={{ width: "40px", height: "40px", borderRadius: "10px" }} />
-					</div>
-					<div className="admin-sidebar-section">
-						<span className="skeleton" style={{ width: "80%", height: "14px", margin: "10px 12px" }} />
-						<span className="skeleton" style={{ width: "70%", height: "14px", margin: "10px 12px" }} />
-						<span className="skeleton" style={{ width: "75%", height: "14px", margin: "10px 12px" }} />
-						<span className="skeleton" style={{ width: "65%", height: "14px", margin: "10px 12px" }} />
-					</div>
-				</aside>
-				<main className="admin-main">
+				<div className="admin-main">
+					<header className="admin-topbar">
+						<span className="skeleton" style={{ width: "38px", height: "38px", borderRadius: "9px" }} />
+						<span className="skeleton" style={{ width: "120px", height: "18px" }} />
+					</header>
 					<div className="page">
 						<div className="skeleton-form">
 							<span className="skeleton" style={{ width: "30%", height: "24px" }} />
@@ -40,17 +33,10 @@ export default function RequireAuth({ children }) {
 							<span className="skeleton" style={{ width: "100%", height: "120px" }} />
 						</div>
 					</div>
-				</main>
+				</div>
 			</div>
 		);
 	}
 
-	return (
-		<div className="admin-shell">
-			<AdminSidebar />
-			<main className="admin-main">
-				<div className="page">{children}</div>
-			</main>
-		</div>
-	);
+	return <AdminShell>{children}</AdminShell>;
 }
