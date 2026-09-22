@@ -312,6 +312,7 @@ a {
 	display: grid;
 	grid-template-columns: repeat(5, minmax(0, 1fr));
 	gap: 24px;
+	margin-bottom: 32px;
 }
 
 .stat-grid .stat-card:nth-child(1) { animation-delay: 0.02s; }
