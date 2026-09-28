@@ -16,6 +16,8 @@ import "./assets/css/nice-select2.css";
 import "./assets/css/odometer-theme-default.css";
 import "./globals.scss";
 import { getSiteSettings } from "@/libs/settingsApi";
+import GoogleAdsTag from "@/components/shared/others/GoogleAdsTag";
+import TrackingCapture from "@/components/shared/others/TrackingCapture";
 
 const bodyFont = Mona_Sans({
 	variable: "--tj-ff-body",
@@ -70,6 +72,8 @@ export default async function RootLayout({ children }) {
 					</style>
 				) : null}
 				{children}
+				<TrackingCapture />
+				<GoogleAdsTag />
 			</body>
 		</html>
 	);
