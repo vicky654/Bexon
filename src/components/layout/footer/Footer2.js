@@ -155,14 +155,7 @@ const Footer2 = () => {
 							<div className="copyright-content-area">
 								<div className="copyright-text">
 									<p>
-										&copy; {new Date().getFullYear()} 
-										<Link
-											href="https://themeforest.net/user/theme-junction/portfolio"
-											target="_blank"
-										>
-											DPDP
-										</Link>{" "}
-										All right reserved
+										&copy; {new Date().getFullYear()} DPDP Consultants (Privacyium Tech Pvt. Ltd.) - All rights reserved
 									</p>
 								</div>
 								<div className="social-links style-3">
