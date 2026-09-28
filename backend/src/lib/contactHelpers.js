@@ -33,7 +33,7 @@ function isTestAddress(email) {
 
 function createRateLimiter({ max, windowMs }) {
 	const hits = new Map();
-	return key => {
+	const allow = key => {
 		const now = Date.now();
 		const recent = (hits.get(key) || []).filter(at => now - at < windowMs);
 
@@ -64,6 +64,9 @@ function createRateLimiter({ max, windowMs }) {
 
 		return true;
 	};
+	// Expose map size for testing eviction behavior
+	allow.size = () => hits.size;
+	return allow;
 }
 
 module.exports = {

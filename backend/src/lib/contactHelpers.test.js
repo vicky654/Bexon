@@ -49,25 +49,27 @@ test("sweeps expired keys from the map when size exceeds 1000", () => {
 	try {
 		const allow = createRateLimiter({ max: 1, windowMs: 100 });
 
-		// Hit 1001 distinct keys to trigger the sweep threshold
+		// (a) Hit 1001 distinct keys to trigger the sweep threshold
 		for (let i = 0; i < 1001; i++) {
 			assert.equal(allow(`key-${i}`), true);
 		}
+		assert.equal(allow.size(), 1001, "Map should have 1001 entries after hitting 1001 distinct keys");
 
-		// Advance time past the window so all hits expire
+		// (b) Advance time past the window and trigger sweep with a fresh key
 		currentTime = 150;
+		assert.equal(allow("fresh-key"), true);
+		// After sweep, only fresh-key should remain (all 1001 expired keys removed)
+		assert.equal(allow.size(), 1, "After sweep, only fresh-key should remain in the map");
 
-		// Make a new call, which triggers the sweep and cleans expired entries
-		assert.equal(allow("trigger-sweep"), true);
+		// (c) Test small map: hit key "a", advance time, hit again
+		currentTime = 0;
+		const allow2 = createRateLimiter({ max: 1, windowMs: 100 });
+		assert.equal(allow2("a"), true);
+		assert.equal(allow2.size(), 1, "Map should have 1 entry after first hit");
 
-		// Old keys should now be accessible again because they were evicted
-		// If they weren't evicted, the next call would return false (rate limited)
-		assert.equal(allow("key-0"), true);
-		assert.equal(allow("key-500"), true);
-
-		// Verify these keys can be limited again (the hits were cleared)
-		assert.equal(allow("key-0"), false); // Second hit should be blocked
-		assert.equal(allow("key-500"), false); // Second hit should be blocked
+		currentTime = 150; // Advance past window
+		assert.equal(allow2("a"), true, "Expired key should be allowed again");
+		assert.equal(allow2.size(), 1, "Size should stay 1, not 2 (old entry deleted, fresh hit added)");
 	} finally {
 		Date.now = originalDateNow;
 	}
