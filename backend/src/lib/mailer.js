@@ -1,6 +1,18 @@
 const nodemailer = require("nodemailer");
 
-async function sendContactNotification({ name, email, phone, service, message }) {
+async function sendContactNotification({
+	name,
+	email,
+	phone,
+	service,
+	message,
+	language,
+	utm,
+	referrer,
+	device,
+	ip,
+	consentRecorded,
+}) {
 	if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
 		console.log("SMTP not configured, skipping contact notification email.");
 		return;
@@ -28,11 +40,19 @@ async function sendContactNotification({ name, email, phone, service, message })
 			`Name: ${name}`,
 			`Email: ${email}`,
 			phone ? `Phone: ${phone}` : null,
-			service ? `Service: ${service}` : null,
+			service ? `Purpose: ${service}` : null,
+			language ? `Consent language: ${language}` : null,
+			`Consent recorded in portal: ${consentRecorded ? "Yes" : "No"}`,
 			"",
 			message,
+			"",
+			"-",
+			utm ? `UTM: ${utm}` : null,
+			referrer ? `Referrer: ${referrer}` : null,
+			device ? `Device: ${device}` : null,
+			ip ? `IP: ${ip}` : null,
 		]
-			.filter(Boolean)
+			.filter(line => line !== null)
 			.join("\n"),
 	});
 }

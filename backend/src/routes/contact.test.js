@@ -6,6 +6,7 @@ const testDbPath = path.join(__dirname, "../../data/test-contact.db");
 process.env.DATABASE_URL = `file:${testDbPath}`;
 delete process.env.SMTP_HOST;
 delete process.env.SMTP_USER;
+delete process.env.RECAPTCHA_SECRET;
 
 if (fs.existsSync(testDbPath)) fs.unlinkSync(testDbPath);
 execSync("npx prisma db push --skip-generate --schema=./prisma/schema.prisma", {
@@ -18,8 +19,21 @@ const test = require("node:test");
 const assert = require("node:assert/strict");
 const express = require("express");
 const request = require("supertest");
+const bcrypt = require("bcryptjs");
 const prisma = require("../lib/prisma");
+const consentPortal = require("../lib/consentPortal");
+const recaptcha = require("../lib/recaptcha");
 const contactRouter = require("./contact");
+
+const original = {
+	isConfigured: consentPortal.isConfigured,
+	getConsentNotices: consentPortal.getConsentNotices,
+	createConsent: consentPortal.createConsent,
+	verifyRecaptcha: recaptcha.verifyRecaptcha,
+};
+
+let portalCalls;
+let nextIp = 1;
 
 function buildApp() {
 	const app = express();
@@ -28,26 +42,326 @@ function buildApp() {
 	return app;
 }
 
-test("saves a submission and succeeds even with no SMTP configured", async () => {
-	const res = await request(buildApp()).post("/api/contact").send({
-		name: "Test User",
-		email: "test@example.com",
-		message: "Hello there",
-	});
+// Each test uses its own client IP so the per-IP start limiter doesn't
+// leak between tests.
+function freshIp() {
+	nextIp += 1;
+	return `10.0.0.${nextIp}`;
+}
 
-	assert.equal(res.status, 201);
+function portalOn({ otp = "123456", failOn } = {}) {
+	portalCalls = [];
+	consentPortal.isConfigured = () => true;
+	consentPortal.createConsent = async args => {
+		portalCalls.push(args);
+		if (failOn === "start" && !args.otp) throw new Error("portal down");
+		if (failOn === "record" && args.otp) throw new Error("portal down");
+		return args.otp ? { status: "Success" } : { otp };
+	};
+	recaptcha.verifyRecaptcha = async () => true;
+}
 
-	const saved = await prisma.contactSubmission.findUnique({
-		where: { id: res.body.id },
+function restore() {
+	Object.assign(consentPortal, {
+		isConfigured: original.isConfigured,
+		getConsentNotices: original.getConsentNotices,
+		createConsent: original.createConsent,
 	});
-	assert.equal(saved.name, "Test User");
-	assert.equal(saved.status, "new");
+	recaptcha.verifyRecaptcha = original.verifyRecaptcha;
+}
+
+const validLead = {
+	name: "Jane Doe",
+	email: "jane@example.com",
+	phone: "9876543210",
+	topic: "dpo_service",
+	message: "We need a DPO.",
+	tracking: { utm: "utm_source=linkedin", referrer: "https://www.linkedin.com/" },
+};
+
+async function start(app, ip, body = validLead) {
+	return request(app).post("/api/contact/start").set("X-Forwarded-For", ip).send(body);
+}
+
+test.afterEach(restore);
+
+test("config reports verification off when the portal is not configured", async () => {
+	consentPortal.isConfigured = () => false;
+	const res = await request(buildApp()).get("/api/contact/config");
+	assert.equal(res.status, 200);
+	assert.deepEqual(res.body, { verification: false, recaptchaSiteKey: "", notices: {} });
 });
 
-test("still returns 201 and saves the submission when SMTP is configured but sending fails", async () => {
+test("config returns portal notices and the site key", async () => {
+	consentPortal.isConfigured = () => true;
+	consentPortal.getConsentNotices = async () => ({ English: "<p>Notice</p>" });
+	process.env.RECAPTCHA_SITE_KEY = "site-key";
+	try {
+		const res = await request(buildApp()).get("/api/contact/config");
+		assert.deepEqual(res.body, {
+			verification: true,
+			recaptchaSiteKey: "site-key",
+			notices: { English: "<p>Notice</p>" },
+		});
+	} finally {
+		delete process.env.RECAPTCHA_SITE_KEY;
+	}
+});
+
+test("config still answers when the notice fetch fails", async () => {
+	consentPortal.isConfigured = () => true;
+	consentPortal.getConsentNotices = async () => {
+		throw new Error("portal down");
+	};
+	const res = await request(buildApp()).get("/api/contact/config");
+	assert.equal(res.status, 200);
+	assert.deepEqual(res.body.notices, {});
+});
+
+test("start saves directly when verification is off", async () => {
+	consentPortal.isConfigured = () => false;
+	const res = await start(buildApp(), freshIp(), { ...validLead, email: "direct@example.com" });
+	assert.equal(res.status, 201);
+	assert.deepEqual(res.body, { done: true });
+
+	const saved = await prisma.contactSubmission.findFirst({ where: { email: "direct@example.com" } });
+	assert.equal(saved.topic, "Data Protection Officer as a Service");
+	assert.equal(saved.service, "Data Protection Officer as a Service");
+	assert.equal(saved.utm, "utm_source=linkedin");
+	assert.equal(saved.consentRecorded, false);
+});
+
+test("start rejects invalid input with 400", async () => {
+	portalOn();
+	const app = buildApp();
+	const cases = [
+		{ ...validLead, message: "" },
+		{ ...validLead, email: "not-an-email" },
+		{ ...validLead, phone: "98765" },
+		{ ...validLead, topic: "business_strategy" },
+		{ ...validLead, name: 123 },
+		{ ...validLead, tracking: "x", phone: "12" },
+	];
+	for (const body of cases) {
+		const res = await start(app, freshIp(), body);
+		assert.equal(res.status, 400, JSON.stringify(body));
+		assert.ok(res.body.message);
+	}
+	const empty = await request(app).post("/api/contact/start").set("X-Forwarded-For", freshIp());
+	assert.equal(empty.status, 400);
+	assert.equal(portalCalls.length, 0);
+});
+
+test("start asks the portal for a code and stores only its hash", async () => {
+	portalOn();
+	const ip = freshIp();
+	const res = await start(buildApp(), ip, { ...validLead, email: "  Jane@Example.COM " });
+
+	assert.equal(res.status, 201);
+	assert.ok(res.body.verificationId);
+	assert.equal(JSON.stringify(res.body).includes("123456"), false);
+
+	assert.equal(portalCalls.length, 1);
+	assert.equal(portalCalls[0].otp, undefined);
+	assert.equal(portalCalls[0].email, "jane@example.com");
+	assert.equal(portalCalls[0].department, "Contact Us");
+	assert.equal(portalCalls[0].ipaddress, ip);
+	assert.equal(portalCalls[0].language, "English");
+
+	const row = await prisma.contactVerification.findUnique({ where: { id: res.body.verificationId } });
+	assert.equal(row.email, "jane@example.com");
+	assert.notEqual(row.otpHash, "123456");
+	assert.equal(await bcrypt.compare("123456", row.otpHash), true);
+});
+
+test("start returns 502 and stores nothing when the portal is down", async () => {
+	portalOn({ failOn: "start" });
+	const before = await prisma.contactVerification.count();
+	const res = await start(buildApp(), freshIp());
+	assert.equal(res.status, 502);
+	assert.match(res.body.message, /info@dpdpconsultants\.com/);
+	assert.equal(await prisma.contactVerification.count(), before);
+});
+
+test("start returns 502 when the portal response has no otp", async () => {
+	portalOn({ otp: "" });
+	const res = await start(buildApp(), freshIp());
+	assert.equal(res.status, 502);
+});
+
+test("start is limited to 5 requests per IP", async () => {
+	portalOn();
+	const app = buildApp();
+	const ip = freshIp();
+	for (let i = 0; i < 5; i += 1) {
+		assert.equal((await start(app, ip)).status, 201);
+	}
+	assert.equal((await start(app, ip)).status, 429);
+});
+
+test("verify with the right code records consent and saves the lead", async () => {
+	portalOn();
+	const app = buildApp();
+	const email = "verified@example.com";
+	const { body } = await start(app, freshIp(), { ...validLead, email });
+
+	const res = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "123456", language: "Hindi", recaptchaToken: "tok" });
+
+	assert.equal(res.status, 200);
+	assert.deepEqual(res.body, { done: true });
+	assert.equal(portalCalls[1].otp, "123456");
+	assert.equal(portalCalls[1].language, "Hindi");
+
+	const saved = await prisma.contactSubmission.findFirst({ where: { email } });
+	assert.equal(saved.consentRecorded, true);
+	assert.equal(saved.language, "Hindi");
+	assert.equal(saved.device, "Desktop");
+	assert.equal(await prisma.contactVerification.findUnique({ where: { id: body.verificationId } }), null);
+});
+
+test("verify accepts a code the portal returned as a number", async () => {
+	portalOn({ otp: 123456 });
+	const app = buildApp();
+	const { body } = await start(app, freshIp(), { ...validLead, email: "numeric@example.com" });
+	const res = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+	assert.equal(res.status, 200);
+});
+
+test("verify rejects a wrong code and counts the attempt", async () => {
+	portalOn();
+	const app = buildApp();
+	const { body } = await start(app, freshIp());
+	const res = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "000000", recaptchaToken: "tok" });
+
+	assert.equal(res.status, 400);
+	assert.deepEqual(res.body, { message: "Invalid OTP", field: "otp" });
+	const row = await prisma.contactVerification.findUnique({ where: { id: body.verificationId } });
+	assert.equal(row.attempts, 1);
+});
+
+test("the fifth wrong code ends the verification", async () => {
+	portalOn();
+	const app = buildApp();
+	const { body } = await start(app, freshIp());
+	const statuses = [];
+	for (let i = 0; i < 5; i += 1) {
+		const res = await request(app)
+			.post("/api/contact/verify")
+			.send({ verificationId: body.verificationId, otp: "000000", recaptchaToken: "tok" });
+		statuses.push(res.status);
+	}
+	assert.deepEqual(statuses, [400, 400, 400, 400, 429]);
+	assert.equal(await prisma.contactVerification.findUnique({ where: { id: body.verificationId } }), null);
+});
+
+test("verify returns 410 for an expired or unknown verification", async () => {
+	portalOn();
+	const app = buildApp();
+	const { body } = await start(app, freshIp());
+	await prisma.contactVerification.update({
+		where: { id: body.verificationId },
+		data: { expiresAt: new Date(Date.now() - 1000) },
+	});
+
+	const expired = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+	assert.equal(expired.status, 410);
+
+	const unknown = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: "does-not-exist", otp: "123456", recaptchaToken: "tok" });
+	assert.equal(unknown.status, 410);
+});
+
+test("verify rejects a failed reCAPTCHA without counting an attempt", async () => {
+	portalOn();
+	recaptcha.verifyRecaptcha = async () => false;
+	const app = buildApp();
+	const { body } = await start(app, freshIp());
+	const res = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "" });
+
+	assert.equal(res.status, 400);
+	assert.equal(res.body.field, "recaptcha");
+	const row = await prisma.contactVerification.findUnique({ where: { id: body.verificationId } });
+	assert.equal(row.attempts, 0);
+});
+
+test("the lead is still saved when recording consent fails", async () => {
+	portalOn({ failOn: "record" });
+	const app = buildApp();
+	const email = "consentfail@example.com";
+	const { body } = await start(app, freshIp(), { ...validLead, email });
+	const res = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+
+	assert.equal(res.status, 200);
+	const saved = await prisma.contactSubmission.findFirst({ where: { email } });
+	assert.equal(saved.consentRecorded, false);
+});
+
+test("two simultaneous verifies save the lead only once", async () => {
+	portalOn();
+	const app = buildApp();
+	const email = "doubleclick@example.com";
+	const { body } = await start(app, freshIp(), { ...validLead, email });
+	const send = () =>
+		request(app)
+			.post("/api/contact/verify")
+			.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+
+	const statuses = (await Promise.all([send(), send()])).map(res => res.status).sort();
+	assert.deepEqual(statuses, [200, 410]);
+	assert.equal(await prisma.contactSubmission.count({ where: { email } }), 1);
+});
+
+test("test addresses complete the flow without being saved", async () => {
+	portalOn();
+	const app = buildApp();
+	const email = "tester@yopmail.com";
+	const { body } = await start(app, freshIp(), { ...validLead, email });
+	const res = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+
+	assert.equal(res.status, 200);
+	assert.equal(await prisma.contactSubmission.count({ where: { email } }), 0);
+});
+
+test("resend waits 30 seconds, then sends a fresh code", async () => {
+	portalOn({ otp: "111111" });
+	const app = buildApp();
+	const { body } = await start(app, freshIp());
+
+	const tooSoon = await request(app).post("/api/contact/resend").send({ verificationId: body.verificationId });
+	assert.equal(tooSoon.status, 429);
+
+	await prisma.contactVerification.update({
+		where: { id: body.verificationId },
+		data: { lastSentAt: new Date(Date.now() - 31 * 1000), attempts: 3 },
+	});
+	portalOn({ otp: "222222" });
+	const res = await request(app).post("/api/contact/resend").send({ verificationId: body.verificationId });
+	assert.equal(res.status, 200);
+
+	const row = await prisma.contactVerification.findUnique({ where: { id: body.verificationId } });
+	assert.equal(row.attempts, 0);
+	assert.equal(await bcrypt.compare("222222", row.otpHash), true);
+});
+
+test("the lead is saved even when the notification email fails", async () => {
+	consentPortal.isConfigured = () => false;
 	process.env.SMTP_HOST = "smtp.example.com";
 	process.env.SMTP_USER = "sender@example.com";
-
 	const nodemailer = require("nodemailer");
 	const originalCreateTransport = nodemailer.createTransport;
 	nodemailer.createTransport = () => ({
@@ -57,36 +371,13 @@ test("still returns 201 and saves the submission when SMTP is configured but sen
 	});
 
 	try {
-		const res = await request(buildApp()).post("/api/contact").send({
-			name: "Test User Two",
-			email: "test2@example.com",
-			message: "This send should fail but the request should still succeed",
-		});
-
+		const email = "smtpfail@example.com";
+		const res = await start(buildApp(), freshIp(), { ...validLead, email });
 		assert.equal(res.status, 201);
-
-		const saved = await prisma.contactSubmission.findUnique({
-			where: { id: res.body.id },
-		});
-		assert.equal(saved.name, "Test User Two");
-		assert.equal(saved.status, "new");
+		assert.equal(await prisma.contactSubmission.count({ where: { email } }), 1);
 	} finally {
 		nodemailer.createTransport = originalCreateTransport;
 		delete process.env.SMTP_HOST;
 		delete process.env.SMTP_USER;
 	}
-});
-
-test("rejects a missing message", async () => {
-	const res = await request(buildApp())
-		.post("/api/contact")
-		.send({ name: "Test User", email: "test@example.com" });
-	assert.equal(res.status, 400);
-});
-
-test("rejects an invalid email", async () => {
-	const res = await request(buildApp())
-		.post("/api/contact")
-		.send({ name: "Test User", email: "not-an-email", message: "Hi" });
-	assert.equal(res.status, 400);
 });
