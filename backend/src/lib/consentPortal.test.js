@@ -164,3 +164,22 @@ test(
 		await assert.rejects(() => consentPortal.getConsentNotices("Contact Us"));
 	})
 );
+
+test(
+	"getConsentNotices caches a failure for 60 seconds, and _clearNoticeCache clears it",
+	withEnv(async () => {
+		let calls = 0;
+		global.fetch = async () => {
+			calls += 1;
+			return jsonResponse({ message: "portal down" }, 500);
+		};
+
+		await assert.rejects(() => consentPortal.getConsentNotices("Contact Us"));
+		await assert.rejects(() => consentPortal.getConsentNotices("Contact Us"));
+		assert.equal(calls, 1);
+
+		consentPortal._clearNoticeCache();
+		await assert.rejects(() => consentPortal.getConsentNotices("Contact Us"));
+		assert.equal(calls, 2);
+	})
+);

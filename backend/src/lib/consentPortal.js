@@ -1,8 +1,10 @@
 const jwt = require("jsonwebtoken");
 
 const NOTICE_TTL_MS = 10 * 60 * 1000;
+const NOTICE_FAILURE_TTL_MS = 60 * 1000;
 const REQUEST_TIMEOUT_MS = 15 * 1000;
 const noticeCache = new Map();
+const noticeFailureCache = new Map();
 
 function isConfigured() {
 	return Boolean(process.env.CONSENT_API_BASE && process.env.CONSENT_JWT_SECRET);
@@ -45,6 +47,20 @@ async function getConsentNotices(department) {
 	const cached = noticeCache.get(department);
 	if (cached && Date.now() - cached.at < NOTICE_TTL_MS) return cached.notices;
 
+	// The portal can be down for a while; don't hammer it once per request
+	// during that window, just replay the same failure for 60 seconds.
+	const failed = noticeFailureCache.get(department);
+	if (failed && Date.now() - failed.at < NOTICE_FAILURE_TTL_MS) throw failed.error;
+
+	try {
+		return await fetchConsentNotices(department);
+	} catch (error) {
+		noticeFailureCache.set(department, { at: Date.now(), error });
+		throw error;
+	}
+}
+
+async function fetchConsentNotices(department) {
 	const query = new URLSearchParams({ department_name: department });
 	const res = await fetch(`${baseUrl()}/api/v2/get/template_details?${query}`, {
 		headers: { Authorization: `Bearer ${buildToken()}` },
@@ -102,6 +118,7 @@ async function createConsent({ name, email, phone, ipaddress, department, device
 
 function _clearNoticeCache() {
 	noticeCache.clear();
+	noticeFailureCache.clear();
 }
 
 module.exports = { isConfigured, buildToken, getConsentNotices, createConsent, _clearNoticeCache };
