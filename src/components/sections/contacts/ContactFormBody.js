@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import ReactNiceSelect from "@/components/shared/Inputs/ReactNiceSelect";
 import Recaptcha from "@/components/shared/Inputs/Recaptcha";
@@ -10,6 +11,13 @@ import { CONTACT_TOPIC_OPTIONS } from "@/libs/contactTopics";
 // value of useContactForm().
 const ContactFormBody = ({ form, submitText }) => {
 	const locked = form.step === "otp";
+	const [recaptchaError, setRecaptchaError] = useState(false);
+
+	// The widget remounts (new React key) whenever the token is reset, so a
+	// stale load-error from a previous mount shouldn't stick around.
+	useEffect(() => {
+		setRecaptchaError(false);
+	}, [form.recaptchaKey]);
 
 	return (
 		<div className="row">
@@ -18,6 +26,7 @@ const ContactFormBody = ({ form, submitText }) => {
 					<input
 						type="text"
 						name="name"
+						maxLength={100}
 						placeholder="Full Name *"
 						value={form.formData.name}
 						onChange={form.handleChange}
@@ -30,6 +39,7 @@ const ContactFormBody = ({ form, submitText }) => {
 					<input
 						type="email"
 						name="email"
+						maxLength={254}
 						placeholder="Email Address *"
 						value={form.formData.email}
 						onChange={form.handleChange}
@@ -71,6 +81,7 @@ const ContactFormBody = ({ form, submitText }) => {
 				<div className="form-input message-input">
 					<textarea
 						name="message"
+						maxLength={5000}
 						placeholder="Type message *"
 						value={form.formData.message}
 						onChange={form.handleChange}
@@ -111,7 +122,7 @@ const ContactFormBody = ({ form, submitText }) => {
 							type="button"
 							className="btn btn-link p-0"
 							onClick={form.resendCode}
-							disabled={form.resendIn > 0}
+							disabled={form.resendIn > 0 || form.isResending}
 						>
 							{form.resendIn > 0 ? `Resend code in ${form.resendIn}s` : "Resend code"}
 						</button>
@@ -122,7 +133,14 @@ const ContactFormBody = ({ form, submitText }) => {
 								key={form.recaptchaKey}
 								siteKey={form.config.recaptchaSiteKey}
 								onChange={form.setRecaptchaToken}
+								onError={() => setRecaptchaError(true)}
 							/>
+							{recaptchaError ? (
+								<span className="d-block mt-1" style={{ color: "red" }}>
+									Couldn&apos;t load the security check. Please disable content blockers and reload,
+									or email us at info@dpdpconsultants.com.
+								</span>
+							) : null}
 						</div>
 					) : null}
 				</div>
