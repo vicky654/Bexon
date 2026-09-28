@@ -36,12 +36,32 @@ function createRateLimiter({ max, windowMs }) {
 	return key => {
 		const now = Date.now();
 		const recent = (hits.get(key) || []).filter(at => now - at < windowMs);
+
+		// Delete the key if no recent hits remain
+		if (recent.length === 0) {
+			hits.delete(key);
+		}
+
 		if (recent.length >= max) {
 			hits.set(key, recent);
 			return false;
 		}
+
 		recent.push(now);
 		hits.set(key, recent);
+
+		// Sweep the map when size exceeds 1000 to prevent unbounded growth
+		if (hits.size > 1000) {
+			for (const [k, v] of hits.entries()) {
+				const filtered = v.filter(at => now - at < windowMs);
+				if (filtered.length === 0) {
+					hits.delete(k);
+				} else {
+					hits.set(k, filtered);
+				}
+			}
+		}
+
 		return true;
 	};
 }

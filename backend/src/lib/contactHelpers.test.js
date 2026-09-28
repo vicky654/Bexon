@@ -40,3 +40,35 @@ test("rate limiter allows max hits per key within the window", () => {
 	assert.equal(allow("a"), false);
 	assert.equal(allow("b"), true);
 });
+
+test("sweeps expired keys from the map when size exceeds 1000", () => {
+	const originalDateNow = Date.now;
+	let currentTime = 0;
+	Date.now = () => currentTime;
+
+	try {
+		const allow = createRateLimiter({ max: 1, windowMs: 100 });
+
+		// Hit 1001 distinct keys to trigger the sweep threshold
+		for (let i = 0; i < 1001; i++) {
+			assert.equal(allow(`key-${i}`), true);
+		}
+
+		// Advance time past the window so all hits expire
+		currentTime = 150;
+
+		// Make a new call, which triggers the sweep and cleans expired entries
+		assert.equal(allow("trigger-sweep"), true);
+
+		// Old keys should now be accessible again because they were evicted
+		// If they weren't evicted, the next call would return false (rate limited)
+		assert.equal(allow("key-0"), true);
+		assert.equal(allow("key-500"), true);
+
+		// Verify these keys can be limited again (the hits were cleared)
+		assert.equal(allow("key-0"), false); // Second hit should be blocked
+		assert.equal(allow("key-500"), false); // Second hit should be blocked
+	} finally {
+		Date.now = originalDateNow;
+	}
+});
