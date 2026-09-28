@@ -85,7 +85,7 @@ Wraps the portal. Signs an HS256 JWT per request with payload
 
 - `isConfigured()` — true when `CONSENT_API_BASE` and `CONSENT_JWT_SECRET` are set.
 - `getConsentNotices(department)` — `GET {base}/api/v2/get/template_details?department_name=…`;
-  returns `{ [language]: { content } }` from `data`. Cached in memory 10 minutes per department.
+  returns `{ [language]: html }` built from each `data[language].content`. Cached in memory 10 minutes per department.
 - `createConsent({ name, email, phone, ipaddress, department, devicetype, language, otp? })` —
   `POST {base}/api/v2/create_consent`, form-encoded, Bearer token. Without
   `otp`, the portal emails a code and returns it as `otp` in the JSON; with
