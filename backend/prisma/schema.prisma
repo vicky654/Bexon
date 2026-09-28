@@ -26,14 +26,36 @@ model Blog {
 }
 
 model ContactSubmission {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String
-  phone     String?
-  service   String?
-  message   String
-  status    String   @default("new")
-  createdAt DateTime @default(now())
+  id              Int      @id @default(autoincrement())
+  name            String
+  email           String
+  phone           String?
+  service         String?
+  topic           String?
+  message         String
+  language        String?
+  utm             String?
+  referrer        String?
+  device          String?
+  ip              String?
+  consentRecorded Boolean  @default(false)
+  status          String   @default("new")
+  createdAt       DateTime @default(now())
+}
+
+model ContactVerification {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  phone      String
+  topic      String
+  message    String
+  tracking   String
+  otpHash    String
+  attempts   Int      @default(0)
+  lastSentAt DateTime @default(now())
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
 }
 
 model Admin {
