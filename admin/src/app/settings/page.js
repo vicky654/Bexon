@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import apiFetch from "@/lib/api";
 import RequireAuth from "@/components/RequireAuth";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import ColorSuggestPanel from "@/components/ColorSuggestPanel";
 import { CheckIcon } from "@/components/Icons";
 import { SkeletonSwatchGrid } from "@/components/Skeleton";
 import { useSidebarLayout, SIDEBAR_LAYOUTS } from "@/lib/sidebarLayout";
@@ -124,6 +125,12 @@ function SettingsForm() {
 		setValues(prev => ({ ...prev, [key]: value }));
 	};
 
+	const handleSuggested = palette => {
+		setError("");
+		setSuccess("Suggested colors filled in. Press Save to apply them.");
+		setValues(prev => ({ ...prev, ...palette }));
+	};
+
 	const handleReset = () => {
 		setError("");
 		setSuccess("");
@@ -183,6 +190,7 @@ function SettingsForm() {
 			) : (
 				<form onSubmit={handleSubmit} className="form">
 					<h2 style={{ margin: "0 0 4px", fontSize: "16px" }}>Site Colors</h2>
+					<ColorSuggestPanel onSuggested={handleSuggested} />
 					<div className="settings-swatch-grid">
 						{COLOR_FIELDS.map(field => (
 							<div className="settings-swatch-card" key={field.key}>
