@@ -51,8 +51,32 @@ export default function MessageDetailModal({ message, onClose, onMarkRead }) {
 							<dd>{message.phone || "—"}</dd>
 						</div>
 						<div>
-							<dt>Service</dt>
-							<dd>{message.service || "—"}</dd>
+							<dt>Purpose</dt>
+							<dd>{message.topic || message.service || "—"}</dd>
+						</div>
+						<div>
+							<dt>Consent recorded</dt>
+							<dd>{message.consentRecorded ? "Yes" : "No"}</dd>
+						</div>
+						<div>
+							<dt>Consent language</dt>
+							<dd>{message.language || "—"}</dd>
+						</div>
+						<div>
+							<dt>Device</dt>
+							<dd>{message.device || "—"}</dd>
+						</div>
+						<div>
+							<dt>UTM</dt>
+							<dd>{message.utm || "—"}</dd>
+						</div>
+						<div>
+							<dt>Referrer</dt>
+							<dd>{message.referrer || "—"}</dd>
+						</div>
+						<div>
+							<dt>IP address</dt>
+							<dd>{message.ip || "—"}</dd>
 						</div>
 						<div>
 							<dt>Received</dt>
