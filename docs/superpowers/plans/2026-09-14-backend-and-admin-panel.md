@@ -2537,7 +2537,7 @@ Create `admin/package.json`:
 
 ```json
 {
-	"name": "bexon-admin",
+	"name": "dpdp-admin",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -2732,7 +2732,7 @@ body {
 import "./globals.css";
 
 export const metadata = {
-	title: "Bexon Admin",
+	title: "DPDP Admin",
 	description: "Manage blog posts and contact submissions.",
 };
 

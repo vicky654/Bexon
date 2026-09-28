@@ -15,10 +15,10 @@ const Footer10 = () => {
 								<Link
 									className="text-btn wow fadeInUp"
 									data-wow-delay=".3s"
-									href="mailto:hello@bexon.com"
+									href="mailto:info@dpdpconsultants.com"
 								>
 									<span className="btn-text">
-										<span>hello@bexon.com</span>
+										<span>info@dpdpconsultants.com</span>
 									</span>
 								</Link>
 								<div
@@ -97,8 +97,8 @@ const Footer10 = () => {
 									</div>
 									<div className="contact-item">
 										<Link href="tel:10095447818">P: +1 (009) 544-7818</Link>
-										<Link href="mailto:support@bexon.com">
-											M: support@bexon.com
+										<Link href="mailto:info@dpdpconsultants.com">
+											M: info@dpdpconsultants.com
 										</Link>
 									</div>
 									<div className="contact-item">
@@ -177,7 +177,7 @@ const Footer10 = () => {
 											href="https://themeforest.net/user/theme-junction/portfolio"
 											target="_blank"
 										>
-											Bexon
+											DPDP
 										</Link>{" "}
 										All right reserved
 									</p>

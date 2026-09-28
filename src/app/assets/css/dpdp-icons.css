@@ -1,10 +1,10 @@
 @font-face {
-	font-family: "bexon-icons";
-	src: url("../fonts/bexon-icons.eot?yu4jya");
-	src: url("../fonts/bexon-icons.eot?yu4jya#iefix") format("embedded-opentype"),
-		url("../fonts/bexon-icons.ttf?yu4jya") format("truetype"),
-		url("../fonts/bexon-icons.woff?yu4jya") format("woff"),
-		url("../fonts/bexon-icons.svg?yu4jya#bexon-icons") format("svg");
+	font-family: "dpdp-icons";
+	src: url("../fonts/dpdp-icons.eot?yu4jya");
+	src: url("../fonts/dpdp-icons.eot?yu4jya#iefix") format("embedded-opentype"),
+		url("../fonts/dpdp-icons.ttf?yu4jya") format("truetype"),
+		url("../fonts/dpdp-icons.woff?yu4jya") format("woff"),
+		url("../fonts/dpdp-icons.svg?yu4jya#dpdp-icons") format("svg");
 	font-weight: normal;
 	font-style: normal;
 	font-display: block;
@@ -13,7 +13,7 @@
 [class^="tji-"],
 [class*=" tji-"] {
 	/* use !important to prevent issues with browser extensions that change fonts */
-	font-family: "bexon-icons" !important;
+	font-family: "dpdp-icons" !important;
 	speak: never;
 	font-style: normal;
 	font-weight: normal;

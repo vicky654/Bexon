@@ -5,7 +5,7 @@ Status: Approved by user, ready for implementation planning
 
 ## Purpose
 
-Today the Bexon site has two "dynamic-ish" features that were built in an
+Today the DPDP site has two "dynamic-ish" features that were built in an
 earlier session:
 
 - Blogs, sourced from a static `public/fakedata/blogs.json` file, exposed
@@ -41,7 +41,7 @@ three top-level folders in this one repo (a repo split is a non-code
 change later if ever wanted):
 
 ```
-bexon/
+dpdp/
 ├── src/, public/, ...        # existing live site — UNCHANGED location
 ├── backend/                  # NEW — standalone API + database
 │   ├── prisma/

@@ -46,7 +46,7 @@ const Team2 = () => {
 							</span>
 							<div className="heading-wrap-content">
 								<div className="sec-heading style-3">
-									<h2 className="sec-title title-anim">People Behind Bexon.</h2>
+									<h2 className="sec-title title-anim">People Behind DPDP.</h2>
 								</div>
 								<div className="btn-wrap wow fadeInUp" data-wow-delay=".5s">
 									<ButtonPrimary text="More Members" url="/team" />

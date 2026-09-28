@@ -133,11 +133,11 @@ const Footer7 = () => {
 											</Link>
 										</li>
 										<li>
-											<Link href="mailto:info@bexon.com">
+											<Link href="mailto:info@dpdpconsultants.com">
 												<span className="icon">
 													<i className="tji-envelop-2"></i>
 												</span>
-												<span className="text">info@bexon.com</span>
+												<span className="text">info@dpdpconsultants.com</span>
 											</Link>
 										</li>
 									</ul>
@@ -173,7 +173,7 @@ const Footer7 = () => {
 											href="https://themeforest.net/user/theme-junction/portfolio"
 											target="_blank"
 										>
-											Bexon
+											DPDP
 										</Link>{" "}
 										All right reserved
 									</p>

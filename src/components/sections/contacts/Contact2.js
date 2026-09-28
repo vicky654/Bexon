@@ -26,8 +26,8 @@ const Contact2 = () => {
 										<span>Head office:</span>
 										<p>993 Renner Burg, West Rond, MT 94251-030, USA.</p>
 										<Link href="tel:10095447818">P: +1 (009) 544-7818</Link>
-										<Link href="mailto:support@bexon.com">
-											M: support@bexon.com
+										<Link href="mailto:info@dpdpconsultants.com">
+											M: info@dpdpconsultants.com
 										</Link>
 									</div>
 								</div>
@@ -36,8 +36,8 @@ const Contact2 = () => {
 										<span>Regional office:</span>
 										<p>Hessisch Lichtenau 37235, Kassel, Germany.</p>
 										<Link href="tel:10098801810">P: +1 (009) 880-1810</Link>
-										<Link href="mailto:support@bexon.com">
-											M: support@bexon.com
+										<Link href="mailto:info@dpdpconsultants.com">
+											M: info@dpdpconsultants.com
 										</Link>
 									</div>
 								</div>
@@ -46,8 +46,8 @@ const Contact2 = () => {
 										<span>Regional office:</span>
 										<p>32 Altamira, State of Pará, Brazil.</p>
 										<Link href="tel:10095447818">P: +1 (009) 544-7818</Link>
-										<Link href="mailto:support@bexon.com">
-											M: support@bexon.com
+										<Link href="mailto:info@dpdpconsultants.com">
+											M: info@dpdpconsultants.com
 										</Link>
 									</div>
 								</div>

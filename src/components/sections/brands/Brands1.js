@@ -15,7 +15,7 @@ const Brands1 = ({ type = 1 }) => {
 							<h5 className="sec-title">
 								Join Over <span className="client-numbers">1000+</span>{" "}
 								Companies with
-								<span className="client-text">Bexon</span> Here
+								<span className="client-text">DPDP</span> Here
 							</h5>
 						</div>
 						<BrandSlider1 />

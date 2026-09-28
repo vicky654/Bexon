@@ -7,7 +7,7 @@ import Link from "next/link";
 const Faq2 = ({ type = 1 }) => {
 	const items = [
 		{
-			title: "What services does Bexon offer to clients?",
+			title: "What services does DPDP offer to clients?",
 			desc: "	Getting started is easy! Simply reach out to us through our contact form or give us a call, and we’ll schedule a consultation to discuss your project and how we can best assist you. Our team keeps you informed throughout the process, ensuring quality control and timely delivery.",
 			initActive: true,
 		},

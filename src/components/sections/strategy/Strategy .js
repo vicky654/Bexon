@@ -35,7 +35,7 @@ const Strategy = () => {
 								<div className="count-inner h5-strategy-counter-inner">
 									<FunfactSingle currentValue={200} />
 									<span className="count-text">
-										Satisfied customers work with our Bexon.
+										Satisfied customers work with our DPDP.
 									</span>
 								</div>
 							</div>

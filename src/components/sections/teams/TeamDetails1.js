@@ -55,8 +55,8 @@ const TeamDetails1 = ({ currentItemId }) => {
 								<ul>
 									<li>
 										<span>Email address</span>
-										<a href="mailto:eade.marren@bexon.com">
-											eade.marren@bexon.com
+										<a href="mailto:info@dpdpconsultants.com">
+											info@dpdpconsultants.com
 										</a>
 									</li>
 									<li>

@@ -40,10 +40,10 @@ const ContactTop = () => {
 							<h3 className="contact-title">Email us</h3>
 							<ul className="contact-list">
 								<li>
-									<Link href="mailto:support@bexon.com">support@bexon.com</Link>
+									<Link href="mailto:info@dpdpconsultants.com">info@dpdpconsultants.com</Link>
 								</li>
 								<li>
-									<Link href="mailto:info@bexon.com">info@bexon.com</Link>
+									<Link href="mailto:info@dpdpconsultants.com">info@dpdpconsultants.com</Link>
 								</li>
 							</ul>
 						</div>
@@ -78,8 +78,8 @@ const ContactTop = () => {
 							<h3 className="contact-title">Live chat</h3>
 							<ul className="contact-list">
 								<li>
-									<Link href="mailto:livechat@bexon.com">
-										livechat@bexon.com
+									<Link href="mailto:info@dpdpconsultants.com">
+										info@dpdpconsultants.com
 									</Link>
 								</li>
 								<li className="active">

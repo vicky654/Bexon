@@ -26,7 +26,7 @@ const TestimonialsCard8 = ({ testimonial, idx, className }) => {
 			</div>
 			<div className="desc">
 				<p>
-					“Working with Bexon has been a game-changer business. Their team's
+					“Working with DPDP has been a game-changer business. Their team's
 					profession alism, attention to detail, and innovative solutions have
 					help streamline operations our goals faster than imagined. We truly
 					feel like a valued partner.”

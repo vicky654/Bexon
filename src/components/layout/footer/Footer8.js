@@ -24,7 +24,7 @@ const Footer8 = () => {
 									<div className="footer-text">
 										<p>
 											Developing personalze our customer journeys to increase
-											satisfaction & loyalty of our expansion. Bexon has been a
+											satisfaction & loyalty of our expansion. DPDP has been a
 											game.
 										</p>
 									</div>
@@ -73,8 +73,8 @@ const Footer8 = () => {
 									</div>
 									<div className="contact-item">
 										<Link href="tel:10095447818">P: +1 (009) 544-7818</Link>
-										<Link href="mailto:support@bexon.com">
-											M: support@bexon.com
+										<Link href="mailto:info@dpdpconsultants.com">
+											M: info@dpdpconsultants.com
 										</Link>
 									</div>
 									<div className="contact-item">
@@ -187,7 +187,7 @@ const Footer8 = () => {
 											href="https://themeforest.net/user/theme-junction/portfolio"
 											target="_blank"
 										>
-											Bexon
+											DPDP
 										</Link>{" "}
 										All right reserved
 									</p>

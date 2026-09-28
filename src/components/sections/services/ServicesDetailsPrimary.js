@@ -133,7 +133,7 @@ const ServicesDetailsPrimary = ({ option }) => {
 									Our Range of Customer Services
 								</h3>
 								<p className="wow fadeInUp" data-wow-delay=".3s">
-									At Bexon, we don't just focus on solving customer problems—we
+									At DPDP, we don't just focus on solving customer problems—we
 									focus on creating experiences that delight and build lasting
 									relationships. Whether it's through improving customer service
 									operations, leveraging technology, or designing more engaging

@@ -50,7 +50,7 @@ const Team1 = ({ type }) => {
 									Meet Our Team
 								</span>
 								{type === 4 ? (
-									<h2 className="sec-title title-anim">People Behind Bexon.</h2>
+									<h2 className="sec-title title-anim">People Behind DPDP.</h2>
 								) : type === 3 ? (
 									<h2 className="sec-title title-anim">
 										Success <span>Stories</span> Fuel our Innovation.
@@ -61,7 +61,7 @@ const Team1 = ({ type }) => {
 											type === 2 ? "title-anim" : "text-anim"
 										}`}
 									>
-										People Behind <span>Bexon.</span>
+										People Behind <span>DPDP.</span>
 									</h2>
 								)}
 							</div>

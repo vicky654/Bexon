@@ -55,22 +55,22 @@ const Hero3 = () => {
 								<div className="brand-name wow fadeIn" data-wow-delay="2.2s">
 									<div className="marquee-vr">
 										<span className="text">
-											Bexon<span className="icon">/</span>
+											DPDP<span className="icon">/</span>
 										</span>
 										<span className="text">
-											Bexon<span className="icon">/</span>
+											DPDP<span className="icon">/</span>
 										</span>
 										<span className="text">
-											Bexon<span className="icon">/</span>
+											DPDP<span className="icon">/</span>
 										</span>
 										<span className="text">
-											Bexon<span className="icon">/</span>
+											DPDP<span className="icon">/</span>
 										</span>
 										<span className="text">
-											Bexon<span className="icon">/</span>
+											DPDP<span className="icon">/</span>
 										</span>
 										<span className="text">
-											Bexon<span className="icon">/</span>
+											DPDP<span className="icon">/</span>
 										</span>
 									</div>
 								</div>

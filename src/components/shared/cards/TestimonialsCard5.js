@@ -40,7 +40,7 @@ const TestimonialsCard5 = ({ testimonial }) => {
 			</div>
 			<div className="desc">
 				<p>
-					“Working with Bexon has been a game-changer for our business. Their
+					“Working with DPDP has been a game-changer for our business. Their
 					team's professionalism, attention to detail, and innovative solutions
 					have helped us streamline operations our goals faster than imagined.
 					We truly feel like a valued partner.”
