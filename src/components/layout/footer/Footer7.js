@@ -168,7 +168,7 @@ const Footer7 = () => {
 								</div>
 								<div className="copyright-text">
 									<p>
-										&copy; 2025 
+										&copy; {new Date().getFullYear()} 
 										<Link
 											href="https://themeforest.net/user/theme-junction/portfolio"
 											target="_blank"
