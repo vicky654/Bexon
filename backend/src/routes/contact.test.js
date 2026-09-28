@@ -8,6 +8,21 @@ delete process.env.SMTP_HOST;
 delete process.env.SMTP_USER;
 delete process.env.RECAPTCHA_SECRET;
 
+// These tests exercise the "portal/reCAPTCHA not configured" paths and stub
+// consentPortal/recaptcha directly, so real values left in backend/.env (a
+// dev convenience) must not leak in and produce a live-configured backend.
+const REAL_ENV_VARS_TO_CLEAR = [
+	"RECAPTCHA_SITE_KEY",
+	"CONSENT_API_BASE",
+	"CONSENT_JWT_SECRET",
+	"CONSENT_JWT_ISS",
+	"CONSENT_JWT_AUD",
+	"CONSENT_JWT_EMAIL",
+	"CONSENT_DEPARTMENT",
+	"TRUST_PROXY",
+];
+for (const name of REAL_ENV_VARS_TO_CLEAR) delete process.env[name];
+
 if (fs.existsSync(testDbPath)) fs.unlinkSync(testDbPath);
 execSync("npx prisma db push --skip-generate --schema=./prisma/schema.prisma", {
 	cwd: path.join(__dirname, "../.."),
@@ -21,6 +36,12 @@ const express = require("express");
 const request = require("supertest");
 const bcrypt = require("bcryptjs");
 const prisma = require("../lib/prisma");
+
+// Requiring the Prisma client can itself load backend/.env (dotenv doesn't
+// overwrite vars that are already set, but ours were just deleted above), so
+// clear them again here in case that happened.
+for (const name of REAL_ENV_VARS_TO_CLEAR) delete process.env[name];
+
 const consentPortal = require("../lib/consentPortal");
 const recaptcha = require("../lib/recaptcha");
 const contactRouter = require("./contact");
