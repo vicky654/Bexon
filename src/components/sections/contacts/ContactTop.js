@@ -26,7 +26,7 @@ const ContactTop = () => {
 								<i className="tji-location-3"></i>
 							</div>
 							<h3 className="contact-title">Our Location</h3>
-							<p>993 Renner Burg, West Rond, MT 94251-030</p>
+							<p>GM IT Park, 4th Floor, Plot no 32-33, Sector 142, Noida 201305, Uttar Pradesh</p>
 						</div>
 					</div>
 					<div className="col-xl-3 col-lg-6 col-sm-6">

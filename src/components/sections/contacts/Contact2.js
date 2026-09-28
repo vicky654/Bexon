@@ -24,7 +24,7 @@ const Contact2 = () => {
 								<div className="location-indicator loc-1">
 									<div className="location-tooltip">
 										<span>Head office:</span>
-										<p>993 Renner Burg, West Rond, MT 94251-030, USA.</p>
+										<p>GM IT Park, 4th Floor, Plot no 32-33, Sector 142, Noida 201305, Uttar Pradesh</p>
 										<Link href="tel:10095447818">P: +1 (009) 544-7818</Link>
 										<Link href="mailto:info@dpdpconsultants.com">
 											M: info@dpdpconsultants.com
