@@ -40,6 +40,7 @@ const useContactForm = () => {
 	const [consentOpen, setConsentOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [resendIn, setResendIn] = useState(0);
+	const [isResending, setIsResending] = useState(false);
 
 	useEffect(() => {
 		fetch("/api/contact/config")
@@ -140,17 +141,24 @@ const useContactForm = () => {
 	};
 
 	const resendCode = async () => {
-		if (resendIn > 0) return;
-		const { status, ok, data } = await postJson("/api/contact/resend", { verificationId });
-		if (ok) {
-			setOtp("");
-			setOtpError("");
-			setResendIn(RESEND_WAIT_SECONDS);
-			creteAlert("success", `A new code has been sent to ${formData.email}.`);
-			return;
+		if (resendIn > 0 || isResending) return;
+		setIsResending(true);
+		try {
+			const { status, ok, data } = await postJson("/api/contact/resend", { verificationId });
+			if (ok) {
+				setOtp("");
+				setOtpError("");
+				setResendIn(RESEND_WAIT_SECONDS);
+				creteAlert("success", `A new code has been sent to ${formData.email}.`);
+				return;
+			}
+			creteAlert("error", data?.message || "Couldn't resend the code. Please try again.");
+			if (status === 410) backToForm();
+		} catch {
+			creteAlert("error", "Couldn't resend the code. Please try again.");
+		} finally {
+			setIsResending(false);
 		}
-		creteAlert("error", data?.message || "Couldn't resend the code. Please try again.");
-		if (status === 410) backToForm();
 	};
 
 	const openConsent = () => {
@@ -173,12 +181,15 @@ const useContactForm = () => {
 				return;
 			}
 			setConsentOpen(false);
+			// The backend has already consumed this reCAPTCHA token (tokens are
+			// single-use), so any failed /verify must reset it before the visitor
+			// can retry, whichever branch below runs next.
+			resetRecaptcha();
 			if (data?.field === "otp") {
 				setOtpError(data.message || "Invalid OTP");
 				return;
 			}
 			if (data?.field === "recaptcha") {
-				resetRecaptcha();
 				creteAlert("error", data.message);
 				return;
 			}
@@ -201,6 +212,7 @@ const useContactForm = () => {
 		recaptchaKey,
 		canProceed,
 		resendIn,
+		isResending,
 		consentOpen,
 		handleChange,
 		handleTopicChange,
