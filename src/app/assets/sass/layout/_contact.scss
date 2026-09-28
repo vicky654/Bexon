@@ -124,16 +124,37 @@ START: Contact CSS
 			line-height: 1.5;
 			border-radius: 0;
 			margin-bottom: 27px;
+			.current {
+				display: block;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				padding-inline-end: 24px;
+			}
 			.list {
 				width: 100%;
+				max-height: 320px;
+				overflow-y: auto;
 				border-radius: 8px;
+				box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 				.option {
-					color: var(--tj-color-theme-dark);
-					padding: 0 20px;
+					color: var(--tj-color-heading-primary);
+					padding: 10px 20px;
+					line-height: 1.4;
+					min-height: 0;
+					// Long purposes wrap instead of being cut off.
+					white-space: normal;
 					&:hover,
 					&.focus {
 						background: var(--tj-color-theme-bg);
-						color: var(--tj-color-theme-dark);
+						color: var(--tj-color-heading-primary);
+					}
+					&.selected {
+						font-weight: 600;
+					}
+					// The "Purpose of reaching out" placeholder isn't a real choice.
+					&[data-value=""] {
+						display: none;
 					}
 				}
 			}
