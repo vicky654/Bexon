@@ -33,6 +33,12 @@ const sendLimiter = createRateLimiter({ max: 5, windowMs: 10 * 60 * 1000 });
 // also cap how often one inbox can be sent codes, regardless of IP.
 const emailSendLimiter = createRateLimiter({ max: 5, windowMs: 10 * 60 * 1000 });
 
+// Circuit breaker shared by /start and /resend: a hard ceiling on portal OTP
+// sends across all visitors, in case the per-IP/per-email limiters are
+// evaded at scale (e.g. spoofed IPs with distinct throwaway emails).
+const GLOBAL_SEND_CAP = Number(process.env.CONTACT_GLOBAL_SEND_CAP) || 100;
+const globalSendLimiter = createRateLimiter({ max: GLOBAL_SEND_CAP, windowMs: 60 * 60 * 1000 });
+
 function department() {
 	return process.env.CONSENT_DEPARTMENT || "Contact Us";
 }
@@ -56,9 +62,11 @@ function readLead(body) {
 
 function validateLead(lead) {
 	if (!lead.name || !lead.email || !lead.message) return "Name, email and message are required.";
-	if (!emailPattern.test(lead.email)) return "Please provide a valid email address.";
+	if (lead.name.length > 100) return "Please keep your name under 100 characters.";
+	if (!emailPattern.test(lead.email) || lead.email.length > 254) return "Please provide a valid email address.";
 	if (!phonePattern.test(lead.phone)) return "Please provide a 10-digit phone number.";
 	if (!CONTACT_TOPICS[lead.topic]) return "Please choose the purpose of reaching out.";
+	if (lead.message.length > 5000) return "Please keep your message under 5000 characters.";
 	return null;
 }
 
@@ -160,6 +168,11 @@ router.post("/start", async (req, res) => {
 
 	await prisma.contactVerification.deleteMany({ where: { expiresAt: { lt: new Date() } } });
 
+	if (!globalSendLimiter("all")) {
+		console.warn("Global OTP send cap reached; refusing to send more codes this hour.");
+		return res.status(429).json({ message: PORTAL_DOWN_MESSAGE });
+	}
+
 	let otp;
 	try {
 		otp = await requestOtp(lead);
@@ -196,6 +209,10 @@ router.post("/resend", async (req, res) => {
 	}
 	if (!emailSendLimiter(verification.email)) {
 		return res.status(429).json({ message: "Too many attempts. Please wait a few minutes and try again." });
+	}
+	if (!globalSendLimiter("all")) {
+		console.warn("Global OTP send cap reached; refusing to send more codes this hour.");
+		return res.status(429).json({ message: PORTAL_DOWN_MESSAGE });
 	}
 
 	let otp;

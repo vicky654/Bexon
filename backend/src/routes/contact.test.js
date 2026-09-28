@@ -4,15 +4,13 @@ const { execSync } = require("node:child_process");
 
 const testDbPath = path.join(__dirname, "../../data/test-contact.db");
 process.env.DATABASE_URL = `file:${testDbPath}`;
-delete process.env.SMTP_HOST;
-delete process.env.SMTP_USER;
-delete process.env.RECAPTCHA_SECRET;
 
 // These tests exercise the "portal/reCAPTCHA not configured" paths and stub
 // consentPortal/recaptcha directly, so real values left in backend/.env (a
 // dev convenience) must not leak in and produce a live-configured backend.
 const REAL_ENV_VARS_TO_CLEAR = [
 	"RECAPTCHA_SITE_KEY",
+	"RECAPTCHA_SECRET",
 	"CONSENT_API_BASE",
 	"CONSENT_JWT_SECRET",
 	"CONSENT_JWT_ISS",
@@ -20,6 +18,11 @@ const REAL_ENV_VARS_TO_CLEAR = [
 	"CONSENT_JWT_EMAIL",
 	"CONSENT_DEPARTMENT",
 	"TRUST_PROXY",
+	"SMTP_HOST",
+	"SMTP_USER",
+	"SMTP_PASS",
+	"CONTACT_TO_EMAIL",
+	"CONTACT_FROM_EMAIL",
 ];
 for (const name of REAL_ENV_VARS_TO_CLEAR) delete process.env[name];
 
@@ -172,6 +175,9 @@ test("start rejects invalid input with 400", async () => {
 		{ ...validLead, topic: "business_strategy" },
 		{ ...validLead, name: 123 },
 		{ ...validLead, tracking: "x", phone: "12" },
+		{ ...validLead, name: "a".repeat(101) },
+		{ ...validLead, email: `${"a".repeat(250)}@example.com` },
+		{ ...validLead, message: "a".repeat(5001) },
 	];
 	for (const body of cases) {
 		const res = await start(app, freshIp(), body);
