@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 const FALLBACK_NOTICE =
 	"<p>By clicking Agree, you consent to DPDP Consultants (Privacyium Tech Pvt. Ltd.) processing your name, email address and phone number to respond to your enquiry, in accordance with the Digital Personal Data Protection Act, 2023.</p>";
@@ -11,14 +12,47 @@ const ConsentModal = ({ open, notices, isSubmitting, onAgree, onClose }) => {
 	const languages = Object.keys(notices || {});
 	const defaultLanguage = languages.includes("English") ? "English" : languages[0] || "English";
 	const [language, setLanguage] = useState(defaultLanguage);
+	const [mounted, setMounted] = useState(false);
+	const agreeButtonRef = useRef(null);
+
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	useEffect(() => {
 		if (open) setLanguage(defaultLanguage);
 	}, [open, defaultLanguage]);
 
-	if (!open) return null;
+	// #smooth-content (GSAP ScrollSmoother) and .wow fadeInUp (animate.css) both
+	// put a transform on an ancestor, which traps `position: fixed`. The modal
+	// is portaled to document.body to escape that, so lock scrolling on the
+	// body directly instead of relying on a transformed ancestor's overflow.
+	useEffect(() => {
+		if (!open) return undefined;
+		document.body.classList.add("modal-open");
+		document.body.style.overflow = "hidden";
+		return () => {
+			document.body.classList.remove("modal-open");
+			document.body.style.overflow = "";
+		};
+	}, [open]);
 
-	return (
+	useEffect(() => {
+		if (!open) return undefined;
+		const handleKeyDown = e => {
+			if (e.key === "Escape") onClose();
+		};
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, [open, onClose]);
+
+	useEffect(() => {
+		if (open && mounted) agreeButtonRef.current?.focus();
+	}, [open, mounted]);
+
+	if (!open || !mounted) return null;
+
+	return createPortal(
 		<div
 			className="modal d-block"
 			tabIndex="-1"
@@ -57,6 +91,7 @@ const ConsentModal = ({ open, notices, isSubmitting, onAgree, onClose }) => {
 					/>
 					<div className="modal-footer">
 						<button
+							ref={agreeButtonRef}
 							type="button"
 							className="btn btn-primary"
 							disabled={isSubmitting}
@@ -70,7 +105,8 @@ const ConsentModal = ({ open, notices, isSubmitting, onAgree, onClose }) => {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>,
+		document.body
 	);
 };
 
