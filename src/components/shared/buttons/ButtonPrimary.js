@@ -8,6 +8,7 @@ const ButtonPrimary = ({
 	type,
 	iconName,
 	disabled,
+	onClick,
 }) => {
 	return (
 		<>
@@ -15,6 +16,7 @@ const ButtonPrimary = ({
 				<button
 					type={type ? type : "submit"}
 					disabled={disabled}
+					onClick={onClick}
 					className={`tj-primary-btn ${className ? className : ""}`}
 				>
 					<span className="btn-text">
