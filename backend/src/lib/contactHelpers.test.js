@@ -1,5 +1,7 @@
 const test = require("node:test");
 const assert = require("node:assert/strict");
+const express = require("express");
+const request = require("supertest");
 const {
 	CONTACT_TOPICS,
 	deviceTypeFromUserAgent,
@@ -20,11 +22,18 @@ test("detects device type from the user agent", () => {
 	assert.equal(deviceTypeFromUserAgent(undefined), "Desktop");
 });
 
-test("clientIp prefers the first forwarded address", () => {
-	const req = { get: name => (name === "x-forwarded-for" ? "5.6.7.8, 10.0.0.1" : undefined), socket: { remoteAddress: "::1" } };
-	assert.equal(clientIp(req), "5.6.7.8");
-	const direct = { get: () => undefined, socket: { remoteAddress: "::1" } };
-	assert.equal(clientIp(direct), "::1");
+test("clientIp trusts X-Forwarded-For only from a trusted proxy", async () => {
+	const trusted = express();
+	trusted.set("trust proxy", "loopback");
+	trusted.get("/", (req, res) => res.json({ ip: clientIp(req) }));
+	const trustedRes = await request(trusted).get("/").set("X-Forwarded-For", "5.6.7.8");
+	assert.equal(trustedRes.body.ip, "5.6.7.8");
+
+	const untrusted = express();
+	// trust proxy left at its default (disabled), so a spoofed header is ignored.
+	untrusted.get("/", (req, res) => res.json({ ip: clientIp(req) }));
+	const untrustedRes = await request(untrusted).get("/").set("X-Forwarded-For", "5.6.7.8");
+	assert.notEqual(untrustedRes.body.ip, "5.6.7.8");
 });
 
 test("flags yopmail and company addresses as test addresses", () => {

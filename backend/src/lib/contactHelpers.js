@@ -18,10 +18,11 @@ function deviceTypeFromUserAgent(userAgent = "") {
 	return "Desktop";
 }
 
+// Express derives req.ip from X-Forwarded-For only when the direct caller is
+// a trusted proxy (see app.set("trust proxy", ...) in app.js), so this can't
+// be spoofed by an untrusted client sending its own fake header.
 function clientIp(req) {
-	const forwarded = req.get("x-forwarded-for");
-	if (forwarded) return forwarded.split(",")[0].trim();
-	return req.socket?.remoteAddress || "";
+	return req.ip || req.socket?.remoteAddress || "";
 }
 
 // Carried over from the old site: staff test with yopmail or company

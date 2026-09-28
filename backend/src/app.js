@@ -21,6 +21,11 @@ const adminAiRouter = require("./routes/adminAi");
 function buildApp() {
 	const app = express();
 
+	// Only trust X-Forwarded-For from a proxy on the same machine (the
+	// Next.js site calling this backend locally), so a client can't spoof
+	// its IP by sending a fresh fake header on every request.
+	app.set("trust proxy", process.env.TRUST_PROXY || "loopback");
+
 	const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3001,http://localhost:4000")
 		.split(",")
 		.map(origin => origin.trim())

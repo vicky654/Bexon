@@ -37,6 +37,7 @@ let nextIp = 1;
 
 function buildApp() {
 	const app = express();
+	app.set("trust proxy", "loopback");
 	app.use(express.json());
 	app.use("/api/contact", contactRouter);
 	return app;
@@ -47,6 +48,15 @@ function buildApp() {
 function freshIp() {
 	nextIp += 1;
 	return `10.0.0.${nextIp}`;
+}
+
+// Each test that doesn't specifically care about the shared "jane@example.com"
+// address uses its own email so the per-email start limiter doesn't leak
+// between tests.
+let nextEmailSeq = 1;
+function freshEmail() {
+	nextEmailSeq += 1;
+	return `lead${nextEmailSeq}@example.com`;
 }
 
 function portalOn({ otp = "123456", failOn } = {}) {
@@ -177,7 +187,7 @@ test("start asks the portal for a code and stores only its hash", async () => {
 test("start returns 502 and stores nothing when the portal is down", async () => {
 	portalOn({ failOn: "start" });
 	const before = await prisma.contactVerification.count();
-	const res = await start(buildApp(), freshIp());
+	const res = await start(buildApp(), freshIp(), { ...validLead, email: freshEmail() });
 	assert.equal(res.status, 502);
 	assert.match(res.body.message, /info@dpdpconsultants\.com/);
 	assert.equal(await prisma.contactVerification.count(), before);
@@ -185,7 +195,7 @@ test("start returns 502 and stores nothing when the portal is down", async () =>
 
 test("start returns 502 when the portal response has no otp", async () => {
 	portalOn({ otp: "" });
-	const res = await start(buildApp(), freshIp());
+	const res = await start(buildApp(), freshIp(), { ...validLead, email: freshEmail() });
 	assert.equal(res.status, 502);
 });
 
@@ -193,10 +203,21 @@ test("start is limited to 5 requests per IP", async () => {
 	portalOn();
 	const app = buildApp();
 	const ip = freshIp();
+	const email = freshEmail();
 	for (let i = 0; i < 5; i += 1) {
-		assert.equal((await start(app, ip)).status, 201);
+		assert.equal((await start(app, ip, { ...validLead, email })).status, 201);
 	}
-	assert.equal((await start(app, ip)).status, 429);
+	assert.equal((await start(app, ip, { ...validLead, email })).status, 429);
+});
+
+test("start is limited to 5 requests per email across different IPs", async () => {
+	portalOn();
+	const app = buildApp();
+	const email = freshEmail();
+	for (let i = 0; i < 5; i += 1) {
+		assert.equal((await start(app, freshIp(), { ...validLead, email })).status, 201);
+	}
+	assert.equal((await start(app, freshIp(), { ...validLead, email })).status, 429);
 });
 
 test("verify with the right code records consent and saves the lead", async () => {
@@ -234,7 +255,7 @@ test("verify accepts a code the portal returned as a number", async () => {
 test("verify rejects a wrong code and counts the attempt", async () => {
 	portalOn();
 	const app = buildApp();
-	const { body } = await start(app, freshIp());
+	const { body } = await start(app, freshIp(), { ...validLead, email: freshEmail() });
 	const res = await request(app)
 		.post("/api/contact/verify")
 		.send({ verificationId: body.verificationId, otp: "000000", recaptchaToken: "tok" });
@@ -248,7 +269,7 @@ test("verify rejects a wrong code and counts the attempt", async () => {
 test("the fifth wrong code ends the verification", async () => {
 	portalOn();
 	const app = buildApp();
-	const { body } = await start(app, freshIp());
+	const { body } = await start(app, freshIp(), { ...validLead, email: freshEmail() });
 	const statuses = [];
 	for (let i = 0; i < 5; i += 1) {
 		const res = await request(app)
@@ -260,10 +281,29 @@ test("the fifth wrong code ends the verification", async () => {
 	assert.equal(await prisma.contactVerification.findUnique({ where: { id: body.verificationId } }), null);
 });
 
+test("eight simultaneous wrong codes never exceed the attempt cap", async () => {
+	portalOn();
+	const app = buildApp();
+	const { body } = await start(app, freshIp(), { ...validLead, email: freshEmail() });
+	const send = () =>
+		request(app)
+			.post("/api/contact/verify")
+			.send({ verificationId: body.verificationId, otp: "000000", recaptchaToken: "tok" });
+
+	const statuses = (await Promise.all(Array.from({ length: 8 }, send))).map(res => res.status);
+	const wins = statuses.filter(status => status === 400).length;
+	assert.ok(wins <= 5, `expected at most 5 successful guesses, got statuses ${JSON.stringify(statuses)}`);
+	assert.ok(
+		statuses.every(status => [400, 429, 410].includes(status)),
+		`expected only 400/429/410, got statuses ${JSON.stringify(statuses)}`
+	);
+	assert.equal(await prisma.contactVerification.findUnique({ where: { id: body.verificationId } }), null);
+});
+
 test("verify returns 410 for an expired or unknown verification", async () => {
 	portalOn();
 	const app = buildApp();
-	const { body } = await start(app, freshIp());
+	const { body } = await start(app, freshIp(), { ...validLead, email: freshEmail() });
 	await prisma.contactVerification.update({
 		where: { id: body.verificationId },
 		data: { expiresAt: new Date(Date.now() - 1000) },
@@ -284,7 +324,7 @@ test("verify rejects a failed reCAPTCHA without counting an attempt", async () =
 	portalOn();
 	recaptcha.verifyRecaptcha = async () => false;
 	const app = buildApp();
-	const { body } = await start(app, freshIp());
+	const { body } = await start(app, freshIp(), { ...validLead, email: freshEmail() });
 	const res = await request(app)
 		.post("/api/contact/verify")
 		.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "" });
@@ -340,7 +380,7 @@ test("test addresses complete the flow without being saved", async () => {
 test("resend waits 30 seconds, then sends a fresh code", async () => {
 	portalOn({ otp: "111111" });
 	const app = buildApp();
-	const { body } = await start(app, freshIp());
+	const { body } = await start(app, freshIp(), { ...validLead, email: freshEmail() });
 
 	const tooSoon = await request(app).post("/api/contact/resend").send({ verificationId: body.verificationId });
 	assert.equal(tooSoon.status, 429);

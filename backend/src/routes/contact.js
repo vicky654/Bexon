@@ -29,6 +29,10 @@ const EXPIRED_MESSAGE = "This verification has expired. Please submit the form a
 // one IP can trigger that.
 const sendLimiter = createRateLimiter({ max: 5, windowMs: 10 * 60 * 1000 });
 
+// X-Forwarded-For is easy to spoof (a fresh fake IP on every request), so
+// also cap how often one inbox can be sent codes, regardless of IP.
+const emailSendLimiter = createRateLimiter({ max: 5, windowMs: 10 * 60 * 1000 });
+
 function department() {
 	return process.env.CONSENT_DEPARTMENT || "Contact Us";
 }
@@ -144,6 +148,9 @@ router.post("/start", async (req, res) => {
 	if (!sendLimiter(lead.ip)) {
 		return res.status(429).json({ message: "Too many attempts. Please wait a few minutes and try again." });
 	}
+	if (!emailSendLimiter(lead.email)) {
+		return res.status(429).json({ message: "Too many attempts. Please wait a few minutes and try again." });
+	}
 
 	if (!consentPortal.isConfigured()) {
 		console.warn("Consent portal not configured, saving contact submission without OTP verification.");
@@ -187,6 +194,9 @@ router.post("/resend", async (req, res) => {
 	if (!sendLimiter(clientIp(req))) {
 		return res.status(429).json({ message: "Too many attempts. Please wait a few minutes and try again." });
 	}
+	if (!emailSendLimiter(verification.email)) {
+		return res.status(429).json({ message: "Too many attempts. Please wait a few minutes and try again." });
+	}
 
 	let otp;
 	try {
@@ -196,7 +206,7 @@ router.post("/resend", async (req, res) => {
 		return res.status(502).json({ message: PORTAL_DOWN_MESSAGE });
 	}
 
-	await prisma.contactVerification.update({
+	const updated = await prisma.contactVerification.updateMany({
 		where: { id: verification.id },
 		data: {
 			otpHash: await bcrypt.hash(otp, 10),
@@ -205,6 +215,7 @@ router.post("/resend", async (req, res) => {
 			expiresAt: new Date(Date.now() + OTP_TTL_MS),
 		},
 	});
+	if (updated.count === 0) return res.status(410).json({ message: EXPIRED_MESSAGE });
 
 	res.json({ ok: true });
 });
@@ -215,23 +226,28 @@ router.post("/verify", async (req, res) => {
 	if (!verification) return res.status(410).json({ message: EXPIRED_MESSAGE });
 
 	const tooMany = { message: "Too many incorrect codes. Please submit the form again." };
-	if (verification.attempts >= MAX_OTP_ATTEMPTS) {
-		await prisma.contactVerification.deleteMany({ where: { id: verification.id } });
-		return res.status(429).json(tooMany);
-	}
 
 	if (!(await recaptcha.verifyRecaptcha(text(body.recaptchaToken), clientIp(req)))) {
 		return res.status(400).json({ message: "Please complete the reCAPTCHA check.", field: "recaptcha" });
 	}
 
+	// Reserve an attempt atomically, before comparing the code, so concurrent
+	// guesses can't all read the same pre-increment attempts count and win
+	// after more than MAX_OTP_ATTEMPTS tries.
+	const reserved = await prisma.contactVerification.updateMany({
+		where: { id: verification.id, attempts: { lt: MAX_OTP_ATTEMPTS }, expiresAt: { gt: new Date() } },
+		data: { attempts: { increment: 1 } },
+	});
+	if (reserved.count === 0) {
+		await prisma.contactVerification.deleteMany({ where: { id: verification.id } });
+		return res.status(429).json(tooMany);
+	}
+
 	const code = text(body.otp);
 	const matches = /^\d{4,8}$/.test(code) && (await bcrypt.compare(code, verification.otpHash));
 	if (!matches) {
-		const updated = await prisma.contactVerification.update({
-			where: { id: verification.id },
-			data: { attempts: { increment: 1 } },
-		});
-		if (updated.attempts >= MAX_OTP_ATTEMPTS) {
+		const current = await prisma.contactVerification.findUnique({ where: { id: verification.id } });
+		if (!current || current.attempts >= MAX_OTP_ATTEMPTS) {
 			await prisma.contactVerification.deleteMany({ where: { id: verification.id } });
 			return res.status(429).json(tooMany);
 		}
