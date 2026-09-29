@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import apiFetch, { BACKEND_URL } from "@/lib/api";
 import { LEAD_TYPE_TABS, leadTypeLabel } from "@/lib/leadTypes";
 import RequireAuth from "@/components/RequireAuth";
@@ -24,15 +24,24 @@ function MessagesList() {
 	const [selected, setSelected] = useState(null);
 	const [type, setType] = useState("all");
 	const [counts, setCounts] = useState(null);
+	const latestType = useRef("all");
 
 	const loadMessages = () => {
-		const query = type === "all" ? "" : `?type=${type}`;
+		const requestedType = type;
+		latestType.current = requestedType;
+		const query = requestedType === "all" ? "" : `?type=${requestedType}`;
 		apiFetch(`/api/admin/messages${query}`)
 			.then(data => {
-				setMessages(data.messages || []);
-				setCounts(data.counts || {});
+				if (latestType.current === requestedType) {
+					setMessages(data.messages || []);
+					setCounts(data.counts || {});
+				}
 			})
-			.catch(err => setError(err.message));
+			.catch(err => {
+				if (latestType.current === requestedType) {
+					setError(err.message);
+				}
+			});
 	};
 
 	useEffect(() => {
