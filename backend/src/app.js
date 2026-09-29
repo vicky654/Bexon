@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 
 const blogsRouter = require("./routes/blogs");
+const contentRouter = require("./routes/content");
 const contactRouter = require("./routes/contact");
 const adminAuthRouter = require("./routes/adminAuth");
 const adminBlogsRouter = require("./routes/adminBlogs");
@@ -44,6 +45,7 @@ function buildApp() {
 	app.get("/health", (req, res) => res.json({ ok: true }));
 
 	app.use("/api/blogs", blogsRouter);
+	app.use("/api/content", contentRouter);
 	app.use("/api/contact", contactRouter);
 	app.use("/api/settings", settingsRouter);
 	app.use("/api/admin", adminAuthRouter);
