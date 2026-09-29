@@ -256,9 +256,36 @@ const SECTION_CHECKS = {
 	},
 };
 
+// Allowed keys per section type, derived from each section component's own props (the
+// spread of props onto that component is exactly `section` minus `type`, so any key here
+// that the component doesn't destructure is silently dropped at render time -- e.g. an
+// `intro` on a richText section would never appear on the page). `idPrefix` is injected by
+// PageRenderer itself, not read from content, so it is deliberately not listed here.
+const SECTION_FIELDS = {
+	homeHero: ["eyebrow", "title", "text", "primary", "secondary", "image"],
+	richText: ["heading", "html"],
+	features: ["eyebrow", "heading", "intro", "items"],
+	split: ["eyebrow", "heading", "html", "image", "imageAlt", "reverse"],
+	steps: ["eyebrow", "heading", "intro", "items"],
+	stats: ["items"],
+	faq: ["eyebrow", "heading", "items"],
+	cta: ["heading", "text", "primary", "secondary"],
+	cardsLinks: ["eyebrow", "heading", "intro", "items"],
+};
+
+const PAGE_FIELDS = ["path", "title", "description", "parent", "hero", "sections"];
+
+function checkUnknownKeys(obj, allowed, label, where, errors) {
+	if (!obj || typeof obj !== "object" || Array.isArray(obj)) return;
+	for (const key of Object.keys(obj)) {
+		if (!allowed.includes(key)) errors.push(`${where}: ${key} is not a field of ${label}`);
+	}
+}
+
 export function validatePage(page, ctx) {
 	const errors = [];
 	const where = page?.path || "(no path)";
+	checkUnknownKeys(page, PAGE_FIELDS, "page", where, errors);
 	if (typeof page?.path !== "string" || !page.path.startsWith("/")) errors.push(`${where}: path must start with /`);
 	checkText(page?.title, "title", where, errors);
 	checkText(page?.description, "description", where, errors, 160);
@@ -276,6 +303,7 @@ export function validatePage(page, ctx) {
 		const check = SECTION_CHECKS[section?.type];
 		if (!check) errors.push(`${sectionWhere}: unknown section type "${section?.type}"`);
 		else check(section, sectionWhere, ctx, errors);
+		checkUnknownKeys(section, ["type", ...(SECTION_FIELDS[section?.type] || [])], section?.type, sectionWhere, errors);
 	});
 	return errors;
 }

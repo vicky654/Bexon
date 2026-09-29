@@ -142,6 +142,20 @@ test("broken internal links, unknown icons and missing images are reported", () 
 	assert.ok(errors.some(e => e.includes("none.webp")));
 });
 
+test("a field the section type's component doesn't render is rejected", () => {
+	const page = {
+		...good,
+		sections: [{ type: "richText", heading: "H", html: "<p>x</p>", intro: "never rendered" }],
+	};
+	const errors = validatePage(page, ctx);
+	assert.ok(errors.some(e => e.includes("intro is not a field of richText")));
+});
+
+test("an unknown page-level field is rejected", () => {
+	const errors = validatePage({ ...good, bogus: "nope" }, ctx);
+	assert.ok(errors.some(e => e.includes("bogus is not a field of page")));
+});
+
 test("every real content page is valid and paths are unique", () => {
 	const paths = PAGES.map(p => p.path);
 	assert.equal(new Set(paths).size, paths.length, "duplicate page paths");

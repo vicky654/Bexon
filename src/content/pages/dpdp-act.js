@@ -8,11 +8,9 @@ export default {
 	},
 	sections: [
 		{
-			type: "split",
+			type: "richText",
 			heading: "Applicability of the Act",
 			html: "<h4>Processing of digital and digitized personal data</h4><ul><li>Processing of personal data within the territory of India and outside India</li><li>Activity related to offering goods and services to Data Principals within India</li></ul><h4>Does not apply to</h4><ul><li>Processing for domestic or personal purposes by individuals</li><li>Personal data made publicly available</li></ul>",
-			image: "/images/site/dpdp-act/applicability.webp",
-			imageAlt: "Applicability of the DPDP Act: what it covers and what it does not apply to",
 		},
 		{
 			type: "steps",
@@ -86,7 +84,7 @@ export default {
 				{
 					icon: "tji-support",
 					title: "Children's Data",
-					text: "For children under 18 years of age, consent from parents/guardians is required. Behavioural monitoring and targeted advertising directed at children is prohibited.",
+					text: "For children under 18 years of age, consent from parents/guardians is required. Behavioural monitoring and targeted advertising is prohibited.",
 				},
 				{
 					icon: "tji-operations",
@@ -96,21 +94,19 @@ export default {
 				{
 					icon: "tji-list",
 					title: "Legitimate Uses",
-					text: "Consent is not expressly needed for situations such as voluntary disclosure by the Data Principal, reasonable expectation by the Data Principal, performance of a function under the law, a medical emergency, compliance with any judgment issued under any law, threat to public health, or to ensure safety in case of any disaster.",
+					text: "Consent is not expressly needed for situations such as voluntary disclosure by the Data Principal, reasonable expectation by the Data Principal, performance of a function under the law, a medical emergency, among others, compliance with any judgment issued under any law, threat to public health, or to ensure safety in case of any disaster.",
 				},
 			],
 		},
 		{
 			type: "richText",
-			heading: "Salient Features of the Act",
+			heading: "Salient Features of the Act (Contd.)",
 			html: "<h4>Obligations of the Data Fiduciary</h4><ul><li>Engage a Data Processor to process personal data on its behalf through a valid contract only</li><li>Provide a clear, concise and comprehensible notice to Data Principals</li><li>Obtain verifiable parental consent before processing children's personal data</li><li>Abstain from processing personal data that may cause harm to children, or undertaking behavioural monitoring of children or targeted advertising directed at children</li><li>Implement technical and organisational measures to ensure effective adherence with the Act</li><li>Delete, and cause its Data Processor to erase, data as soon as the purpose is accomplished</li><li>Report personal data breaches to the Data Protection Board and Data Principals</li></ul><h4>Personal Data Breach</h4><p>A Data Fiduciary is required to protect personal data, including any processing undertaken by it or on its behalf by a Data Processor, by taking reasonable security safeguards to prevent a personal data breach. In the event of a personal data breach, the Data Fiduciary needs to notify the Board and each affected Data Principal of such breach.</p><p>There is no specific timeline for reporting the breach; Data Fiduciaries are to inform about the breach in the prescribed form.</p><h4>The Data Protection Board</h4><p>The Central Government shall, by notification, appoint and establish an independent board to be called the Data Protection Board of India.</p><ul><li>This Board should consist of a chairperson and other members, who should be appointed by the Central Government</li><li>The Board is entrusted with the task of enforcement, including determining non-compliances, imposing penalties, issuing directions and mediation (to resolve disputes between parties) to ensure compliance with the law</li><li>The Board is enshrined with powers of a civil court, and appeals against its decisions lie to the Telecom Disputes Settlement and Appellate Tribunal</li></ul>",
 		},
 		{
-			type: "split",
+			type: "richText",
 			heading: "Data Principal Rights",
 			html: "<h4>Right to information</h4><p>Data Principals have the right to seek information on how their data is processed, available in a clear and understandable way.</p><h4>Right to grievance redressal</h4><p>Individuals have the right to readily available means of registering a grievance with a Data Fiduciary. The timeline to respond to grievances raised by Data Principals shall be notified by the Central Government.</p><h4>Right to correction and erasure</h4><p>Individuals have the right to correct inaccurate or incomplete data, and erase data that is no longer required for processing.</p><h4>Right to nominate</h4><p>Individuals can nominate any other individual to exercise these rights in the event of death or incapacity.</p>",
-			image: "/images/site/dpdp-act/data-principal-rights.webp",
-			imageAlt: "The four Data Principal rights under the DPDP Act: information, grievance redressal, correction and erasure, and nomination",
 		},
 		{
 			type: "richText",
@@ -130,13 +126,17 @@ export default {
 		{
 			type: "richText",
 			heading: "Amendments to Prevailing Laws",
-			intro: "The existing IT Act, 2000 and Right to Information Act, 2005 are amended as follows:",
-			html: "<ul><li>Section 43(A) (compensation for failure to protect data) of the IT Act, 2000 is omitted</li><li>Section 8(1)(j) of the RTI Act, 2005 is amended to exempt personal information which allows disclosure for public interest</li></ul>",
+			html: "<p>The existing IT Act, 2000 and Right to Information Act, 2005 are amended as follows:</p><ul><li>Section 43(A) (compensation for failure to protect data) of the IT Act, 2000 is omitted</li><li>Section 8(1)(j) of the RTI Act, 2005 is amended to exempt personal information which allows disclosure for public interest</li></ul>",
 		},
 		{
 			type: "richText",
 			heading: "Key Highlights",
 			html: "<ul><li>Considering the volume and nature of personal data processed, the Central Government may, by notification, exempt certain provisions of the Act for a Data Fiduciary or a class of Data Fiduciaries, including startups</li><li>When consent for processing personal data was provided before the commencement of this Act, the Data Fiduciary needs to provide a detailed privacy notice describing the personal data collected and the purpose as soon as practicable after the enactment of this Act</li><li>Certain provisions of the Act will not be applicable for the processing of personal data in India of a Data Principal not based in India, pursuant to a contract signed with a person outside India</li><li>The Central Government may, upon ensuring the processing is verifiably safe, notify the age above which a Data Fiduciary shall be exempt from applicability of children's personal data obligations</li><li>The Data Principal shall exhaust the opportunity of redressing her grievance with the Data Fiduciary before approaching the Data Protection Board of India</li></ul>",
+		},
+		{
+			type: "richText",
+			heading: "DPDPA vs GDPR",
+			html: "<p>Below mentioned are the key differences between DPDPB 2023 and the General Data Protection Regulation (GDPR):</p><h4>Scope of Personal Data</h4><ul><li>GDPR: GDPR applies to processing of Personal Data wholly or partly by automated means and to Personal Data which form or will form a part of a filing system</li><li>DPDPA: The DPDP Act will apply to digitized personal data and non digitized personal data which is subsequently digitized</li></ul><h4>Penalties</h4><ul><li>GDPR: Penalties under GDPR extend to 20 million euros, or 4% of the firm's worldwide annual revenue from the preceding financial year, whichever amount is higher</li><li>DPDPA: Penalties under the DPDP Act extend up to INR250 crore</li></ul><h4>Children's Consent</h4><ul><li>GDPR: Minors under age 16 need parental consent. Member states of Europe can lower this age to 13 for their regions</li><li>DPDPA: Children under the age of 18 need consent from parents/guardian</li></ul><h4>Breach Notification Timeline</h4><ul><li>GDPR: Breaches should be notified to the Supervisory Authority within 72 hours and possibly to the affected Data Subjects</li><li>DPDPA: The Act does not specify a timeframe for personal data breach notification</li></ul><h4>Data Principal / Subject Rights</h4><ul><li>GDPR: GDPR does not include right to nominate, however provides for the right to portability. Organizations have 30 days to respond to a Data Subject request</li><li>DPDPA: The Act comprises an additional right to nominate while it omits the right to portability, and the timeline to respond to Data Principal requests has not been specified</li></ul><h4>Cross-Border Data Transfer</h4><ul><li>GDPR: GDPR lays down specific mechanisms for transferring data to a third country, such as standard contractual clauses and binding corporate rules</li><li>DPDPA: The Act has not identified any transfer mechanisms for transferring personal data</li></ul><h4>DPO Appointment</h4><ul><li>GDPR: Both Controllers and Processors are under the obligation to appoint a DPO in specific circumstances</li><li>DPDPA: Only the Significant Data Fiduciary shall have to appoint a DPO as a point of contact for the Data Protection Board</li></ul><h4>Records of Processing (ROPA)</h4><ul><li>GDPR: Data Controller and Data Processor are required to maintain the records of processing activities</li><li>DPDPA: The Act does not include any obligation for Data Fiduciaries to maintain records of processing activities (ROPA)</li></ul><h4>Notice in Regional Languages</h4><ul><li>GDPR: GDPR does not explicitly specify a requirement to provide notice in regional languages</li><li>DPDPA: The DPDP Act requires Data Fiduciaries to provide notice in 22 Indian languages in addition to English</li></ul><h4>Data Protection Impact Assessment (DPIA)</h4><ul><li>GDPR: A Data Protection Impact Assessment (DPIA) is to be conducted by Data Controllers for all high-risk processing activities</li><li>DPDPA: Significant Data Fiduciaries are obligated to conduct a periodic Data Protection Impact Assessment (DPIA)</li></ul>",
 		},
 		{
 			type: "cta",
