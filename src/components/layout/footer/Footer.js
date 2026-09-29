@@ -94,21 +94,15 @@ const Footer = () => {
 							>
 								<h3 className="title">Subscribe to Our Newsletter.</h3>
 								<div className="subscribe-form">
-									<form action="#">
-										<input
-											type="email"
-											name="email"
-											placeholder="Enter email"
-										/>
-										<button type="submit">
+									<form action="/subscribe" method="get">
+										<input type="email" name="email" placeholder="Enter email" maxLength={254} required />
+										<button type="submit" aria-label="Subscribe">
 											<i className="tji-plane"></i>
 										</button>
 										<label htmlFor="agree">
-											<input id="agree" type="checkbox" />
+											<input id="agree" type="checkbox" required />
 											Agree to our{" "}
-											<Link href="/terms-and-conditions">
-												Terms & Condition?
-											</Link>
+											<Link href="/terms-and-conditions">Terms & Condition?</Link>
 										</label>
 									</form>
 								</div>
