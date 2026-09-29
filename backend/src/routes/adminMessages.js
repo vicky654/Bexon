@@ -29,8 +29,28 @@ function csvCell(value) {
 	return /[",\r\n]/.test(cell) ? `"${cell.replace(/"/g, '""')}"` : cell;
 }
 
+const istFormatter = new Intl.DateTimeFormat("en-CA", {
+	timeZone: "Asia/Kolkata",
+	year: "numeric",
+	month: "2-digit",
+	day: "2-digit",
+	hour: "2-digit",
+	minute: "2-digit",
+	hourCycle: "h23",
+});
+
+// formatToParts (rather than a locale string) keeps the layout stable across
+// Node/ICU versions instead of depending on however the locale happens to
+// punctuate a formatted date.
+function formatIst(date) {
+	if (!date) return "";
+	const parts = {};
+	for (const { type, value } of istFormatter.formatToParts(date)) parts[type] = value;
+	return `${parts.year}-${parts.month}-${parts.day} ${parts.hour}:${parts.minute} IST`;
+}
+
 const CSV_COLUMNS = [
-	["Received", m => m.createdAt.toISOString()],
+	["Received", m => formatIst(m.createdAt)],
 	["Type", m => (LEAD_TYPES[m.type] || LEAD_TYPES.contact).label],
 	["Name", m => m.name],
 	["Email", m => m.email],
@@ -38,7 +58,7 @@ const CSV_COLUMNS = [
 	["Company", m => m.company],
 	["Purpose", m => m.topic],
 	["Partnership type", m => PARTNERSHIP_TYPES[m.partnershipType] || ""],
-	["Preferred time", m => (m.preferredAt ? m.preferredAt.toISOString() : "")],
+	["Preferred time", m => formatIst(m.preferredAt)],
 	["Message", m => m.message],
 	["Consent recorded", m => (m.consentRecorded ? "Yes" : "No")],
 	["Language", m => m.language],

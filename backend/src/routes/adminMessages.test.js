@@ -132,6 +132,48 @@ test("exports CSV with escaping and formula protection", async t => {
 	assert.ok(body.includes(",Yes,"));
 });
 
+test("exports Received and Preferred time in IST", async t => {
+	await prisma.contactSubmission.create({
+		data: {
+			name: "Ravi Kumar",
+			email: "ravi@example.com",
+			phone: "9876543210",
+			message: "",
+			type: "consultation",
+			createdAt: new Date("2026-10-05T04:30:00.000Z"),
+			preferredAt: new Date("2026-10-05T04:30:00.000Z"),
+		},
+	});
+	t.after(async () => {
+		await prisma.contactSubmission.deleteMany();
+	});
+
+	const res = await request(buildApp())
+		.get("/api/admin/messages/export.csv?type=consultation")
+		.set("Cookie", authCookie());
+	assert.equal(res.status, 200);
+
+	const body = res.text.replace(/^﻿/, "");
+	const [, row] = body.split("\r\n");
+	const cells = row.split(",");
+	assert.equal(cells[0], "2026-10-05 10:00 IST");
+	assert.equal(cells[8], "2026-10-05 10:00 IST");
+});
+
+test("Preferred time is empty when absent", async t => {
+	await prisma.contactSubmission.create({
+		data: { name: "No Time", email: "notime@example.com", message: "" },
+	});
+	t.after(async () => {
+		await prisma.contactSubmission.deleteMany();
+	});
+
+	const res = await request(buildApp()).get("/api/admin/messages/export.csv").set("Cookie", authCookie());
+	const body = res.text.replace(/^﻿/, "");
+	const [, row] = body.split("\r\n");
+	assert.equal(row.split(",")[8], "");
+});
+
 test("export requires admin auth", async () => {
 	const res = await request(buildApp()).get("/api/admin/messages/export.csv");
 	assert.equal(res.status, 401);
