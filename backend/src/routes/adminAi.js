@@ -39,13 +39,21 @@ const SYSTEM_PROMPTS = {
 		'"requirements": plain text, one requirement per line, no bullet characters.',
 		"Professional tone.",
 	].join(" "),
+	news: [
+		"You write company news items for DPDP Consultants, a data privacy and DPDP Act 2023",
+		"compliance consultancy in India. Given a topic, return ONLY a JSON object with keys",
+		"\"title\", \"excerpt\", \"content\" - no markdown code fences, no commentary.",
+		'"title": a factual news headline. "excerpt": one sentence under 160 characters.',
+		'"content": 3-4 short paragraphs of clean HTML using only <p>, <ul>, <li> and <strong>.',
+		"Neutral, factual tone; do not invent dates, figures or quotes.",
+	].join(" "),
 };
 
 router.post("/generate", async (req, res) => {
 	const { type, prompt } = req.body || {};
 
 	if (!SYSTEM_PROMPTS[type]) {
-		return res.status(400).json({ message: "type must be 'blog' or 'job'." });
+		return res.status(400).json({ message: "type must be 'blog', 'job' or 'news'." });
 	}
 
 	if (!prompt || typeof prompt !== "string" || !prompt.trim()) {

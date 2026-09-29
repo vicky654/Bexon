@@ -3,6 +3,7 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const requireAdmin = require("../middleware/requireAdmin");
+const { newResourceKey, resourcePath } = require("../lib/resourceFiles");
 
 const router = express.Router();
 
@@ -48,6 +49,32 @@ router.post("/", (req, res) => {
 			return res.status(400).json({ message: "No image file was uploaded." });
 		}
 		res.status(201).json({ url: `/uploads/${req.file.filename}` });
+	});
+});
+
+const pdfUpload = multer({
+	storage: multer.memoryStorage(),
+	limits: { fileSize: 20 * 1024 * 1024 },
+	fileFilter: (req, file, cb) => {
+		if (file.mimetype !== "application/pdf") return cb(new Error("Only PDF files are allowed."));
+		cb(null, true);
+	},
+});
+
+router.post("/resource", (req, res) => {
+	pdfUpload.single("file")(req, res, err => {
+		if (err) {
+			const message = err.code === "LIMIT_FILE_SIZE" ? "PDFs must be 20 MB or smaller." : err.message;
+			return res.status(400).json({ message });
+		}
+		if (!req.file) return res.status(400).json({ message: "No PDF file was uploaded." });
+		// Check the file really is a PDF, not just labelled as one.
+		if (req.file.buffer.subarray(0, 5).toString("latin1") !== "%PDF-") {
+			return res.status(400).json({ message: "That file isn't a valid PDF." });
+		}
+		const fileKey = newResourceKey();
+		fs.writeFileSync(resourcePath(fileKey), req.file.buffer);
+		res.status(201).json({ fileKey });
 	});
 });
 

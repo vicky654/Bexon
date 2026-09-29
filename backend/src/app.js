@@ -18,6 +18,7 @@ const jobsRouter = require("./routes/jobs");
 const adminJobsRouter = require("./routes/adminJobs");
 const adminJobApplicationsRouter = require("./routes/adminJobApplications");
 const adminAiRouter = require("./routes/adminAi");
+const adminContentRouter = require("./routes/adminContent");
 
 function buildApp() {
 	const app = express();
@@ -59,6 +60,7 @@ function buildApp() {
 	app.use("/api/admin/jobs", adminJobsRouter);
 	app.use("/api/admin/job-applications", adminJobApplicationsRouter);
 	app.use("/api/admin/ai", adminAiRouter);
+	app.use("/api/admin/content", adminContentRouter);
 
 	app.use((err, req, res, next) => {
 		console.error(err);
