@@ -4,6 +4,8 @@ export const LEAD_TYPE_TABS = [
 	{ value: "consultation", label: "Consultation" },
 	{ value: "partner", label: "Partner" },
 	{ value: "newsletter", label: "Newsletter" },
+	{ value: "webinar", label: "Webinar" },
+	{ value: "resource", label: "Resource" },
 ];
 
 export const PARTNERSHIP_LABELS = {

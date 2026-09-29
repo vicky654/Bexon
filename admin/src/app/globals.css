@@ -1151,6 +1151,41 @@ a {
 	animation: admin-fade-in 0.2s ease both;
 }
 
+.form-counter {
+	align-self: flex-end;
+	font-size: 12px;
+	color: #6b7280;
+}
+
+.form-inline-upload {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.form-inline-upload input {
+	flex: 1;
+}
+
+.form-upload-btn {
+	cursor: pointer;
+	white-space: nowrap;
+}
+
+.form-image-preview {
+	margin-top: 6px;
+	max-width: 220px;
+	max-height: 120px;
+	object-fit: cover;
+	border-radius: 8px;
+	border: 1px solid #eceef2;
+}
+
+.form-file-status {
+	font-size: 13px;
+	color: #6b7280;
+}
+
 .button-secondary {
 	background: #fff;
 	color: #101223;
@@ -2515,10 +2550,20 @@ a {
 	white-space: nowrap;
 }
 
-.table-actions a {
+.table-actions a,
+.table-actions button {
 	font-size: 13px;
 	font-weight: 600;
 	text-decoration: none;
+	background: none;
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	color: #1d4ed8;
+}
+
+.table-actions button.table-action-danger {
+	color: #b91c1c;
 }
 
 /* Filter tabs */

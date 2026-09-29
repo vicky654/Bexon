@@ -57,6 +57,10 @@ export default function MessageDetailModal({ message, onClose, onMarkRead }) {
 							<dd>{leadTypeLabel(message.type)}</dd>
 						</div>
 						<div>
+							<dt>For</dt>
+							<dd>{message.contentTitle || "—"}</dd>
+						</div>
+						<div>
 							<dt>Company</dt>
 							<dd>{message.company || "—"}</dd>
 						</div>
