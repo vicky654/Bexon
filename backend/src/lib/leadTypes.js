@@ -91,7 +91,7 @@ function validateLead(type, lead, now = new Date()) {
 		const at = new Date(lead.preferredAt);
 		const earliest = new Date(now.getTime() + DAY_MS);
 		if (Number.isNaN(at.getTime()) || at < earliest || at > oneMonthAfter(now)) {
-			return "Please choose a time between tomorrow and one month from now.";
+			return "Please choose a time at least 24 hours from now and within one month.";
 		}
 	}
 	if (uses("message")) {

@@ -504,7 +504,7 @@ test("consultation time outside the window is rejected", async () => {
 	portalOn();
 	const res = await start(buildApp(), freshIp(), { ...consultationLead(), preferredAt: futureIso(40) });
 	assert.equal(res.status, 400);
-	assert.equal(res.body.message, "Please choose a time between tomorrow and one month from now.");
+	assert.equal(res.body.message, "Please choose a time at least 24 hours from now and within one month.");
 });
 
 test("partner leads need a valid partnership type and store its label", async () => {

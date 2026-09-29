@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSweetAlert from "@/hooks/useSweetAlert";
 import { markContactSubmitted, readTracking } from "@/libs/tracking";
-import { isLeadFormType, leadForm } from "@/libs/leadForms";
+import { isLeadFormType, leadForm, oneMonthAfterUtc } from "@/libs/leadForms";
 
 const emptyFormData = {
 	name: "",
@@ -27,6 +27,8 @@ const REQUIRED_MESSAGES = {
 
 const RESEND_WAIT_SECONDS = 30;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const TIME_WINDOW_MESSAGE = "Please choose a time at least 24 hours from now and within one month.";
 
 async function postJson(url, body) {
 	const res = await fetch(url, {
@@ -143,12 +145,24 @@ const useContactForm = (type = "contact") => {
 			creteAlert("error", "Please enter a 10-digit phone number.");
 			return;
 		}
+		if (formData.preferredAt) {
+			const at = new Date(formData.preferredAt);
+			const now = new Date();
+			const earliest = new Date(now.getTime() + DAY_MS);
+			if (Number.isNaN(at.getTime()) || at < earliest || at > oneMonthAfterUtc(now)) {
+				creteAlert("error", TIME_WINDOW_MESSAGE);
+				return;
+			}
+		}
 
 		setIsSubmitting(true);
 		try {
 			const payload = { type: formType, tracking: readTracking() };
 			for (const field of fields) payload[field] = formData[field];
-			if (payload.preferredAt) payload.preferredAt = new Date(payload.preferredAt).toISOString();
+			if (payload.preferredAt) {
+				const at = new Date(payload.preferredAt);
+				if (!Number.isNaN(at.getTime())) payload.preferredAt = at.toISOString();
+			}
 			const { ok, data } = await postJson("/api/contact/start", payload);
 			if (!ok) {
 				creteAlert("error", data?.message || "Something went wrong. Please try again.");

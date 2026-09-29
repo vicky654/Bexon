@@ -143,8 +143,9 @@ prefixed with `'` (spreadsheet formula injection).
 ## Error handling
 
 Unchanged from the contact spec, per type. Additionally: invalid
-`preferredAt` → 400 "Please choose a time between tomorrow and one month from
-now."; unknown `partnershipType` → 400 "Please choose a partnership type.".
+`preferredAt` → 400 "Please choose a time at least 24 hours from now and
+within one month."; unknown `partnershipType` → 400 "Please choose a
+partnership type.".
 
 ## Testing
 

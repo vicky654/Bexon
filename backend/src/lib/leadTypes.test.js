@@ -61,7 +61,7 @@ test("company is capped at 150 characters", () => {
 });
 
 test("preferredAt must be between tomorrow and one month from now", () => {
-	const message = "Please choose a time between tomorrow and one month from now.";
+	const message = "Please choose a time at least 24 hours from now and within one month.";
 	const at = iso => validateLead("consultation", { ...base, preferredAt: iso }, NOW);
 	assert.equal(at("2026-10-01T12:00:00.000Z"), message); // today
 	assert.equal(at("2026-10-02T10:00:00.000Z"), null); // exactly +1 day
@@ -71,7 +71,7 @@ test("preferredAt must be between tomorrow and one month from now", () => {
 });
 
 test("preferredAt handles month-end dates correctly (Jan 31)", () => {
-	const message = "Please choose a time between tomorrow and one month from now.";
+	const message = "Please choose a time at least 24 hours from now and within one month.";
 	const nowJan31 = new Date("2026-01-31T10:00:00.000Z");
 	const at = iso => validateLead("consultation", { ...base, preferredAt: iso }, nowJan31);
 

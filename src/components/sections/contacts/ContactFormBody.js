@@ -6,7 +6,7 @@ import ReactNiceSelect from "@/components/shared/Inputs/ReactNiceSelect";
 import Recaptcha from "@/components/shared/Inputs/Recaptcha";
 import ConsentModal from "@/components/sections/contacts/ConsentModal";
 import { CONTACT_TOPIC_OPTIONS } from "@/libs/contactTopics";
-import { PARTNERSHIP_OPTIONS } from "@/libs/leadForms";
+import { PARTNERSHIP_OPTIONS, oneMonthAfterUtc } from "@/libs/leadForms";
 
 // Fields + OTP step shared by Contact2 and Contact3. `form` is the return
 // value of useContactForm().
@@ -23,13 +23,10 @@ const ContactFormBody = ({ form, submitText }) => {
 			const offset = date.getTimezoneOffset() * 60000;
 			return new Date(date.getTime() - offset).toISOString().slice(0, 16);
 		};
-		const min = new Date(Date.now() + 24 * 60 * 60 * 1000);
-		const max = new Date();
-		const originalDay = max.getDate();
-		max.setDate(1);
-		max.setMonth(max.getMonth() + 1);
-		const daysInTargetMonth = new Date(max.getFullYear(), max.getMonth() + 1, 0).getDate();
-		max.setDate(Math.min(originalDay, daysInTargetMonth));
+		const now = new Date();
+		const min = new Date(now.getTime() + 24 * 60 * 60 * 1000 + 15 * 60 * 1000);
+		min.setMinutes(Math.ceil(min.getMinutes() / 15) * 15, 0, 0);
+		const max = oneMonthAfterUtc(now);
 		setTimeBounds({ min: toLocal(min), max: toLocal(max) });
 	}, []);
 
