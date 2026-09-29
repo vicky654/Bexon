@@ -47,8 +47,22 @@ function isLeadType(type) {
 }
 
 function oneMonthAfter(date) {
+	const originalDay = date.getUTCDate();
 	const result = new Date(date);
-	result.setMonth(result.getMonth() + 1);
+
+	// Move to the 1st of the target month (1 month later)
+	result.setUTCDate(1);
+	result.setUTCMonth(result.getUTCMonth() + 1);
+
+	// Get days in the target month by checking the last day of that month
+	const year = result.getUTCFullYear();
+	const month = result.getUTCMonth();
+	const daysInMonth = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+
+	// Clamp the original day to the last day of the target month
+	const clampedDay = Math.min(originalDay, daysInMonth);
+	result.setUTCDate(clampedDay);
+
 	return result;
 }
 

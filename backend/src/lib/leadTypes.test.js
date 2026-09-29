@@ -70,6 +70,24 @@ test("preferredAt must be between tomorrow and one month from now", () => {
 	assert.equal(at("not a date"), message);
 });
 
+test("preferredAt handles month-end dates correctly (Jan 31)", () => {
+	const message = "Please choose a time between tomorrow and one month from now.";
+	const nowJan31 = new Date("2026-01-31T10:00:00.000Z");
+	const at = iso => validateLead("consultation", { ...base, preferredAt: iso }, nowJan31);
+
+	// One month from Jan 31 is Feb 28 (not Mar 1)
+	assert.equal(at("2026-02-28T10:00:00.000Z"), null);
+	assert.equal(at("2026-03-01T10:00:00.000Z"), message);
+});
+
+test("preferredAt handles leap year month-end dates correctly (Jan 31 leap year)", () => {
+	const nowJan31Leap = new Date("2028-01-31T10:00:00.000Z");
+	const at = iso => validateLead("consultation", { ...base, preferredAt: iso }, nowJan31Leap);
+
+	// One month from Jan 31 in leap year is Feb 29 (not Feb 28)
+	assert.equal(at("2028-02-29T10:00:00.000Z"), null);
+});
+
 test("shared limits still apply", () => {
 	assert.ok(validateLead("contact", { ...base, name: "x".repeat(101) }, NOW));
 	assert.ok(validateLead("contact", { ...base, email: "nope" }, NOW));
