@@ -52,6 +52,17 @@ export const LEAD_FORMS = {
 // logged by analytics/ad tools).
 export const DOWNLOAD_URL_KEY = "dpdp-download-url";
 
+// The backend hands back a download URL that we store in sessionStorage and
+// later drop into an <a href>. Guard against a compromised/odd backend
+// response (or tampered sessionStorage) turning that into an open redirect or
+// a javascript:/data: URL by only ever trusting our own relative download
+// proxy path.
+const SAFE_DOWNLOAD_URL_PATTERN = /^\/api\/content\/resource\/[a-z0-9-]+\/download(\?token=[A-Za-z0-9._-]+)?$/;
+
+export function isSafeDownloadUrl(url) {
+	return typeof url === "string" && SAFE_DOWNLOAD_URL_PATTERN.test(url);
+}
+
 // Mirrors backend/src/lib/leadTypes.js's oneMonthAfter: a calendar month
 // later, with the day clamped to that month's last day (e.g. Jan 31 -> Feb 28).
 export function oneMonthAfterUtc(date) {

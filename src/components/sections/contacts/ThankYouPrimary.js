@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import { consumeContactSubmitted, GOOGLE_ADS_CONVERSION } from "@/libs/tracking";
-import { DOWNLOAD_URL_KEY, leadForm } from "@/libs/leadForms";
+import { DOWNLOAD_URL_KEY, isSafeDownloadUrl, leadForm } from "@/libs/leadForms";
 
 const ThankYouPrimary = ({ type }) => {
 	const [downloadUrl, setDownloadUrl] = useState("");
@@ -25,7 +25,7 @@ const ThankYouPrimary = ({ type }) => {
 		if (type !== "resource") return;
 		try {
 			const stored = sessionStorage.getItem(DOWNLOAD_URL_KEY);
-			if (stored) setDownloadUrl(stored);
+			if (isSafeDownloadUrl(stored)) setDownloadUrl(stored);
 		} catch {
 			// sessionStorage can throw (private mode, blocked storage); the
 			// page still works, just without the "download again" link.

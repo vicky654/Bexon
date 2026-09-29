@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSweetAlert from "@/hooks/useSweetAlert";
 import { markContactSubmitted, readTracking } from "@/libs/tracking";
-import { DOWNLOAD_URL_KEY, isLeadFormType, leadForm, oneMonthAfterUtc } from "@/libs/leadForms";
+import { DOWNLOAD_URL_KEY, isLeadFormType, isSafeDownloadUrl, leadForm, oneMonthAfterUtc } from "@/libs/leadForms";
 
 const emptyFormData = {
 	name: "",
@@ -125,7 +125,7 @@ const useContactForm = (type = "contact", { contentId } = {}) => {
 
 	const finish = (data = {}) => {
 		markContactSubmitted();
-		if (data.downloadUrl) {
+		if (isSafeDownloadUrl(data.downloadUrl)) {
 			try {
 				sessionStorage.setItem(DOWNLOAD_URL_KEY, data.downloadUrl);
 			} catch {}
