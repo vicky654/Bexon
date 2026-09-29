@@ -507,6 +507,23 @@ test("consultation time outside the window is rejected", async () => {
 	assert.equal(res.body.message, "Please choose a time at least 24 hours from now and within one month.");
 });
 
+test("resend uses the verification's stored department for consultation leads", async () => {
+	portalOn();
+	const app = buildApp();
+	const lead = consultationLead();
+	const { body } = await start(app, freshIp(), lead);
+	assert.equal(portalCalls[0].department, "Sales Enquiry");
+
+	await prisma.contactVerification.update({
+		where: { id: body.verificationId },
+		data: { lastSentAt: new Date(Date.now() - 31 * 1000) },
+	});
+
+	const res = await request(app).post("/api/contact/resend").send({ verificationId: body.verificationId });
+	assert.equal(res.status, 200);
+	assert.equal(portalCalls[1].department, "Sales Enquiry");
+});
+
 test("partner leads need a valid partnership type and store its label", async () => {
 	consentPortal.isConfigured = () => false;
 	const app = buildApp();
