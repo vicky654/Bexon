@@ -1,5 +1,6 @@
 import Link from "next/link";
 import FooterSubscribeForm from "@/components/layout/footer/FooterSubscribeForm";
+import { FOOTER_LINKS } from "@/content/navigation";
 
 const Footer = () => {
 	return (
@@ -30,68 +31,27 @@ const Footer = () => {
 								</div>
 							</div>
 						</div>
-						<div className="col-xl-3 col-lg-4 col-md-6">
-							<div
-								className="footer-widget widget-nav-menu wow fadeInUp"
-								data-wow-delay=".3s"
-							>
-								<h5 className="title">Services</h5>
-								<ul>
-									<li>
-										<Link href="/services/1">Customer Experience</Link>
-									</li>
-									<li>
-										<Link href="/services/2">Training Programs</Link>
-									</li>
-									<li>
-										<Link href="/services/3">Business Strategy</Link>
-									</li>
-									<li>
-										<Link href="/services/4">Training Program</Link>
-									</li>
-									<li>
-										<Link href="/services/5">ESG Consulting</Link>
-									</li>
-									<li>
-										<Link href="/services/6">Development Hub</Link>
-									</li>
-								</ul>
+						{FOOTER_LINKS.map((group, idx) => (
+							<div key={group.heading} className="col-xl-2 col-lg-4 col-md-6">
+								<div
+									className="footer-widget widget-nav-menu wow fadeInUp"
+									data-wow-delay={`.${3 + idx * 2}s`}
+								>
+									<h5 className="title">{group.heading}</h5>
+									<ul>
+										{group.links.map(link => (
+											<li key={link.href}>
+												<Link href={link.href}>{link.label}</Link>
+											</li>
+										))}
+									</ul>
+								</div>
 							</div>
-						</div>
-						<div className="col-xl-2 col-lg-4 col-md-6">
-							<div
-								className="footer-widget widget-nav-menu wow fadeInUp"
-								data-wow-delay=".5s"
-							>
-								<h5 className="title">Resources</h5>
-								<ul>
-									<li>
-										<Link href="/contact">Contact us</Link>
-									</li>
-									<li>
-										<Link href="/team">Team Member</Link>
-									</li>
-									<li>
-										<Link href="#">Recognitions</Link>
-									</li>
-									<li>
-										<Link href="/careers">
-											Careers <span className="badge">New</span>
-										</Link>
-									</li>
-									<li>
-										<Link href="/blogs">Blogs</Link>
-									</li>
-									<li>
-										<Link href="#">Feedback</Link>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div className="col-xl-4 col-lg-5 col-md-6">
+						))}
+						<div className="col-xl-3 col-lg-5 col-md-6">
 							<div
 								className="footer-widget widget-subscribe wow fadeInUp"
-								data-wow-delay=".7s"
+								data-wow-delay=".9s"
 							>
 								<h3 className="title">Subscribe to Our Newsletter.</h3>
 								<div className="subscribe-form">
