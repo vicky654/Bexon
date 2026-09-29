@@ -13,8 +13,8 @@ function eventWindow(when, now) {
 	const upcoming = { OR: [{ endsAt: { gte: now } }, { endsAt: null, startsAt: { gte: now } }] };
 	const past = { OR: [{ endsAt: { lt: now } }, { endsAt: null, startsAt: { lt: now } }] };
 	return when === "past"
-		? { where: past, orderBy: { startsAt: "desc" } }
-		: { where: upcoming, orderBy: { startsAt: "asc" } };
+		? { where: past, orderBy: [{ startsAt: "desc" }, { id: "desc" }] }
+		: { where: upcoming, orderBy: [{ startsAt: "asc" }, { id: "asc" }] };
 }
 
 router.get("/", async (req, res) => {
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 
 	const page = Math.max(1, Number.parseInt(req.query.page, 10) || 1);
 	let where = { kind, published: true };
-	let orderBy = { publishedAt: "desc" };
+	let orderBy = [{ publishedAt: "desc" }, { id: "desc" }];
 
 	if (kind === "resource" && Object.hasOwn(RESOURCE_TYPES, req.query.resourceType || "")) {
 		where.resourceType = req.query.resourceType;

@@ -9,7 +9,7 @@ import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentList } from "@/libs/contentApi";
-import { EVENT_FORMAT_LABELS, formatDateTime, pageFrom } from "@/libs/contentFormat";
+import { EVENT_FORMAT_LABELS, eventState, formatDateTime, pageFrom } from "@/libs/contentFormat";
 
 export const metadata = {
 	title: "Webinars & Events | DPDP Consultants",
@@ -31,7 +31,11 @@ export default async function Events({ searchParams }) {
 				eyebrow={EVENT_FORMAT_LABELS[item.format]}
 				title={item.title}
 				summary={item.summary}
-				meta={formatDateTime(item.startsAt)}
+				meta={
+					eventState(item) === "live"
+						? `Happening now · ${formatDateTime(item.startsAt)}`
+						: formatDateTime(item.startsAt)
+				}
 			/>
 		),
 	}));

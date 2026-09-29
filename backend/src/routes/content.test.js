@@ -74,6 +74,20 @@ test("lists only published items of the kind, newest first, paginated by 9", asy
 	assert.equal(garbage.body.page, 1);
 });
 
+test("pagination is stable when publishedAt ties: pages 1 and 2 together cover all items", async () => {
+	const samePublishedAt = days(-1);
+	for (let i = 0; i < 10; i += 1) {
+		await make({ kind: "news", slug: `tie-${i}`, publishedAt: samePublishedAt });
+	}
+
+	const first = await request(buildApp()).get("/api/content?kind=news");
+	const second = await request(buildApp()).get("/api/content?kind=news&page=2");
+	const slugs = [...first.body.items, ...second.body.items].map(i => i.slug);
+
+	assert.equal(slugs.length, 10);
+	assert.equal(new Set(slugs).size, 10);
+});
+
 test("resources filter by type and never expose the file name", async () => {
 	await make({ kind: "resource", slug: "g", resourceType: "guide", fileKey: "1-1.pdf" });
 	await make({ kind: "resource", slug: "w", resourceType: "whitepaper" });

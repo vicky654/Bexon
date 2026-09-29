@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import { consumeContactSubmitted, GOOGLE_ADS_CONVERSION } from "@/libs/tracking";
-import { DOWNLOAD_URL_KEY, isSafeDownloadUrl, leadForm } from "@/libs/leadForms";
+import { DOWNLOAD_URL_KEY, downloadUrlExpiry, isSafeDownloadUrl, leadForm } from "@/libs/leadForms";
 
 const ThankYouPrimary = ({ type }) => {
 	const [downloadUrl, setDownloadUrl] = useState("");
+	const [downloadExpired, setDownloadExpired] = useState(false);
 
 	useEffect(() => {
 		if (!consumeContactSubmitted()) return;
@@ -23,13 +25,37 @@ const ThankYouPrimary = ({ type }) => {
 
 	useEffect(() => {
 		if (type !== "resource") return;
+
+		let stored = "";
 		try {
-			const stored = sessionStorage.getItem(DOWNLOAD_URL_KEY);
-			if (isSafeDownloadUrl(stored)) setDownloadUrl(stored);
+			stored = sessionStorage.getItem(DOWNLOAD_URL_KEY) || "";
 		} catch {
 			// sessionStorage can throw (private mode, blocked storage); the
 			// page still works, just without the "download again" link.
+			return;
 		}
+		if (!isSafeDownloadUrl(stored)) return;
+
+		const clearStored = () => {
+			try {
+				sessionStorage.removeItem(DOWNLOAD_URL_KEY);
+			} catch {}
+		};
+
+		const expiry = downloadUrlExpiry(stored);
+		if (expiry === null || expiry <= Date.now()) {
+			clearStored();
+			setDownloadExpired(true);
+			return;
+		}
+
+		setDownloadUrl(stored);
+		const timer = setTimeout(() => {
+			clearStored();
+			setDownloadUrl("");
+			setDownloadExpired(true);
+		}, expiry - Date.now());
+		return () => clearTimeout(timer);
 	}, [type]);
 
 	return (
@@ -42,7 +68,7 @@ const ThankYouPrimary = ({ type }) => {
 						<p className="mb-5">{leadForm(type).thankYou}</p>
 						{downloadUrl ? (
 							<p className="mb-4">
-								<a className="tj-primary-btn" href={downloadUrl}>
+								<a className="tj-primary-btn" href={downloadUrl} download>
 									<span className="btn-text">
 										<span>Download again</span>
 									</span>
@@ -50,6 +76,11 @@ const ThankYouPrimary = ({ type }) => {
 										<i className="tji-arrow-right-long"></i>
 									</span>
 								</a>
+							</p>
+						) : null}
+						{downloadExpired ? (
+							<p className="mb-4">
+								Your download link has expired. <Link href="/resources">Browse resources</Link>
 							</p>
 						) : null}
 						<ButtonPrimary text={"Back to Home"} url={"/"} />

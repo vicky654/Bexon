@@ -22,8 +22,17 @@ export async function generateMetadata({ params }) {
 	};
 }
 
-export default async function ResourceDetails({ params }) {
+const DOWNLOAD_NOTICES = {
+	expired: {
+		gated: "Your download link has expired. Fill in the form again to get a fresh link.",
+		ungated: "Please try the download again.",
+	},
+	unavailable: "This file isn't available right now. Please try again later or email info@dpdpconsultants.com.",
+};
+
+export default async function ResourceDetails({ params, searchParams }) {
 	const { slug } = await params;
+	const { download } = await searchParams;
 	const item = await getContentItem("resource", slug);
 
 	if (!item) {
@@ -36,6 +45,13 @@ export default async function ResourceDetails({ params }) {
 	]
 		.filter(Boolean)
 		.join(" · ");
+
+	let notice = null;
+	if (download === "expired") {
+		notice = item.gated ? DOWNLOAD_NOTICES.expired.gated : DOWNLOAD_NOTICES.expired.ungated;
+	} else if (download === "unavailable") {
+		notice = DOWNLOAD_NOTICES.unavailable;
+	}
 
 	let aside;
 	if (item.gated) {
@@ -51,7 +67,7 @@ export default async function ResourceDetails({ params }) {
 		aside = (
 			<div className="content-side-card">
 				<h3 className="title">Download</h3>
-				<a className="text-btn" href={`/api/content/resource/${item.slug}/download`}>
+				<a className="text-btn" href={`/api/content/resource/${item.slug}/download`} download>
 					<span className="btn-text"><span>Download</span></span>
 					<span className="btn-icon"><i className="tji-arrow-right-long"></i></span>
 				</a>
@@ -62,6 +78,17 @@ export default async function ResourceDetails({ params }) {
 			<div className="content-side-card">
 				<p>This resource will be available soon.</p>
 			</div>
+		);
+	}
+
+	if (notice) {
+		aside = (
+			<>
+				<div className="content-side-card content-side-notice">
+					<p>{notice}</p>
+				</div>
+				{aside}
+			</>
 		);
 	}
 

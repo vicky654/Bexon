@@ -63,6 +63,24 @@ export function isSafeDownloadUrl(url) {
 	return typeof url === "string" && SAFE_DOWNLOAD_URL_PATTERN.test(url);
 }
 
+// Decodes (without verifying) the `exp` claim of the JWT in a download URL's
+// `token` query param, purely so the UI can show/hide "Download again" and
+// warn before the link actually expires server-side. Never trust this for
+// anything security-sensitive; the backend re-verifies the token itself.
+export function downloadUrlExpiry(url) {
+	try {
+		const token = new URL(url, "http://localhost").searchParams.get("token");
+		if (!token) return null;
+		const payload = token.split(".")[1];
+		if (!payload) return null;
+		const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
+		const { exp } = JSON.parse(atob(base64));
+		return typeof exp === "number" ? exp * 1000 : null;
+	} catch {
+		return null;
+	}
+}
+
 // Mirrors backend/src/lib/leadTypes.js's oneMonthAfter: a calendar month
 // later, with the day clamped to that month's last day (e.g. Jan 31 -> Feb 28).
 export function oneMonthAfterUtc(date) {

@@ -105,6 +105,17 @@ test("PDF upload accepts real PDFs only", async () => {
 	assert.equal(wrongType.status, 400);
 });
 
+test("PDF upload rejects files over the 20 MB size cap", async () => {
+	const app = buildApp();
+	const oversized = Buffer.concat([Buffer.from("%PDF-"), Buffer.alloc(20 * 1024 * 1024)]);
+	const res = await request(app)
+		.post("/api/admin/upload/resource")
+		.set("Cookie", authCookie())
+		.attach("file", oversized, { filename: "big.pdf", contentType: "application/pdf" });
+	assert.equal(res.status, 400);
+	assert.equal(res.body.message, "PDFs must be 20 MB or smaller.");
+});
+
 test("deleting a resource deletes its file; replacing the file deletes the old one", async () => {
 	const app = buildApp();
 	const upload = async () =>

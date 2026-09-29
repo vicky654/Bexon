@@ -9,7 +9,7 @@ import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentItem } from "@/libs/contentApi";
-import { EVENT_FORMAT_LABELS, formatDateTime, isUpcoming } from "@/libs/contentFormat";
+import { EVENT_FORMAT_LABELS, eventState, formatDateTime } from "@/libs/contentFormat";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
@@ -37,9 +37,19 @@ export default async function EventDetails({ params }) {
 	].filter(Boolean);
 	const meta = metaParts.join(" · ");
 
+	const state = eventState(item);
+
 	let aside;
-	if (isUpcoming(item)) {
+	if (state === "upcoming") {
 		aside = <ContentLeadForm type="webinar" contentId={item.id} title="Register for this event" />;
+	} else if (state === "live") {
+		aside = (
+			<div className="content-side-card">
+				<h3 className="title">This event is in progress</h3>
+				<p>Registration has closed.</p>
+				{item.venue ? <p>Joining details: {item.venue}</p> : null}
+			</div>
+		);
 	} else if (item.recordingUrl) {
 		aside = (
 			<div className="content-side-card">

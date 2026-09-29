@@ -131,6 +131,7 @@ const useContactForm = (type = "contact", { contentId } = {}) => {
 			} catch {}
 			const link = document.createElement("a");
 			link.href = data.downloadUrl;
+			link.download = "";
 			document.body.appendChild(link);
 			link.click();
 			link.remove();

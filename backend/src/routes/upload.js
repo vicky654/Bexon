@@ -72,8 +72,14 @@ router.post("/resource", (req, res) => {
 		if (req.file.buffer.subarray(0, 5).toString("latin1") !== "%PDF-") {
 			return res.status(400).json({ message: "That file isn't a valid PDF." });
 		}
-		const fileKey = newResourceKey();
-		fs.writeFileSync(resourcePath(fileKey), req.file.buffer);
+		let fileKey;
+		try {
+			fileKey = newResourceKey();
+			fs.writeFileSync(resourcePath(fileKey), req.file.buffer);
+		} catch (saveError) {
+			console.error("Failed to save uploaded PDF:", saveError.message);
+			return res.status(500).json({ message: "Couldn't save the PDF. Please try again." });
+		}
 		res.status(201).json({ fileKey });
 	});
 });

@@ -33,10 +33,22 @@ const initialState = {
 	gated: true,
 };
 
+// Backend responses can carry null/undefined for unset optional fields; keep
+// every text input controlled by falling back to "" (booleans keep their
+// actual value so checkboxes aren't coerced).
+function sanitizeInitialValues(initialValues) {
+	if (!initialValues) return {};
+	const sanitized = {};
+	for (const [key, value] of Object.entries(initialValues)) {
+		sanitized[key] = typeof value === "boolean" ? value : value ?? "";
+	}
+	return sanitized;
+}
+
 export default function ContentForm({ kind, initialValues, onSubmit, submitLabel }) {
 	const [values, setValues] = useState({
 		...initialState,
-		...initialValues,
+		...sanitizeInitialValues(initialValues),
 		publishedAt: toLocalInput(initialValues?.publishedAt),
 		startsAt: toLocalInput(initialValues?.startsAt),
 		endsAt: toLocalInput(initialValues?.endsAt),
@@ -47,6 +59,7 @@ export default function ContentForm({ kind, initialValues, onSubmit, submitLabel
 	const [coverError, setCoverError] = useState("");
 	const [isUploadingFile, setIsUploadingFile] = useState(false);
 	const [fileError, setFileError] = useState("");
+	const [uploadedFileName, setUploadedFileName] = useState("");
 	// Once editing an existing item (it already has a slug), or once the user
 	// edits the slug themselves, stop auto-deriving it from the title.
 	const [slugTouched, setSlugTouched] = useState(Boolean(initialValues?.slug));
@@ -126,6 +139,7 @@ export default function ContentForm({ kind, initialValues, onSubmit, submitLabel
 				throw new Error(data.message || "File upload failed.");
 			}
 			setValues(prev => ({ ...prev, fileKey: data.fileKey }));
+			setUploadedFileName(file.name);
 		} catch (err) {
 			setFileError(err.message);
 		} finally {
@@ -257,7 +271,7 @@ export default function ContentForm({ kind, initialValues, onSubmit, submitLabel
 				<>
 					<div className="form-row">
 						<div className="form-field">
-							<label htmlFor="startsAt">Starts</label>
+							<label htmlFor="startsAt">Starts (your local time)</label>
 							<input
 								id="startsAt"
 								name="startsAt"
@@ -268,7 +282,7 @@ export default function ContentForm({ kind, initialValues, onSubmit, submitLabel
 							/>
 						</div>
 						<div className="form-field">
-							<label htmlFor="endsAt">Ends (optional)</label>
+							<label htmlFor="endsAt">Ends (your local time, optional)</label>
 							<input
 								id="endsAt"
 								name="endsAt"
@@ -339,7 +353,11 @@ export default function ContentForm({ kind, initialValues, onSubmit, submitLabel
 							/>
 						</label>
 						<span className="form-file-status">
-							{values.fileKey ? `Current file: ${values.fileKey}` : "No file uploaded yet"}
+							{uploadedFileName
+								? `Uploaded: ${uploadedFileName}`
+								: values.fileKey
+									? `Current file: ${values.fileKey}`
+									: "No file uploaded yet"}
 						</span>
 						{fileError ? <p className="error">{fileError}</p> : null}
 					</div>

@@ -22,8 +22,11 @@ export function formatDateTime(value) {
 	return `${text} IST`;
 }
 
-export function isUpcoming(item) {
-	return new Date(item.startsAt) > new Date();
+export function eventState(item, now = new Date()) {
+	const startsAt = new Date(item.startsAt);
+	if (startsAt > now) return "upcoming";
+	const endsAt = item.endsAt ? new Date(item.endsAt) : startsAt;
+	return endsAt >= now ? "live" : "ended";
 }
 
 export function pageFrom(value) {
