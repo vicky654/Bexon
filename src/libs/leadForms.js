@@ -33,7 +33,24 @@ export const LEAD_FORMS = {
 		submitText: "Subscribe",
 		thankYou: "You're subscribed. Welcome to the DPDP Consultants newsletter.",
 	},
+	webinar: {
+		fields: ["name", "email", "phone", "company"],
+		required: ["name", "email", "phone", "company"],
+		submitText: "Register Now",
+		thankYou: "You're registered. We'll email you the joining details before the event.",
+	},
+	resource: {
+		fields: ["name", "email", "phone", "company"],
+		required: ["name", "email", "phone", "company"],
+		submitText: "Get the Resource",
+		thankYou: "Thank you. Your download should start automatically.",
+	},
 };
+
+// Session-storage key used to hand the one-time resource download URL off to
+// the thank-you page without ever putting it in a page URL (query strings get
+// logged by analytics/ad tools).
+export const DOWNLOAD_URL_KEY = "dpdp-download-url";
 
 // Mirrors backend/src/lib/leadTypes.js's oneMonthAfter: a calendar month
 // later, with the day clamped to that month's last day (e.g. Jan 31 -> Feb 28).

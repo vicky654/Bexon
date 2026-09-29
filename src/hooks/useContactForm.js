@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSweetAlert from "@/hooks/useSweetAlert";
 import { markContactSubmitted, readTracking } from "@/libs/tracking";
-import { isLeadFormType, leadForm, oneMonthAfterUtc } from "@/libs/leadForms";
+import { DOWNLOAD_URL_KEY, isLeadFormType, leadForm, oneMonthAfterUtc } from "@/libs/leadForms";
 
 const emptyFormData = {
 	name: "",
@@ -40,7 +40,7 @@ async function postJson(url, body) {
 	return { status: res.status, ok: res.ok, data };
 }
 
-const useContactForm = (type = "contact") => {
+const useContactForm = (type = "contact", { contentId } = {}) => {
 	const formType = isLeadFormType(type) ? type : "contact";
 	const { fields, required } = leadForm(formType);
 	const creteAlert = useSweetAlert();
@@ -123,8 +123,18 @@ const useContactForm = (type = "contact") => {
 		resetRecaptcha();
 	};
 
-	const finish = () => {
+	const finish = (data = {}) => {
 		markContactSubmitted();
+		if (data.downloadUrl) {
+			try {
+				sessionStorage.setItem(DOWNLOAD_URL_KEY, data.downloadUrl);
+			} catch {}
+			const link = document.createElement("a");
+			link.href = data.downloadUrl;
+			document.body.appendChild(link);
+			link.click();
+			link.remove();
+		}
 		router.push(`/thank-you?type=${formType}`);
 	};
 
@@ -158,6 +168,7 @@ const useContactForm = (type = "contact") => {
 		setIsSubmitting(true);
 		try {
 			const payload = { type: formType, tracking: readTracking() };
+			if (contentId) payload.contentId = contentId;
 			for (const field of fields) payload[field] = formData[field];
 			if (payload.preferredAt) {
 				const at = new Date(payload.preferredAt);
@@ -169,7 +180,7 @@ const useContactForm = (type = "contact") => {
 				return;
 			}
 			if (data.done) {
-				finish();
+				finish(data);
 				return;
 			}
 			setVerificationId(data.verificationId);
@@ -227,7 +238,7 @@ const useContactForm = (type = "contact") => {
 				recaptchaToken,
 			});
 			if (ok) {
-				finish();
+				finish(data);
 				return;
 			}
 			setConsentOpen(false);
