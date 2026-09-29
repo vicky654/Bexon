@@ -30,6 +30,10 @@ model ContactSubmission {
   name            String
   email           String
   phone           String?
+  type            String   @default("contact")
+  company         String?
+  partnershipType String?
+  preferredAt     DateTime?
   service         String?
   topic           String?
   message         String
@@ -44,18 +48,22 @@ model ContactSubmission {
 }
 
 model ContactVerification {
-  id         String   @id @default(uuid())
-  name       String
-  email      String
-  phone      String
-  topic      String
-  message    String
-  tracking   String
-  otpHash    String
-  attempts   Int      @default(0)
-  lastSentAt DateTime @default(now())
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
+  id              String   @id @default(uuid())
+  name            String
+  email           String
+  phone           String
+  type            String   @default("contact")
+  company         String?
+  partnershipType String?
+  preferredAt     DateTime?
+  topic           String
+  message         String
+  tracking        String
+  otpHash         String
+  attempts        Int      @default(0)
+  lastSentAt      DateTime @default(now())
+  expiresAt       DateTime
+  createdAt       DateTime @default(now())
 }
 
 model Admin {
