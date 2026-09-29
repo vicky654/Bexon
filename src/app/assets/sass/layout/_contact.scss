@@ -80,7 +80,8 @@ START: Contact CSS
 		.nice-select,
 		input[type="tel"],
 		input[type="text"],
-		input[type="email"] {
+		input[type="email"],
+		input[type="datetime-local"] {
 			background-color: transparent;
 			color: var(--tj-color-text-body-3);
 			padding: 11px 0;
@@ -497,3 +498,106 @@ START: Contact CSS
 }
 
 /* !END: Contact CSS */
+
+/* Lead form pages (book a consultation, partner, newsletter) */
+.tj-lead-form-section {
+	.lead-form-intro {
+		padding-inline-end: 30px;
+		@media #{$md, $sm, $xs} {
+			padding-inline-end: 0;
+			margin-bottom: 40px;
+		}
+	}
+	.sec-heading {
+		margin-bottom: 20px;
+	}
+	.lead-form-title {
+		font-size: 44px;
+		line-height: 1.15;
+		@media #{$lg} {
+			font-size: 38px;
+		}
+		@media #{$md, $sm, $xs} {
+			font-size: 32px;
+		}
+	}
+	.lead-form-desc {
+		font-size: 17px;
+		line-height: 1.7;
+		margin-bottom: 28px;
+	}
+	.lead-form-points {
+		list-style: none;
+		padding: 0;
+		margin: 0 0 34px;
+		display: flex;
+		flex-direction: column;
+		gap: 14px;
+		li {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			color: var(--tj-color-heading-primary);
+			font-weight: var(--tj-fw-medium);
+		}
+	}
+	.lead-form-point-icon {
+		flex-shrink: 0;
+		width: 26px;
+		height: 26px;
+		border-radius: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--tj-color-theme-primary);
+		color: var(--tj-color-common-white);
+		font-size: 11px;
+	}
+	.lead-form-contact {
+		padding: 24px;
+		border-radius: 12px;
+		background-color: var(--tj-color-common-white);
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+	}
+	.lead-form-contact-label {
+		margin: 0 0 4px;
+		font-weight: var(--tj-fw-sbold);
+		color: var(--tj-color-heading-primary);
+	}
+	.lead-form-contact-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 12px;
+		color: var(--tj-color-text-body);
+		&:hover {
+			color: var(--tj-color-theme-primary);
+		}
+	}
+	.lead-form-contact-icon {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		background-color: var(--tj-color-theme-bg);
+		color: var(--tj-color-theme-primary);
+		font-size: 15px;
+	}
+	.lead-form-card {
+		margin-inline-end: 0;
+		box-shadow: 0 20px 50px rgba(2, 9, 44, 0.06);
+	}
+	.form-input-date input[type="datetime-local"] {
+		width: 100%;
+		font-family: inherit;
+		font-size: inherit;
+		min-height: 48px;
+		&::-webkit-calendar-picker-indicator {
+			cursor: pointer;
+			opacity: 0.6;
+		}
+	}
+}

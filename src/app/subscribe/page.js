@@ -25,6 +25,7 @@ export default function Subscribe() {
 						<HeroInner title={"Newsletter"} text={"Newsletter"} />
 						<LeadFormSection
 							type="newsletter"
+							eyebrow="Newsletter"
 							title="Subscribe to Our Newsletter"
 							intro="Stay informed on the DPDP Act, rules, enforcement updates and practical privacy guidance, delivered to your inbox."
 						/>

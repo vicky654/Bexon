@@ -25,6 +25,7 @@ export default function PartnerWithUs() {
 						<HeroInner title={"Partner With Us"} text={"Partner With Us"} />
 						<LeadFormSection
 							type="partner"
+							eyebrow="Partnerships"
 							title="Partner With DPDP Consultants for Data Protection Compliance"
 							intro="Collaborate with DPDP Consultants on data protection compliance initiatives. Partner with us to help clients meet regulatory requirements, strengthen privacy frameworks, and ensure robust data protection practices."
 						/>

@@ -25,6 +25,7 @@ export default function BookConsultation() {
 						<HeroInner title={"Book a Consultation"} text={"Book a Consultation"} />
 						<LeadFormSection
 							type="consultation"
+							eyebrow="Consultation"
 							title="Book a DPDP Compliance Consultation"
 							intro="Schedule a call with DPDP Consultants to discuss your organization's DPDP compliance needs. Our experts will guide you through requirements, clarify obligations, and help you plan a clear path to achieving and maintaining data protection compliance."
 							points={["Gap assessment and remediation planning", "Live demonstrations of compliance tools", "Data Protection Officer as a Service"]}

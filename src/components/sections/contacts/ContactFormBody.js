@@ -15,6 +15,7 @@ const ContactFormBody = ({ form, submitText }) => {
 	const [recaptchaError, setRecaptchaError] = useState(false);
 	const star = field => (form.required.includes(field) ? " *" : "");
 	const [timeBounds, setTimeBounds] = useState({ min: "", max: "" });
+	const [dateFocused, setDateFocused] = useState(false);
 
 	// datetime-local wants local "YYYY-MM-DDTHH:mm"; computed after mount so
 	// server and client render the same markup.
@@ -144,13 +145,24 @@ const ContactFormBody = ({ form, submitText }) => {
 			case "preferredAt":
 				return (
 					<div className="col-sm-6">
-						<div className="form-input">
-							<label className="d-block mb-1" htmlFor="preferredAt">
-								Preferred date &amp; time (optional)
-							</label>
+						<div className="form-input form-input-date">
+							{/* Shown as a plain text field (matching the other inputs) until
+							    focused or filled, then switched to the native picker. */}
 							<input
 								id="preferredAt"
-								type="datetime-local"
+								type={dateFocused || form.formData.preferredAt ? "datetime-local" : "text"}
+								aria-label="Preferred date and time (optional)"
+								placeholder="Preferred date & time (optional)"
+								onFocus={e => {
+									setDateFocused(true);
+									const input = e.currentTarget;
+									requestAnimationFrame(() => {
+										try {
+											input.showPicker?.();
+										} catch {}
+									});
+								}}
+								onBlur={() => setDateFocused(false)}
 								name="preferredAt"
 								min={timeBounds.min}
 								max={timeBounds.max}
