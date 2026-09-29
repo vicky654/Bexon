@@ -1,5 +1,7 @@
 "use client";
 
+import { leadTypeLabel, PARTNERSHIP_LABELS } from "@/lib/leadTypes";
+
 function formatDate(value) {
 	if (!value) return "";
 	try {
@@ -49,6 +51,22 @@ export default function MessageDetailModal({ message, onClose, onMarkRead }) {
 						<div>
 							<dt>Phone</dt>
 							<dd>{message.phone || "—"}</dd>
+						</div>
+						<div>
+							<dt>Type</dt>
+							<dd>{leadTypeLabel(message.type)}</dd>
+						</div>
+						<div>
+							<dt>Company</dt>
+							<dd>{message.company || "—"}</dd>
+						</div>
+						<div>
+							<dt>Partnership type</dt>
+							<dd>{PARTNERSHIP_LABELS[message.partnershipType] || "—"}</dd>
+						</div>
+						<div>
+							<dt>Preferred time</dt>
+							<dd>{message.preferredAt ? formatDate(message.preferredAt) : "—"}</dd>
 						</div>
 						<div>
 							<dt>Purpose</dt>
