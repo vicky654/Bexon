@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-const { LEAD_TYPES } = require("./leadTypes");
+const { LEAD_TYPES, PARTNERSHIP_TYPES } = require("./leadTypes");
 
 async function sendContactNotification({
 	type,
@@ -10,6 +10,7 @@ async function sendContactNotification({
 	partnershipType,
 	preferredAt,
 	service,
+	topic,
 	message,
 	language,
 	utm,
@@ -35,20 +36,24 @@ async function sendContactNotification({
 
 	const toEmail = process.env.CONTACT_TO_EMAIL || process.env.SMTP_USER;
 	const fromEmail = process.env.CONTACT_FROM_EMAIL || process.env.SMTP_USER;
+	const partnershipLabel = Object.hasOwn(PARTNERSHIP_TYPES, partnershipType) ? PARTNERSHIP_TYPES[partnershipType] : null;
 
 	await transporter.sendMail({
 		from: `"${name}" <${fromEmail}>`,
 		replyTo: email,
 		to: toEmail,
-		subject: `New ${(LEAD_TYPES[type] || LEAD_TYPES.contact).label} lead${service ? ` - ${service}` : ""}`,
+		// The newsletter type's "service" is always the literal string
+		// "Newsletter", which would just repeat the label, so it's excluded.
+		subject: `New ${(LEAD_TYPES[type] || LEAD_TYPES.contact).label} lead${type !== "newsletter" && service ? ` - ${service}` : ""}`,
 		text: [
 			`Name: ${name}`,
 			`Email: ${email}`,
 			phone ? `Phone: ${phone}` : null,
 			`Type: ${(LEAD_TYPES[type] || LEAD_TYPES.contact).label}`,
 			company ? `Company: ${company}` : null,
+			partnershipLabel ? `Partnership type: ${partnershipLabel}` : null,
 			preferredAt ? `Preferred time: ${new Date(preferredAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST` : null,
-			service ? `Purpose: ${service}` : null,
+			topic ? `Purpose: ${topic}` : null,
 			language ? `Consent language: ${language}` : null,
 			`Consent recorded in portal: ${consentRecorded ? "Yes" : "No"}`,
 			"",
