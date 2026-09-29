@@ -1,4 +1,5 @@
 import Link from "next/link";
+import FooterSubscribeForm from "@/components/layout/footer/FooterSubscribeForm";
 
 const Footer = () => {
 	return (
@@ -94,17 +95,7 @@ const Footer = () => {
 							>
 								<h3 className="title">Subscribe to Our Newsletter.</h3>
 								<div className="subscribe-form">
-									<form action="/subscribe" method="get">
-										<input type="email" name="email" placeholder="Enter email" maxLength={254} required />
-										<button type="submit" aria-label="Subscribe">
-											<i className="tji-plane"></i>
-										</button>
-										<label htmlFor="agree">
-											<input id="agree" type="checkbox" required />
-											Agree to our{" "}
-											<Link href="/terms-and-conditions">Terms & Condition?</Link>
-										</label>
-									</form>
+									<FooterSubscribeForm />
 								</div>
 							</div>
 						</div>

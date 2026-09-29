@@ -12,10 +12,7 @@ export const metadata = {
 	description: "Stay informed on the DPDP Act, rules, enforcement updates and practical privacy guidance.",
 };
 
-export default async function Subscribe({ searchParams }) {
-	const { email } = await searchParams;
-	const initialEmail = typeof email === "string" ? email.slice(0, 254) : "";
-
+export default function Subscribe() {
 	return (
 		<div>
 			<BackToTop />
@@ -30,7 +27,6 @@ export default async function Subscribe({ searchParams }) {
 							type="newsletter"
 							title="Subscribe to Our Newsletter"
 							intro="Stay informed on the DPDP Act, rules, enforcement updates and practical privacy guidance, delivered to your inbox."
-							initialEmail={initialEmail}
 						/>
 						<Cta />
 					</main>

@@ -38,12 +38,12 @@ async function postJson(url, body) {
 	return { status: res.status, ok: res.ok, data };
 }
 
-const useContactForm = (type = "contact", { initialEmail = "" } = {}) => {
+const useContactForm = (type = "contact") => {
 	const formType = isLeadFormType(type) ? type : "contact";
 	const { fields, required } = leadForm(formType);
 	const creteAlert = useSweetAlert();
 	const router = useRouter();
-	const [formData, setFormData] = useState({ ...emptyFormData, email: initialEmail.toLowerCase() });
+	const [formData, setFormData] = useState({ ...emptyFormData });
 	const [config, setConfig] = useState({ verification: false, recaptchaSiteKey: "", notices: {} });
 	const [step, setStep] = useState("form");
 	const [verificationId, setVerificationId] = useState("");
@@ -63,6 +63,23 @@ const useContactForm = (type = "contact", { initialEmail = "" } = {}) => {
 				if (data) setConfig(data);
 			})
 			.catch(() => {});
+	}, [formType]);
+
+	// The footer's newsletter box hands off the email via sessionStorage
+	// instead of a `?email=` query string (which Google Ads would otherwise
+	// log via page_location). Pick it up once on mount and clear it.
+	useEffect(() => {
+		if (formType !== "newsletter") return;
+		try {
+			const stored = sessionStorage.getItem("dpdp-subscribe-email");
+			if (stored) {
+				sessionStorage.removeItem("dpdp-subscribe-email");
+				setFormData(prev => ({ ...prev, email: stored.toLowerCase().slice(0, 254) }));
+			}
+		} catch {
+			// sessionStorage can throw (private mode, blocked storage); the
+			// form still works, just without the pre-fill.
+		}
 	}, [formType]);
 
 	useEffect(() => {

@@ -4,8 +4,8 @@ import useContactForm from "@/hooks/useContactForm";
 import { leadForm } from "@/libs/leadForms";
 import Link from "next/link";
 
-const LeadFormSection = ({ type, title, intro, points = [], initialEmail = "" }) => {
-	const form = useContactForm(type, { initialEmail });
+const LeadFormSection = ({ type, title, intro, points = [] }) => {
+	const form = useContactForm(type);
 
 	return (
 		<section className="tj-contact-section-2 section-bottom-gap">

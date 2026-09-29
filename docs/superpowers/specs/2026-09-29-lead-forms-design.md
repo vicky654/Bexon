@@ -111,10 +111,19 @@ prefixed with `'` (spreadsheet formula injection).
 - New pages `/book-consultation`, `/partner-with-us`, `/subscribe`, each using
   the site's inner-page layout (Header, HeroInner, section, Footer) with a
   short intro paragraph (old site copy) beside the form.
-- `/subscribe` reads `?email=` and pre-fills it.
-- Footer newsletter box (main `Footer.js`): submit navigates to
-  `/subscribe?email=<value>`; empty/invalid email shows the browser's
-  built-in validation (input type=email, required).
+- Footer newsletter box (main `Footer.js`) renders a small client component,
+  `FooterSubscribeForm`. On submit it runs the browser's built-in validation
+  (input type=email, required; invalid → `reportValidity()` and stop), stores
+  the email in `sessionStorage` under `dpdp-subscribe-email`, and navigates to
+  a plain `/subscribe` (no query string). A GET-submitted `/subscribe?email=…`
+  would leak visitor emails to Google Ads, which logs page_location
+  (including the query string) on every pageview — the controller ruled this
+  out, overriding this spec's original GET mechanism.
+- `/subscribe` no longer reads `searchParams`. Its newsletter form picks up
+  the handed-off email on mount: `useContactForm` reads and removes
+  `dpdp-subscribe-email` from `sessionStorage` (try/catch, since storage can
+  throw) when `type === "newsletter"`, and pre-fills the email field with it
+  (lowercased, ≤254 chars).
 - `/thank-you?type=<type>` shows per-type copy:
   - contact: "Thank you for contacting DPDP Consultants; Our Privacy Expert will reach out to you shortly."
   - consultation: "Thank you for booking a consultation. Our team will confirm your slot shortly."
