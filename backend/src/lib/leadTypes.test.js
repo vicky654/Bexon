@@ -55,6 +55,13 @@ test("partner requires a known partnership type and a message", () => {
 	assert.ok(validateLead("partner", { ...base, message: "" }, NOW));
 });
 
+test("prototype keys are not accepted as a topic or partnership type", () => {
+	assert.ok(validateLead("contact", { ...base, topic: "__proto__" }, NOW));
+	assert.ok(validateLead("contact", { ...base, topic: "constructor" }, NOW));
+	assert.ok(validateLead("partner", { ...base, partnershipType: "constructor" }, NOW));
+	assert.ok(validateLead("partner", { ...base, partnershipType: "toString" }, NOW));
+});
+
 test("company is capped at 150 characters", () => {
 	assert.ok(validateLead("partner", { ...base, company: "x".repeat(151) }, NOW));
 	assert.equal(validateLead("partner", { ...base, company: "x".repeat(150) }, NOW), null);

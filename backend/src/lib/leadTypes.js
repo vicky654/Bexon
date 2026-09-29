@@ -81,10 +81,14 @@ function validateLead(type, lead, now = new Date()) {
 		if (needs("company") && !lead.company) return "Please enter your company name.";
 		if ((lead.company || "").length > 150) return "Please keep the company name under 150 characters.";
 	}
-	if (uses("topic") && (needs("topic") || lead.topic) && !CONTACT_TOPICS[lead.topic]) {
+	if (uses("topic") && (needs("topic") || lead.topic) && !Object.hasOwn(CONTACT_TOPICS, lead.topic)) {
 		return "Please choose the purpose of reaching out.";
 	}
-	if (uses("partnershipType") && (needs("partnershipType") || lead.partnershipType) && !PARTNERSHIP_TYPES[lead.partnershipType]) {
+	if (
+		uses("partnershipType") &&
+		(needs("partnershipType") || lead.partnershipType) &&
+		!Object.hasOwn(PARTNERSHIP_TYPES, lead.partnershipType)
+	) {
 		return "Please choose a partnership type.";
 	}
 	if (uses("preferredAt") && lead.preferredAt) {

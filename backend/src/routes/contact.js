@@ -86,10 +86,12 @@ async function saveLead(lead, { language, consentRecorded }) {
 		return;
 	}
 
-	const topicLabel = CONTACT_TOPICS[lead.topic] || null;
+	const topicLabel = Object.hasOwn(CONTACT_TOPICS, lead.topic) ? CONTACT_TOPICS[lead.topic] : null;
 	const serviceLabel =
 		lead.type === "partner"
-			? PARTNERSHIP_TYPES[lead.partnershipType]
+			? Object.hasOwn(PARTNERSHIP_TYPES, lead.partnershipType)
+				? PARTNERSHIP_TYPES[lead.partnershipType]
+				: null
 			: lead.type === "newsletter"
 				? "Newsletter"
 				: topicLabel;
