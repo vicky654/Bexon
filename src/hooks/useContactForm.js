@@ -131,7 +131,9 @@ const useContactForm = (type = "contact", { contentId } = {}) => {
 			} catch {}
 			const link = document.createElement("a");
 			link.href = data.downloadUrl;
-			link.download = "";
+			// No download attribute: the backend sends Content-Disposition: attachment,
+			// so success saves the PDF in place, while an error redirect (expired or
+			// missing file) shows the notice on the resource page instead of being saved.
 			document.body.appendChild(link);
 			link.click();
 			link.remove();

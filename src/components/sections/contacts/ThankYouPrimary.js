@@ -68,7 +68,7 @@ const ThankYouPrimary = ({ type }) => {
 						<p className="mb-5">{leadForm(type).thankYou}</p>
 						{downloadUrl ? (
 							<p className="mb-4">
-								<a className="tj-primary-btn" href={downloadUrl} download>
+								<a className="tj-primary-btn" href={downloadUrl}>
 									<span className="btn-text">
 										<span>Download again</span>
 									</span>

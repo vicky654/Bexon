@@ -67,7 +67,7 @@ export default async function ResourceDetails({ params, searchParams }) {
 		aside = (
 			<div className="content-side-card">
 				<h3 className="title">Download</h3>
-				<a className="text-btn" href={`/api/content/resource/${item.slug}/download`} download>
+				<a className="text-btn" href={`/api/content/resource/${item.slug}/download`}>
 					<span className="btn-text"><span>Download</span></span>
 					<span className="btn-icon"><i className="tji-arrow-right-long"></i></span>
 				</a>
