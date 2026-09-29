@@ -1,5 +1,6 @@
 export default {
 	path: "/dpdp-act/penalties-and-fines",
+	parent: "/dpdp-act",
 	title: "DPDP Act Penalties & Fines India",
 	description: "Know fine tiers, common violations & mitigating controls to reduce DPDP Act enforcement risks.",
 	hero: {
