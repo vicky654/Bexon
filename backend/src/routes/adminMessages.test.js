@@ -72,3 +72,67 @@ test("PATCH on an unknown id returns 404", async () => {
 		.send({ status: "read" });
 	assert.equal(res.status, 404);
 });
+
+test("filters messages by type and returns per-type counts", async t => {
+	await prisma.contactSubmission.createMany({
+		data: [
+			{ name: "A", email: "a@example.com", message: "m", type: "contact" },
+			{ name: "B", email: "b@example.com", message: "", type: "newsletter" },
+			{ name: "C", email: "c@example.com", message: "", type: "newsletter" },
+		],
+	});
+	t.after(async () => {
+		await prisma.contactSubmission.deleteMany();
+	});
+
+	const all = await request(buildApp()).get("/api/admin/messages").set("Cookie", authCookie());
+	assert.equal(all.body.messages.length, 3);
+	assert.deepEqual(all.body.counts, { all: 3, contact: 1, consultation: 0, partner: 0, newsletter: 2 });
+
+	const news = await request(buildApp()).get("/api/admin/messages?type=newsletter").set("Cookie", authCookie());
+	assert.equal(news.body.messages.length, 2);
+
+	const bogus = await request(buildApp()).get("/api/admin/messages?type=bogus").set("Cookie", authCookie());
+	assert.equal(bogus.body.messages.length, 3);
+});
+
+test("exports CSV with escaping and formula protection", async t => {
+	await prisma.contactSubmission.create({
+		data: {
+			name: 'Doe, "JD"',
+			email: "jd@example.com",
+			phone: "9876543210",
+			message: "=HYPERLINK(\"http://evil\")\nline two",
+			type: "partner",
+			company: "Acme",
+			partnershipType: "reseller",
+			service: "Reseller / Referral",
+			consentRecorded: true,
+		},
+	});
+	t.after(async () => {
+		await prisma.contactSubmission.deleteMany();
+	});
+
+	const res = await request(buildApp()).get("/api/admin/messages/export.csv?type=partner").set("Cookie", authCookie());
+	assert.equal(res.status, 200);
+	assert.match(res.headers["content-type"], /text\/csv/);
+	assert.match(res.headers["content-disposition"], /attachment; filename="dpdp-leads-partner-\d{4}-\d{2}-\d{2}\.csv"/);
+
+	const body = res.text.replace(/^﻿/, "");
+	const [header] = body.split("\r\n");
+	assert.equal(
+		header,
+		"Received,Type,Name,Email,Phone,Company,Purpose,Partnership type,Preferred time,Message,Consent recorded,Language,UTM,Referrer"
+	);
+	assert.ok(body.includes('"Doe, ""JD"""'));
+	assert.ok(body.includes("\"'=HYPERLINK(\"\"http://evil\"\")\nline two\""));
+	assert.ok(body.includes(",Partner,"));
+	assert.ok(body.includes(",Reseller / Referral,"));
+	assert.ok(body.includes(",Yes,"));
+});
+
+test("export requires admin auth", async () => {
+	const res = await request(buildApp()).get("/api/admin/messages/export.csv");
+	assert.equal(res.status, 401);
+});
