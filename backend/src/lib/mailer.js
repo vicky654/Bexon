@@ -1,9 +1,14 @@
 const nodemailer = require("nodemailer");
+const { LEAD_TYPES } = require("./leadTypes");
 
 async function sendContactNotification({
+	type,
 	name,
 	email,
 	phone,
+	company,
+	partnershipType,
+	preferredAt,
 	service,
 	message,
 	language,
@@ -35,11 +40,14 @@ async function sendContactNotification({
 		from: `"${name}" <${fromEmail}>`,
 		replyTo: email,
 		to: toEmail,
-		subject: `New contact form submission${service ? ` - ${service}` : ""}`,
+		subject: `New ${(LEAD_TYPES[type] || LEAD_TYPES.contact).label} lead${service ? ` - ${service}` : ""}`,
 		text: [
 			`Name: ${name}`,
 			`Email: ${email}`,
 			phone ? `Phone: ${phone}` : null,
+			`Type: ${(LEAD_TYPES[type] || LEAD_TYPES.contact).label}`,
+			company ? `Company: ${company}` : null,
+			preferredAt ? `Preferred time: ${new Date(preferredAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST` : null,
 			service ? `Purpose: ${service}` : null,
 			language ? `Consent language: ${language}` : null,
 			`Consent recorded in portal: ${consentRecorded ? "Yes" : "No"}`,

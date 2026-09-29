@@ -11,10 +11,9 @@ const {
 	isTestAddress,
 	createRateLimiter,
 } = require("../lib/contactHelpers");
+const { LEAD_TYPES, PARTNERSHIP_TYPES, isLeadType, validateLead, normalizeLead } = require("../lib/leadTypes");
 
 const router = express.Router();
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const phonePattern = /^\d{10}$/;
 
 const OTP_TTL_MS = 10 * 60 * 1000;
 const RESEND_WAIT_MS = 30 * 1000;
@@ -39,8 +38,8 @@ const emailSendLimiter = createRateLimiter({ max: 5, windowMs: 10 * 60 * 1000 })
 const GLOBAL_SEND_CAP = Number(process.env.CONTACT_GLOBAL_SEND_CAP) || 100;
 const globalSendLimiter = createRateLimiter({ max: GLOBAL_SEND_CAP, windowMs: 60 * 60 * 1000 });
 
-function department() {
-	return process.env.CONSENT_DEPARTMENT || "Contact Us";
+function departmentFor(type) {
+	return LEAD_TYPES[isLeadType(type) ? type : "contact"].department;
 }
 
 function text(value) {
@@ -50,24 +49,18 @@ function text(value) {
 function readLead(body) {
 	const tracking = body.tracking && typeof body.tracking === "object" ? body.tracking : {};
 	return {
+		type: text(body.type) || "contact",
 		name: text(body.name),
 		email: text(body.email).toLowerCase(),
 		phone: text(body.phone),
+		company: text(body.company),
 		topic: text(body.topic),
+		partnershipType: text(body.partnershipType),
+		preferredAt: text(body.preferredAt),
 		message: text(body.message),
 		utm: text(tracking.utm).slice(0, 500),
 		referrer: text(tracking.referrer).slice(0, 500),
 	};
-}
-
-function validateLead(lead) {
-	if (!lead.name || !lead.email || !lead.message) return "Name, email and message are required.";
-	if (lead.name.length > 100) return "Please keep your name under 100 characters.";
-	if (!emailPattern.test(lead.email) || lead.email.length > 254) return "Please provide a valid email address.";
-	if (!phonePattern.test(lead.phone)) return "Please provide a 10-digit phone number.";
-	if (!CONTACT_TOPICS[lead.topic]) return "Please choose the purpose of reaching out.";
-	if (lead.message.length > 5000) return "Please keep your message under 5000 characters.";
-	return null;
 }
 
 async function requestOtp(lead) {
@@ -76,7 +69,7 @@ async function requestOtp(lead) {
 		email: lead.email,
 		phone: lead.phone,
 		ipaddress: lead.ip,
-		department: department(),
+		department: departmentFor(lead.type),
 		devicetype: lead.device,
 		language: DEFAULT_LANGUAGE,
 	});
@@ -93,12 +86,22 @@ async function saveLead(lead, { language, consentRecorded }) {
 		return;
 	}
 
-	const topicLabel = CONTACT_TOPICS[lead.topic];
+	const topicLabel = CONTACT_TOPICS[lead.topic] || null;
+	const serviceLabel =
+		lead.type === "partner"
+			? PARTNERSHIP_TYPES[lead.partnershipType]
+			: lead.type === "newsletter"
+				? "Newsletter"
+				: topicLabel;
 	const data = {
+		type: lead.type,
 		name: lead.name,
 		email: lead.email,
 		phone: lead.phone,
-		service: topicLabel,
+		company: lead.company || null,
+		partnershipType: lead.partnershipType || null,
+		preferredAt: lead.preferredAt || null,
+		service: serviceLabel,
 		topic: topicLabel,
 		message: lead.message,
 		language,
@@ -137,7 +140,7 @@ router.get("/config", async (req, res) => {
 	let notices = {};
 	if (verification) {
 		try {
-			notices = await consentPortal.getConsentNotices(department());
+			notices = await consentPortal.getConsentNotices(departmentFor(req.query.type));
 		} catch (error) {
 			console.error("Failed to load consent notices from the portal:", error.message);
 		}
@@ -146,9 +149,11 @@ router.get("/config", async (req, res) => {
 });
 
 router.post("/start", async (req, res) => {
-	const lead = readLead(req.body || {});
-	const error = validateLead(lead);
+	const raw = readLead(req.body || {});
+	if (!isLeadType(raw.type)) return res.status(400).json({ message: "Unknown form type." });
+	const error = validateLead(raw.type, raw);
 	if (error) return res.status(400).json({ message: error });
+	const lead = normalizeLead(raw.type, raw);
 
 	lead.ip = clientIp(req);
 	lead.device = deviceTypeFromUserAgent(req.get("user-agent"));
@@ -183,6 +188,10 @@ router.post("/start", async (req, res) => {
 
 	const verification = await prisma.contactVerification.create({
 		data: {
+			type: lead.type,
+			company: lead.company || null,
+			partnershipType: lead.partnershipType || null,
+			preferredAt: lead.preferredAt,
 			name: lead.name,
 			email: lead.email,
 			phone: lead.phone,
@@ -286,7 +295,7 @@ router.post("/verify", async (req, res) => {
 			email: lead.email,
 			phone: lead.phone,
 			ipaddress: lead.ip,
-			department: department(),
+			department: departmentFor(lead.type),
 			devicetype: lead.device,
 			language,
 			otp: code,

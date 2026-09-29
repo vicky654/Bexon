@@ -448,3 +448,133 @@ test("the lead is saved even when the notification email fails", async () => {
 		delete process.env.SMTP_USER;
 	}
 });
+
+const futureIso = days => new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+
+const consultationLead = () => ({
+	type: "consultation",
+	name: "Ravi Kumar",
+	email: freshEmail(),
+	phone: "9123456780",
+	company: "Acme Pvt Ltd",
+	topic: "gap_assessment",
+	preferredAt: futureIso(3),
+	message: "",
+});
+
+test("unknown lead type is rejected", async () => {
+	portalOn();
+	const res = await start(buildApp(), freshIp(), { ...validLead, email: freshEmail(), type: "poem" });
+	assert.equal(res.status, 400);
+	assert.equal(res.body.message, "Unknown form type.");
+	assert.equal(portalCalls.length, 0);
+});
+
+test("consultation asks the portal for a Sales Enquiry code and saves its fields", async () => {
+	portalOn();
+	const app = buildApp();
+	const lead = consultationLead();
+	const { body } = await start(app, freshIp(), lead);
+	assert.ok(body.verificationId);
+	assert.equal(portalCalls[0].department, "Sales Enquiry");
+
+	const res = await request(app)
+		.post("/api/contact/verify")
+		.send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+	assert.equal(res.status, 200);
+	assert.equal(portalCalls[1].department, "Sales Enquiry");
+
+	const saved = await prisma.contactSubmission.findFirst({ where: { email: lead.email } });
+	assert.equal(saved.type, "consultation");
+	assert.equal(saved.company, "Acme Pvt Ltd");
+	assert.equal(saved.topic, "Gap Assessment Review & Remediation Planning");
+	assert.equal(saved.preferredAt.toISOString(), lead.preferredAt);
+});
+
+test("consultation without a preferred time is accepted", async () => {
+	consentPortal.isConfigured = () => false;
+	const lead = { ...consultationLead(), preferredAt: "" };
+	const res = await start(buildApp(), freshIp(), lead);
+	assert.equal(res.status, 201);
+	const saved = await prisma.contactSubmission.findFirst({ where: { email: lead.email } });
+	assert.equal(saved.preferredAt, null);
+});
+
+test("consultation time outside the window is rejected", async () => {
+	portalOn();
+	const res = await start(buildApp(), freshIp(), { ...consultationLead(), preferredAt: futureIso(40) });
+	assert.equal(res.status, 400);
+	assert.equal(res.body.message, "Please choose a time between tomorrow and one month from now.");
+});
+
+test("partner leads need a valid partnership type and store its label", async () => {
+	consentPortal.isConfigured = () => false;
+	const app = buildApp();
+	const partner = {
+		type: "partner",
+		name: "Meera",
+		email: freshEmail(),
+		phone: "9000000001",
+		company: "Integrator Co",
+		partnershipType: "technology",
+		message: "We'd like to integrate.",
+	};
+	const bad = await start(app, freshIp(), { ...partner, partnershipType: "franchise" });
+	assert.equal(bad.status, 400);
+
+	const ok = await start(app, freshIp(), partner);
+	assert.equal(ok.status, 201);
+	const saved = await prisma.contactSubmission.findFirst({ where: { email: partner.email } });
+	assert.equal(saved.type, "partner");
+	assert.equal(saved.partnershipType, "technology");
+	assert.equal(saved.service, "Technology Integration");
+	assert.equal(saved.topic, null);
+});
+
+test("newsletter needs only name, email and phone, and uses the Newsletters department", async () => {
+	portalOn();
+	const email = freshEmail();
+	const res = await start(buildApp(), freshIp(), { type: "newsletter", name: "Sam", email, phone: "9000000002" });
+	assert.equal(res.status, 201);
+	assert.equal(portalCalls[0].department, "Newsletters");
+});
+
+test("newsletter saved directly when verification is off", async () => {
+	consentPortal.isConfigured = () => false;
+	const email = freshEmail();
+	await start(buildApp(), freshIp(), { type: "newsletter", name: "Sam", email, phone: "9000000003" });
+	const saved = await prisma.contactSubmission.findFirst({ where: { email } });
+	assert.equal(saved.type, "newsletter");
+	assert.equal(saved.service, "Newsletter");
+	assert.equal(saved.message, "");
+});
+
+test("fields that don't belong to the type are not stored", async () => {
+	consentPortal.isConfigured = () => false;
+	const email = freshEmail();
+	await start(buildApp(), freshIp(), {
+		...validLead,
+		email,
+		company: "Should Not Store",
+		partnershipType: "reseller",
+		preferredAt: futureIso(3),
+	});
+	const saved = await prisma.contactSubmission.findFirst({ where: { email } });
+	assert.equal(saved.type, "contact");
+	assert.equal(saved.company, null);
+	assert.equal(saved.partnershipType, null);
+	assert.equal(saved.preferredAt, null);
+});
+
+test("config uses the type's department and falls back to contact for unknown types", async () => {
+	consentPortal.isConfigured = () => true;
+	const asked = [];
+	consentPortal.getConsentNotices = async department => {
+		asked.push(department);
+		return {};
+	};
+	await request(buildApp()).get("/api/contact/config?type=newsletter");
+	await request(buildApp()).get("/api/contact/config?type=<script>");
+	await request(buildApp()).get("/api/contact/config");
+	assert.deepEqual(asked, ["Newsletters", "Contact Us", "Contact Us"]);
+});
