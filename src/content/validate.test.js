@@ -50,6 +50,82 @@ test("unsafe HTML is rejected", () => {
 	}
 });
 
+test("HTML tokenizer bypasses (comments, doctype, stray <, unclosed tags) are rejected", () => {
+	for (const html of [
+		"<!-- <p>hidden</p> --><p>x</p>",
+		"<!DOCTYPE html><p>x</p>",
+		"<p>a < b</p>",
+		"<img src=x onerror=alert(1) ",
+	]) {
+		assert.ok(validatePage({ ...good, sections: [{ type: "richText", html }] }, ctx).length, html);
+	}
+});
+
+test("duplicate href attributes are rejected in either casing", () => {
+	for (const html of [
+		"<p><a href=\"/contact\" href=\"/faq\">x</a></p>",
+		"<p><a href=\"/contact\" HREF=\"/faq\">x</a></p>",
+	]) {
+		assert.ok(validatePage({ ...good, sections: [{ type: "richText", html }] }, ctx).length, html);
+	}
+});
+
+test("internal, https and mailto links with query strings or hashes are accepted", () => {
+	for (const html of [
+		"<p><a href=\"/contact?x=1#y\">x</a></p>",
+		"<p><a href=\"https://example.com/?a=b\">x</a></p>",
+		"<p><a href=\"mailto:a@b.com?subject=Hi\">x</a></p>",
+	]) {
+		assert.deepEqual(validatePage({ ...good, sections: [{ type: "richText", html }] }, ctx), []);
+	}
+});
+
+test("a secondary button without a label is rejected", () => {
+	const cta = {
+		...good,
+		sections: [
+			{
+				type: "cta",
+				heading: "H",
+				text: "t",
+				primary: { label: "Go", href: "/contact" },
+				secondary: { href: "/faq" },
+			},
+		],
+	};
+	assert.ok(validatePage(cta, ctx).some(e => e.includes("secondary.label")));
+});
+
+test("a null or non-object item is reported, not thrown", () => {
+	const page = {
+		...good,
+		sections: [{ type: "features", heading: "H", items: [null, "not-an-object"] }],
+	};
+	assert.doesNotThrow(() => validatePage(page, ctx));
+	const errors = validatePage(page, ctx);
+	assert.ok(errors.length);
+});
+
+test("an image path containing .. is rejected", () => {
+	const page = {
+		...good,
+		sections: [
+			{
+				type: "split",
+				heading: "H",
+				html: "<p>x</p>",
+				image: "/images/../../etc/passwd.webp",
+				imageAlt: "x",
+			},
+		],
+	};
+	assert.ok(validatePage(page, ctx).some(e => e.includes("not allowed")));
+});
+
+test("a link to / is accepted", () => {
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "richText", html: "<p><a href=\"/\">home</a></p>" }] }, ctx), []);
+});
+
 test("broken internal links, unknown icons and missing images are reported", () => {
 	const page = {
 		...good,

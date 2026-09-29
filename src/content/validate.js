@@ -4,7 +4,7 @@ import path from "node:path";
 export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks"];
 
 const ALLOWED_TAGS = new Set(["p", "h3", "h4", "ul", "ol", "li", "strong", "em", "a", "br"]);
-const STATIC_ROUTES = ["/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe"];
+const STATIC_ROUTES = ["/", "/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe"];
 
 export function knownRoutes(pages) {
 	return new Set([...STATIC_ROUTES, ...pages.map(page => page.path)]);
@@ -16,26 +16,134 @@ export function iconNamesFromCss(css) {
 
 function checkHref(href, where, ctx, errors) {
 	if (typeof href !== "string" || !href) return errors.push(`${where}: missing href`);
+	// An href taken from parsed HTML is decoded by the browser before navigation, so any
+	// character entity other than the literal-ampersand escape "&amp;" (e.g. "&colon;",
+	// "&#58;", "&#x3a;") could smuggle a "javascript:" (or similar) scheme past the checks
+	// below. Reject any such entity outright rather than trying to enumerate them.
+	if (/&(?!amp;)/.test(href)) return errors.push(`${where}: link "${href}" contains a disallowed character entity`);
 	if (/^(https:\/\/|mailto:|tel:)/.test(href)) return;
 	if (!href.startsWith("/")) return errors.push(`${where}: link "${href}" must be internal or https/mailto/tel`);
 	const route = href.split(/[?#]/)[0];
 	if (!ctx.knownRoutes.has(route)) errors.push(`${where}: link "${href}" points to an unknown page`);
 }
 
+const isSpace = ch => ch === " " || ch === "\t" || ch === "\n" || ch === "\r" || ch === "\f";
+const isNameChar = ch => /[a-zA-Z0-9]/.test(ch || "");
+const isAttrNameChar = ch => /[a-zA-Z-]/.test(ch || "");
+
+// checkHtml is the only guard standing in front of dangerouslySetInnerHTML, so it hand-parses
+// the markup with a small tokenizer instead of matching tags with a regex: every "<" must open
+// a well-formed "<name ...>" / "</name>" for a name in ALLOWED_TAGS and close with ">" before
+// the string ends, or it is rejected — including "<!--" comments, "<!DOCTYPE" and other "<!...>"
+// markup, a stray "<", and a tag left unclosed at the end of the string. Content that needs a
+// literal "<" character must write the HTML entity "&lt;" instead.
 function checkHtml(html, where, ctx, errors) {
 	if (typeof html !== "string" || !html.trim()) return errors.push(`${where}: html is required`);
-	for (const match of html.matchAll(/<\/?([a-zA-Z0-9]+)([^>]*)>/g)) {
-		const tag = match[1].toLowerCase();
-		const attrs = match[2];
-		if (!ALLOWED_TAGS.has(tag)) errors.push(`${where}: tag <${tag}> is not allowed`);
-		const attrNames = [...attrs.matchAll(/([a-zA-Z-]+)\s*=/g)].map(m => m[1].toLowerCase());
-		for (const name of attrNames) {
-			if (!(tag === "a" && name === "href")) errors.push(`${where}: attribute "${name}" on <${tag}> is not allowed`);
+	const n = html.length;
+	let i = 0;
+	while (i < n) {
+		if (html[i] !== "<") {
+			i++;
+			continue;
 		}
-		if (tag === "a" && !match[0].startsWith("</")) {
-			const href = attrs.match(/href\s*=\s*"([^"]*)"/)?.[1];
-			checkHref(href, where, ctx, errors);
+		if (html.startsWith("<!--", i)) {
+			errors.push(`${where}: comments are not allowed`);
+			const end = html.indexOf("-->", i);
+			i = end === -1 ? n : end + 3;
+			continue;
 		}
+		if (html[i + 1] === "!") {
+			errors.push(`${where}: "<!...>" markup is not allowed`);
+			const end = html.indexOf(">", i);
+			i = end === -1 ? n : end + 1;
+			continue;
+		}
+		const closing = html[i + 1] === "/";
+		let pos = i + (closing ? 2 : 1);
+		const nameStart = pos;
+		while (pos < n && isNameChar(html[pos])) pos++;
+		const name = html.slice(nameStart, pos).toLowerCase();
+		if (!name) {
+			errors.push(`${where}: stray "<"`);
+			i++;
+			continue;
+		}
+		if (closing) {
+			while (pos < n && isSpace(html[pos])) pos++;
+			if (html[pos] !== ">") {
+				errors.push(`${where}: malformed closing tag </${name}>`);
+				const end = html.indexOf(">", pos);
+				i = end === -1 ? n : end + 1;
+				continue;
+			}
+			if (!ALLOWED_TAGS.has(name)) errors.push(`${where}: tag <${name}> is not allowed`);
+			i = pos + 1;
+			continue;
+		}
+		if (!ALLOWED_TAGS.has(name)) errors.push(`${where}: tag <${name}> is not allowed`);
+		const attrs = {};
+		let unclosed = false;
+		for (;;) {
+			while (pos < n && isSpace(html[pos])) pos++;
+			if (pos >= n) {
+				unclosed = true;
+				break;
+			}
+			if (html[pos] === ">") {
+				pos++;
+				break;
+			}
+			if (html[pos] === "/" && html[pos + 1] === ">") {
+				pos += 2;
+				break;
+			}
+			const attrNameStart = pos;
+			while (pos < n && isAttrNameChar(html[pos])) pos++;
+			if (pos === attrNameStart) {
+				errors.push(`${where}: malformed attribute in <${name}>`);
+				pos++;
+				continue;
+			}
+			const attrName = html.slice(attrNameStart, pos).toLowerCase();
+			let value = "";
+			let p2 = pos;
+			while (p2 < n && isSpace(html[p2])) p2++;
+			if (html[p2] === "=") {
+				p2++;
+				while (p2 < n && isSpace(html[p2])) p2++;
+				const quote = html[p2];
+				if (quote === '"' || quote === "'") {
+					const valStart = p2 + 1;
+					const endQuote = html.indexOf(quote, valStart);
+					if (endQuote === -1) {
+						errors.push(`${where}: unterminated attribute value in <${name}>`);
+						unclosed = true;
+						break;
+					}
+					value = html.slice(valStart, endQuote);
+					pos = endQuote + 1;
+				} else {
+					const valStart = p2;
+					let vp = p2;
+					while (vp < n && !isSpace(html[vp]) && html[vp] !== ">") vp++;
+					value = html.slice(valStart, vp);
+					pos = vp;
+				}
+			}
+			if (attrName in attrs) errors.push(`${where}: duplicate attribute "${attrName}" on <${name}>`);
+			attrs[attrName] = value;
+			if (!(name === "a" && attrName === "href")) errors.push(`${where}: attribute "${attrName}" on <${name}> is not allowed`);
+		}
+		if (unclosed) {
+			errors.push(`${where}: unclosed tag <${name}>`);
+			i = n;
+			continue;
+		}
+		if (name === "a") {
+			if (!("href" in attrs)) errors.push(`${where}: <a> requires href`);
+			else checkHref(attrs.href, where, ctx, errors);
+		}
+		i = pos;
 	}
 }
 
@@ -46,11 +154,26 @@ function checkText(value, field, where, errors, max) {
 
 function checkImage(src, where, ctx, errors) {
 	if (typeof src !== "string" || !src.startsWith("/images/")) return errors.push(`${where}: image must be a /images/... path`);
+	if (src.includes("..") || src.includes("\\")) return errors.push(`${where}: image path "${src}" is not allowed`);
 	if (!fs.existsSync(path.join(ctx.publicDir, src))) errors.push(`${where}: image ${src} does not exist`);
 }
 
 function checkIcon(icon, where, ctx, errors) {
 	if (icon && !ctx.iconNames.has(icon)) errors.push(`${where}: unknown icon ${icon}`);
+}
+
+function checkSecondary(secondary, where, ctx, errors) {
+	if (!secondary) return;
+	checkText(secondary.label, "secondary.label", where, errors);
+	checkHref(secondary.href, `${where}.secondary`, ctx, errors);
+}
+
+function checkItem(item, where, errors) {
+	if (!item || typeof item !== "object" || Array.isArray(item)) {
+		errors.push(`${where}: item must be an object`);
+		return false;
+	}
+	return true;
 }
 
 const SECTION_CHECKS = {
@@ -59,7 +182,7 @@ const SECTION_CHECKS = {
 		checkText(section.text, "text", where, errors);
 		checkHref(section.primary?.href, `${where}.primary`, ctx, errors);
 		checkText(section.primary?.label, "primary.label", where, errors);
-		if (section.secondary) checkHref(section.secondary.href, `${where}.secondary`, ctx, errors);
+		checkSecondary(section.secondary, where, ctx, errors);
 		if (section.image) checkImage(section.image, where, ctx, errors);
 	},
 	richText(section, where, ctx, errors) {
@@ -69,10 +192,12 @@ const SECTION_CHECKS = {
 		checkText(section.heading, "heading", where, errors);
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => {
-			checkText(item.title, "title", `${where}.items[${i}]`, errors);
-			checkText(item.text, "text", `${where}.items[${i}]`, errors);
-			checkIcon(item.icon, `${where}.items[${i}]`, ctx, errors);
-			if (item.href) checkHref(item.href, `${where}.items[${i}]`, ctx, errors);
+			const itemWhere = `${where}.items[${i}]`;
+			if (!checkItem(item, itemWhere, errors)) return;
+			checkText(item.title, "title", itemWhere, errors);
+			checkText(item.text, "text", itemWhere, errors);
+			checkIcon(item.icon, itemWhere, ctx, errors);
+			if (item.href) checkHref(item.href, itemWhere, ctx, errors);
 		});
 	},
 	split(section, where, ctx, errors) {
@@ -85,23 +210,29 @@ const SECTION_CHECKS = {
 		checkText(section.heading, "heading", where, errors);
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => {
-			checkText(item.title, "title", `${where}.items[${i}]`, errors);
-			checkText(item.text, "text", `${where}.items[${i}]`, errors);
+			const itemWhere = `${where}.items[${i}]`;
+			if (!checkItem(item, itemWhere, errors)) return;
+			checkText(item.title, "title", itemWhere, errors);
+			checkText(item.text, "text", itemWhere, errors);
 		});
 	},
 	stats(section, where, ctx, errors) {
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => {
-			checkText(item.value, "value", `${where}.items[${i}]`, errors);
-			checkText(item.label, "label", `${where}.items[${i}]`, errors);
+			const itemWhere = `${where}.items[${i}]`;
+			if (!checkItem(item, itemWhere, errors)) return;
+			checkText(item.value, "value", itemWhere, errors);
+			checkText(item.label, "label", itemWhere, errors);
 		});
 	},
 	faq(section, where, ctx, errors) {
 		checkText(section.heading, "heading", where, errors);
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => {
-			checkText(item.question, "question", `${where}.items[${i}]`, errors);
-			checkHtml(item.answer, `${where}.items[${i}].answer`, ctx, errors);
+			const itemWhere = `${where}.items[${i}]`;
+			if (!checkItem(item, itemWhere, errors)) return;
+			checkText(item.question, "question", itemWhere, errors);
+			checkHtml(item.answer, `${itemWhere}.answer`, ctx, errors);
 		});
 	},
 	cta(section, where, ctx, errors) {
@@ -109,16 +240,18 @@ const SECTION_CHECKS = {
 		checkText(section.text, "text", where, errors);
 		checkText(section.primary?.label, "primary.label", where, errors);
 		checkHref(section.primary?.href, `${where}.primary`, ctx, errors);
-		if (section.secondary) checkHref(section.secondary.href, `${where}.secondary`, ctx, errors);
+		checkSecondary(section.secondary, where, ctx, errors);
 	},
 	cardsLinks(section, where, ctx, errors) {
 		checkText(section.heading, "heading", where, errors);
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => {
-			checkText(item.title, "title", `${where}.items[${i}]`, errors);
-			checkText(item.text, "text", `${where}.items[${i}]`, errors);
-			checkHref(item.href, `${where}.items[${i}]`, ctx, errors);
-			if (item.image) checkImage(item.image, `${where}.items[${i}]`, ctx, errors);
+			const itemWhere = `${where}.items[${i}]`;
+			if (!checkItem(item, itemWhere, errors)) return;
+			checkText(item.title, "title", itemWhere, errors);
+			checkText(item.text, "text", itemWhere, errors);
+			checkHref(item.href, itemWhere, ctx, errors);
+			if (item.image) checkImage(item.image, itemWhere, ctx, errors);
 		});
 	},
 };

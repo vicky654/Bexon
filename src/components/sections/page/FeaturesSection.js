@@ -6,8 +6,8 @@ const FeaturesSection = ({ eyebrow, heading, intro, items }) => (
 		<div className="container">
 			<SectionHeading eyebrow={eyebrow} heading={heading} intro={intro} />
 			<div className="row row-gap-4">
-				{items.map(item => (
-					<div className="col-lg-4 col-md-6" key={item.title}>
+				{items.map((item, idx) => (
+					<div className="col-lg-4 col-md-6" key={`${idx}-${item.title}`}>
 						<div className="choose-box page-feature">
 							<div className="choose-content">
 								<div className="choose-icon">
