@@ -1,17 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
 import ReactNiceSelect from "@/components/shared/Inputs/ReactNiceSelect";
 import Recaptcha from "@/components/shared/Inputs/Recaptcha";
 import ConsentModal from "@/components/sections/contacts/ConsentModal";
 import { CONTACT_TOPIC_OPTIONS } from "@/libs/contactTopics";
+import { PARTNERSHIP_OPTIONS } from "@/libs/leadForms";
 
 // Fields + OTP step shared by Contact2 and Contact3. `form` is the return
 // value of useContactForm().
 const ContactFormBody = ({ form, submitText }) => {
 	const locked = form.step === "otp";
 	const [recaptchaError, setRecaptchaError] = useState(false);
+	const star = field => (form.required.includes(field) ? " *" : "");
+	const [timeBounds, setTimeBounds] = useState({ min: "", max: "" });
+
+	// datetime-local wants local "YYYY-MM-DDTHH:mm"; computed after mount so
+	// server and client render the same markup.
+	useEffect(() => {
+		const toLocal = date => {
+			const offset = date.getTimezoneOffset() * 60000;
+			return new Date(date.getTime() - offset).toISOString().slice(0, 16);
+		};
+		const min = new Date(Date.now() + 24 * 60 * 60 * 1000);
+		const max = new Date();
+		const originalDay = max.getDate();
+		max.setDate(1);
+		max.setMonth(max.getMonth() + 1);
+		const daysInTargetMonth = new Date(max.getFullYear(), max.getMonth() + 1, 0).getDate();
+		max.setDate(Math.min(originalDay, daysInTargetMonth));
+		setTimeBounds({ min: toLocal(min), max: toLocal(max) });
+	}, []);
 
 	// The widget remounts (new React key) whenever the token is reset, so a
 	// stale load-error from a previous mount shouldn't stick around.
@@ -19,76 +39,156 @@ const ContactFormBody = ({ form, submitText }) => {
 		setRecaptchaError(false);
 	}, [form.recaptchaKey]);
 
-	return (
-		<div className="row">
-			<div className="col-sm-6">
-				<div className="form-input">
-					<input
-						type="text"
-						name="name"
-						maxLength={100}
-						placeholder="Full Name *"
-						value={form.formData.name}
-						onChange={form.handleChange}
-						disabled={locked}
-					/>
-				</div>
-			</div>
-			<div className="col-sm-6">
-				<div className="form-input">
-					<input
-						type="email"
-						name="email"
-						maxLength={254}
-						placeholder="Email Address *"
-						value={form.formData.email}
-						onChange={form.handleChange}
-						disabled={locked}
-					/>
-				</div>
-			</div>
-			<div className="col-sm-6">
-				<div className="form-input">
-					<input
-						type="tel"
-						name="phone"
-						inputMode="numeric"
-						maxLength={10}
-						placeholder="Phone number *"
-						value={form.formData.phone}
-						onChange={form.handleChange}
-						disabled={locked}
-					/>
-				</div>
-			</div>
-			<div className="col-sm-6">
-				<div
-					className="form-input"
-					style={locked ? { pointerEvents: "none", opacity: 0.6 } : undefined}
-				>
-					<div className="tj-nice-select-box">
-						<div className="tj-select">
-							<ReactNiceSelect
-								selectedIndex={0}
-								getSelectedOption={form.handleTopicChange}
-								options={CONTACT_TOPIC_OPTIONS}
+	const renderField = field => {
+		switch (field) {
+			case "name":
+				return (
+					<div className="col-sm-6">
+						<div className="form-input">
+							<input
+								type="text"
+								name="name"
+								maxLength={100}
+								placeholder={`Full Name${star("name")}`}
+								value={form.formData.name}
+								onChange={form.handleChange}
+								disabled={locked}
 							/>
 						</div>
 					</div>
-				</div>
-			</div>
-			<div className="col-sm-12">
-				<div className="form-input message-input">
-					<textarea
-						name="message"
-						maxLength={5000}
-						placeholder="Type message *"
-						value={form.formData.message}
-						onChange={form.handleChange}
-						disabled={locked}
-					></textarea>
-				</div>
-			</div>
+				);
+			case "email":
+				return (
+					<div className="col-sm-6">
+						<div className="form-input">
+							<input
+								type="email"
+								name="email"
+								maxLength={254}
+								placeholder={`Email Address${star("email")}`}
+								value={form.formData.email}
+								onChange={form.handleChange}
+								disabled={locked}
+							/>
+						</div>
+					</div>
+				);
+			case "phone":
+				return (
+					<div className="col-sm-6">
+						<div className="form-input">
+							<input
+								type="tel"
+								name="phone"
+								inputMode="numeric"
+								maxLength={10}
+								placeholder={`Phone number${star("phone")}`}
+								value={form.formData.phone}
+								onChange={form.handleChange}
+								disabled={locked}
+							/>
+						</div>
+					</div>
+				);
+			case "company":
+				return (
+					<div className="col-sm-6">
+						<div className="form-input">
+							<input
+								type="text"
+								name="company"
+								maxLength={150}
+								placeholder={`Company Name${star("company")}`}
+								value={form.formData.company}
+								onChange={form.handleChange}
+								disabled={locked}
+							/>
+						</div>
+					</div>
+				);
+			case "topic":
+				return (
+					<div className="col-sm-6">
+						<div
+							className="form-input"
+							style={locked ? { pointerEvents: "none", opacity: 0.6 } : undefined}
+						>
+							<div className="tj-nice-select-box">
+								<div className="tj-select">
+									<ReactNiceSelect
+										selectedIndex={0}
+										getSelectedOption={form.handleTopicChange}
+										options={CONTACT_TOPIC_OPTIONS}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				);
+			case "partnershipType":
+				return (
+					<div className="col-sm-6">
+						<div
+							className="form-input"
+							style={locked ? { pointerEvents: "none", opacity: 0.6 } : undefined}
+						>
+							<div className="tj-nice-select-box">
+								<div className="tj-select">
+									<ReactNiceSelect
+										selectedIndex={0}
+										getSelectedOption={form.handlePartnershipChange}
+										options={PARTNERSHIP_OPTIONS}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
+				);
+			case "preferredAt":
+				return (
+					<div className="col-sm-6">
+						<div className="form-input">
+							<label className="d-block mb-1" htmlFor="preferredAt">
+								Preferred date &amp; time (optional)
+							</label>
+							<input
+								id="preferredAt"
+								type="datetime-local"
+								name="preferredAt"
+								min={timeBounds.min}
+								max={timeBounds.max}
+								value={form.formData.preferredAt}
+								onChange={form.handleChange}
+								disabled={locked}
+							/>
+						</div>
+					</div>
+				);
+			case "message":
+				return (
+					<div className="col-sm-12">
+						<div className="form-input message-input">
+							<textarea
+								name="message"
+								maxLength={5000}
+								placeholder={`Type message${star("message")}`}
+								value={form.formData.message}
+								onChange={form.handleChange}
+								disabled={locked}
+							></textarea>
+						</div>
+					</div>
+				);
+			default:
+				return null;
+		}
+	};
+
+	return (
+		<div className="row">
+			{form.fields.map(field => (
+				<Fragment key={field}>{renderField(field)}</Fragment>
+			))}
 
 			{locked ? (
 				<div className="col-sm-12">

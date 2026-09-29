@@ -3,7 +3,7 @@ import ContactFormBody from "@/components/sections/contacts/ContactFormBody";
 import useContactForm from "@/hooks/useContactForm";
 
 const Contact3 = () => {
-	const form = useContactForm();
+	const form = useContactForm("contact");
 
 	return (
 		<section className="tj-contact-section-2 section-bottom-gap">

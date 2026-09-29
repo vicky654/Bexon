@@ -4,13 +4,25 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSweetAlert from "@/hooks/useSweetAlert";
 import { markContactSubmitted, readTracking } from "@/libs/tracking";
+import { isLeadFormType, leadForm } from "@/libs/leadForms";
 
-const initialFormData = {
+const emptyFormData = {
 	name: "",
 	email: "",
 	phone: "",
+	company: "",
 	topic: "",
+	partnershipType: "",
+	preferredAt: "",
 	message: "",
+};
+
+const REQUIRED_MESSAGES = {
+	name: "Please enter your name.",
+	company: "Please enter your company name.",
+	topic: "Please choose the purpose of reaching out.",
+	partnershipType: "Please choose a partnership type.",
+	message: "Please enter a message.",
 };
 
 const RESEND_WAIT_SECONDS = 30;
@@ -26,10 +38,12 @@ async function postJson(url, body) {
 	return { status: res.status, ok: res.ok, data };
 }
 
-const useContactForm = () => {
+const useContactForm = (type = "contact", { initialEmail = "" } = {}) => {
+	const formType = isLeadFormType(type) ? type : "contact";
+	const { fields, required } = leadForm(formType);
 	const creteAlert = useSweetAlert();
 	const router = useRouter();
-	const [formData, setFormData] = useState(initialFormData);
+	const [formData, setFormData] = useState({ ...emptyFormData, email: initialEmail.toLowerCase() });
 	const [config, setConfig] = useState({ verification: false, recaptchaSiteKey: "", notices: {} });
 	const [step, setStep] = useState("form");
 	const [verificationId, setVerificationId] = useState("");
@@ -43,13 +57,13 @@ const useContactForm = () => {
 	const [isResending, setIsResending] = useState(false);
 
 	useEffect(() => {
-		fetch("/api/contact/config")
+		fetch(`/api/contact/config?type=${formType}`)
 			.then(res => (res.ok ? res.json() : null))
 			.then(data => {
 				if (data) setConfig(data);
 			})
 			.catch(() => {});
-	}, []);
+	}, [formType]);
 
 	useEffect(() => {
 		if (resendIn <= 0) return;
@@ -72,6 +86,10 @@ const useContactForm = () => {
 		setFormData(prev => ({ ...prev, topic: option?.value || "" }));
 	};
 
+	const handlePartnershipChange = option => {
+		setFormData(prev => ({ ...prev, partnershipType: option?.value || "" }));
+	};
+
 	const resetRecaptcha = () => {
 		setRecaptchaToken("");
 		setRecaptchaKey(key => key + 1);
@@ -88,15 +106,17 @@ const useContactForm = () => {
 
 	const finish = () => {
 		markContactSubmitted();
-		router.push("/thank-you");
+		router.push(`/thank-you?type=${formType}`);
 	};
 
 	const handleSubmit = async e => {
 		e.preventDefault();
 
-		if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
-			creteAlert("error", "Please fill in your name, email and message.");
-			return;
+		for (const field of ["name", "company", "topic", "partnershipType", "message"]) {
+			if (required.includes(field) && !String(formData[field]).trim()) {
+				creteAlert("error", REQUIRED_MESSAGES[field]);
+				return;
+			}
 		}
 		if (!emailPattern.test(formData.email.trim())) {
 			creteAlert("error", "Please enter a valid email address.");
@@ -106,14 +126,13 @@ const useContactForm = () => {
 			creteAlert("error", "Please enter a 10-digit phone number.");
 			return;
 		}
-		if (!formData.topic) {
-			creteAlert("error", "Please choose the purpose of reaching out.");
-			return;
-		}
 
 		setIsSubmitting(true);
 		try {
-			const { ok, data } = await postJson("/api/contact/start", { ...formData, tracking: readTracking() });
+			const payload = { type: formType, tracking: readTracking() };
+			for (const field of fields) payload[field] = formData[field];
+			if (payload.preferredAt) payload.preferredAt = new Date(payload.preferredAt).toISOString();
+			const { ok, data } = await postJson("/api/contact/start", payload);
 			if (!ok) {
 				creteAlert("error", data?.message || "Something went wrong. Please try again.");
 				return;
@@ -203,6 +222,9 @@ const useContactForm = () => {
 	};
 
 	return {
+		type: formType,
+		fields,
+		required,
 		formData,
 		step,
 		config,
@@ -216,6 +238,7 @@ const useContactForm = () => {
 		consentOpen,
 		handleChange,
 		handleTopicChange,
+		handlePartnershipChange,
 		handleSubmit,
 		handleOtpChange,
 		setRecaptchaToken,

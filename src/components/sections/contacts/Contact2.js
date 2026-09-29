@@ -4,7 +4,7 @@ import useContactForm from "@/hooks/useContactForm";
 import Link from "next/link";
 
 const Contact2 = () => {
-	const form = useContactForm();
+	const form = useContactForm("contact");
 
 	return (
 		<section className="tj-contact-section section-gap section-gap-x">

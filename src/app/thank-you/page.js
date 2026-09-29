@@ -11,7 +11,8 @@ export const metadata = {
 	robots: { index: false },
 };
 
-export default function ThankYou() {
+export default async function ThankYou({ searchParams }) {
+	const { type } = await searchParams;
 	return (
 		<div>
 			<BackToTop />
@@ -22,7 +23,7 @@ export default function ThankYou() {
 					<main>
 						<HeaderSpace />
 						<HeroInner title={"Thank You"} text={"Thank You"} />
-						<ThankYouPrimary />
+						<ThankYouPrimary type={type} />
 					</main>
 					<Footer />
 				</div>
