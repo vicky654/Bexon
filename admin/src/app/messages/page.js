@@ -27,6 +27,7 @@ function MessagesList() {
 	const latestType = useRef("all");
 
 	const loadMessages = () => {
+		setError("");
 		const requestedType = type;
 		latestType.current = requestedType;
 		const query = requestedType === "all" ? "" : `?type=${requestedType}`;
