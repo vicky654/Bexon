@@ -38,6 +38,20 @@ const LEAD_TYPES = {
 		fields: ["name", "email", "phone"],
 		required: ["name", "email", "phone"],
 	},
+	webinar: {
+		label: "Webinar",
+		department: "Webinars",
+		contentKind: "event",
+		fields: ["name", "email", "phone", "company"],
+		required: ["name", "email", "phone", "company"],
+	},
+	resource: {
+		label: "Resource",
+		department: "Whitepapers",
+		contentKind: "resource",
+		fields: ["name", "email", "phone", "company"],
+		required: ["name", "email", "phone", "company"],
+	},
 };
 
 const OPTIONAL_FIELDS = ["company", "topic", "partnershipType", "preferredAt", "message"];

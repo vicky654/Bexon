@@ -12,6 +12,7 @@ const {
 	createRateLimiter,
 } = require("../lib/contactHelpers");
 const { LEAD_TYPES, PARTNERSHIP_TYPES, isLeadType, validateLead, normalizeLead } = require("../lib/leadTypes");
+const { signDownloadToken } = require("../lib/downloadTokens");
 
 const router = express.Router();
 
@@ -58,9 +59,36 @@ function readLead(body) {
 		partnershipType: text(body.partnershipType),
 		preferredAt: text(body.preferredAt),
 		message: text(body.message),
+		contentId: body.contentId,
 		utm: text(tracking.utm).slice(0, 500),
 		referrer: text(tracking.referrer).slice(0, 500),
 	};
+}
+
+// Resolves and checks the content item a webinar/resource lead refers to.
+// Returns { item } or { error }.
+async function resolveContent(lead) {
+	const contentKind = LEAD_TYPES[lead.type].contentKind;
+	if (!contentKind) return {};
+	const id = Number(lead.contentId);
+	const item = Number.isInteger(id) ? await prisma.contentItem.findUnique({ where: { id } }) : null;
+	if (!item || !item.published || item.kind !== contentKind) {
+		return { error: "This item is no longer available." };
+	}
+	if (contentKind === "event" && item.startsAt <= new Date()) {
+		return { error: "Registration for this event has closed." };
+	}
+	if (contentKind === "resource" && (!item.gated || !item.fileKey)) {
+		return { error: "This resource isn't available for download." };
+	}
+	return { item };
+}
+
+async function completionBody(lead) {
+	if (lead.type !== "resource") return { done: true };
+	const item = await prisma.contentItem.findUnique({ where: { id: lead.contentId } });
+	if (!item || !item.published) return { done: true };
+	return { done: true, downloadUrl: `/api/content/resource/${item.slug}/download?token=${signDownloadToken(item.id)}` };
 }
 
 async function requestOtp(lead) {
@@ -94,7 +122,9 @@ async function saveLead(lead, { language, consentRecorded }) {
 				: null
 			: lead.type === "newsletter"
 				? "Newsletter"
-				: topicLabel;
+				: lead.type === "webinar" || lead.type === "resource"
+					? lead.contentTitle
+					: topicLabel;
 	const data = {
 		type: lead.type,
 		name: lead.name,
@@ -112,6 +142,8 @@ async function saveLead(lead, { language, consentRecorded }) {
 		device: lead.device,
 		ip: lead.ip,
 		consentRecorded,
+		contentId: lead.contentId || null,
+		contentTitle: lead.contentTitle || null,
 	};
 	await prisma.contactSubmission.create({ data });
 
@@ -160,6 +192,11 @@ router.post("/start", async (req, res) => {
 	lead.ip = clientIp(req);
 	lead.device = deviceTypeFromUserAgent(req.get("user-agent"));
 
+	const { item, error: contentError } = await resolveContent(lead);
+	if (contentError) return res.status(400).json({ message: contentError });
+	lead.contentId = item ? item.id : null;
+	lead.contentTitle = item ? item.title : null;
+
 	if (!sendLimiter(lead.ip)) {
 		return res.status(429).json({ message: "Too many attempts. Please wait a few minutes and try again." });
 	}
@@ -170,7 +207,7 @@ router.post("/start", async (req, res) => {
 	if (!consentPortal.isConfigured()) {
 		console.warn("Consent portal not configured, saving contact submission without OTP verification.");
 		await saveLead(lead, { language: "", consentRecorded: false });
-		return res.status(201).json({ done: true });
+		return res.status(201).json(await completionBody(lead));
 	}
 
 	await prisma.contactVerification.deleteMany({ where: { expiresAt: { lt: new Date() } } });
@@ -194,6 +231,8 @@ router.post("/start", async (req, res) => {
 			company: lead.company || null,
 			partnershipType: lead.partnershipType || null,
 			preferredAt: lead.preferredAt,
+			contentId: lead.contentId,
+			contentTitle: lead.contentTitle,
 			name: lead.name,
 			email: lead.email,
 			phone: lead.phone,
@@ -308,7 +347,7 @@ router.post("/verify", async (req, res) => {
 	}
 
 	await saveLead(lead, { language, consentRecorded });
-	res.json({ done: true });
+	res.json(await completionBody(lead));
 });
 
 module.exports = router;

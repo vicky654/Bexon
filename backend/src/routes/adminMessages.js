@@ -52,6 +52,7 @@ function formatIst(date) {
 const CSV_COLUMNS = [
 	["Received", m => formatIst(m.createdAt)],
 	["Type", m => (LEAD_TYPES[m.type] || LEAD_TYPES.contact).label],
+	["For", m => m.contentTitle],
 	["Name", m => m.name],
 	["Email", m => m.email],
 	["Phone", m => m.phone],

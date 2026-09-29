@@ -18,6 +18,7 @@ async function sendContactNotification({
 	device,
 	ip,
 	consentRecorded,
+	contentTitle,
 }) {
 	if (!process.env.SMTP_HOST || !process.env.SMTP_USER) {
 		console.log("SMTP not configured, skipping contact notification email.");
@@ -50,6 +51,7 @@ async function sendContactNotification({
 			`Email: ${email}`,
 			phone ? `Phone: ${phone}` : null,
 			`Type: ${(LEAD_TYPES[type] || LEAD_TYPES.contact).label}`,
+			contentTitle ? `For: ${contentTitle}` : null,
 			company ? `Company: ${company}` : null,
 			partnershipLabel ? `Partnership type: ${partnershipLabel}` : null,
 			preferredAt ? `Preferred time: ${new Date(preferredAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST` : null,

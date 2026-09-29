@@ -87,7 +87,7 @@ test("filters messages by type and returns per-type counts", async t => {
 
 	const all = await request(buildApp()).get("/api/admin/messages").set("Cookie", authCookie());
 	assert.equal(all.body.messages.length, 3);
-	assert.deepEqual(all.body.counts, { all: 3, contact: 1, consultation: 0, partner: 0, newsletter: 2 });
+	assert.deepEqual(all.body.counts, { all: 3, contact: 1, consultation: 0, partner: 0, newsletter: 2, webinar: 0, resource: 0 });
 
 	const news = await request(buildApp()).get("/api/admin/messages?type=newsletter").set("Cookie", authCookie());
 	assert.equal(news.body.messages.length, 2);
@@ -123,7 +123,7 @@ test("exports CSV with escaping and formula protection", async t => {
 	const [header] = body.split("\r\n");
 	assert.equal(
 		header,
-		"Received,Type,Name,Email,Phone,Company,Purpose,Partnership type,Preferred time,Message,Consent recorded,Language,UTM,Referrer"
+		"Received,Type,For,Name,Email,Phone,Company,Purpose,Partnership type,Preferred time,Message,Consent recorded,Language,UTM,Referrer"
 	);
 	assert.ok(body.includes('"Doe, ""JD"""'));
 	assert.ok(body.includes("\"'=HYPERLINK(\"\"http://evil\"\")\nline two\""));
@@ -157,7 +157,7 @@ test("exports Received and Preferred time in IST", async t => {
 	const [, row] = body.split("\r\n");
 	const cells = row.split(",");
 	assert.equal(cells[0], "2026-10-05 10:00 IST");
-	assert.equal(cells[8], "2026-10-05 10:00 IST");
+	assert.equal(cells[9], "2026-10-05 10:00 IST");
 });
 
 test("Preferred time is empty when absent", async t => {
@@ -171,7 +171,7 @@ test("Preferred time is empty when absent", async t => {
 	const res = await request(buildApp()).get("/api/admin/messages/export.csv").set("Cookie", authCookie());
 	const body = res.text.replace(/^﻿/, "");
 	const [, row] = body.split("\r\n");
-	assert.equal(row.split(",")[8], "");
+	assert.equal(row.split(",")[9], "");
 });
 
 test("export requires admin auth", async () => {

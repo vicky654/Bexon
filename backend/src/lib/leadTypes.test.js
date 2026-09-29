@@ -19,7 +19,17 @@ test("departments match the old site", () => {
 	assert.equal(LEAD_TYPES.consultation.department, "Sales Enquiry");
 	assert.equal(LEAD_TYPES.partner.department, "Contact Us");
 	assert.equal(LEAD_TYPES.newsletter.department, "Newsletters");
+	assert.equal(LEAD_TYPES.webinar.department, "Webinars");
+	assert.equal(LEAD_TYPES.resource.department, "Whitepapers");
 	assert.equal(Object.keys(PARTNERSHIP_TYPES).length, 4);
+});
+
+test("webinar and resource leads need name, email, phone and company", () => {
+	const lead = { name: "A", email: "a@b.co", phone: "9876543210", company: "Acme" };
+	for (const type of ["webinar", "resource"]) {
+		assert.equal(validateLead(type, lead, NOW), null, type);
+		assert.ok(validateLead(type, { ...lead, company: "" }, NOW), type);
+	}
 });
 
 test("isLeadType accepts only known types", () => {

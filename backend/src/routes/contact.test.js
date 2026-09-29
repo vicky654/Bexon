@@ -583,6 +583,95 @@ test("fields that don't belong to the type are not stored", async () => {
 	assert.equal(saved.preferredAt, null);
 });
 
+const hours = n => new Date(Date.now() + n * 60 * 60 * 1000);
+const leadFor = (type, contentId) => ({
+	type,
+	contentId,
+	name: "Asha",
+	email: freshEmail(),
+	phone: "9000000010",
+	company: "Acme",
+});
+
+test("webinar registration uses the Webinars department and stores the event title", async () => {
+	portalOn();
+	const event = await prisma.contentItem.create({
+		data: { kind: "event", title: "DPDP Rules Webinar", slug: `webinar-${Date.now()}`, summary: "S", published: true, startsAt: hours(48), format: "online" },
+	});
+	const app = buildApp();
+	const lead = leadFor("webinar", event.id);
+	const { body } = await start(app, freshIp(), lead);
+	assert.equal(portalCalls[0].department, "Webinars");
+	const done = await request(app).post("/api/contact/verify").send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+	assert.deepEqual(done.body, { done: true });
+	const saved = await prisma.contactSubmission.findFirst({ where: { email: lead.email } });
+	assert.equal(saved.contentId, event.id);
+	assert.equal(saved.contentTitle, "DPDP Rules Webinar");
+	assert.equal(saved.service, "DPDP Rules Webinar");
+});
+
+test("registration closes once the event has started", async () => {
+	portalOn();
+	const event = await prisma.contentItem.create({
+		data: { kind: "event", title: "Started", slug: `started-${Date.now()}`, summary: "S", published: true, startsAt: hours(-1), format: "online" },
+	});
+	const res = await start(buildApp(), freshIp(), leadFor("webinar", event.id));
+	assert.equal(res.status, 400);
+	assert.equal(res.body.message, "Registration for this event has closed.");
+	assert.equal(portalCalls.length, 0);
+});
+
+test("content must exist, be published and match the lead type", async () => {
+	portalOn();
+	const draft = await prisma.contentItem.create({
+		data: { kind: "event", title: "Draft", slug: `draft-${Date.now()}`, summary: "S", published: false, startsAt: hours(48), format: "online" },
+	});
+	const news = await prisma.contentItem.create({
+		data: { kind: "news", title: "News", slug: `news-${Date.now()}`, summary: "S", published: true },
+	});
+	const app = buildApp();
+	for (const contentId of [draft.id, news.id, 999999, "abc", undefined]) {
+		const res = await start(app, freshIp(), leadFor("webinar", contentId));
+		assert.equal(res.status, 400, String(contentId));
+	}
+	assert.equal(portalCalls.length, 0);
+});
+
+test("resource leads need a gated resource with a file and return a download link", async () => {
+	consentPortal.isConfigured = () => false;
+	const slug = `guide-${Date.now()}`;
+	const resource = await prisma.contentItem.create({
+		data: { kind: "resource", title: "DPDP Guide", slug, summary: "S", published: true, resourceType: "guide", fileKey: "1-1.pdf", gated: true },
+	});
+	const ungated = await prisma.contentItem.create({
+		data: { kind: "resource", title: "Open", slug: `${slug}-open`, summary: "S", published: true, resourceType: "guide", fileKey: "1-2.pdf", gated: false },
+	});
+	const app = buildApp();
+
+	const res = await start(app, freshIp(), leadFor("resource", resource.id));
+	assert.equal(res.status, 201);
+	assert.equal(res.body.done, true);
+	assert.match(res.body.downloadUrl, new RegExp(`^/api/content/resource/${slug}/download\\?token=`));
+	const token = new URL(res.body.downloadUrl, "http://x").searchParams.get("token");
+	assert.equal(require("../lib/downloadTokens").verifyDownloadToken(token, resource.id), true);
+
+	const notGated = await start(app, freshIp(), leadFor("resource", ungated.id));
+	assert.equal(notGated.status, 400);
+});
+
+test("resource leads through OTP also return the download link", async () => {
+	portalOn();
+	const resource = await prisma.contentItem.create({
+		data: { kind: "resource", title: "Checklist", slug: `check-${Date.now()}`, summary: "S", published: true, resourceType: "checklist", fileKey: "1-3.pdf", gated: true },
+	});
+	const app = buildApp();
+	const { body } = await start(app, freshIp(), leadFor("resource", resource.id));
+	assert.equal(portalCalls[0].department, "Whitepapers");
+	const done = await request(app).post("/api/contact/verify").send({ verificationId: body.verificationId, otp: "123456", recaptchaToken: "tok" });
+	assert.equal(done.body.done, true);
+	assert.ok(done.body.downloadUrl);
+});
+
 test("config uses the type's department and falls back to contact for unknown types", async () => {
 	consentPortal.isConfigured = () => true;
 	const asked = [];
