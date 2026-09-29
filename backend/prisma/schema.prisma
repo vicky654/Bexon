@@ -44,6 +44,8 @@ model ContactSubmission {
   ip              String?
   consentRecorded Boolean  @default(false)
   status          String   @default("new")
+  contentId       Int?
+  contentTitle    String?
   createdAt       DateTime @default(now())
 }
 
@@ -56,6 +58,8 @@ model ContactVerification {
   company         String?
   partnershipType String?
   preferredAt     DateTime?
+  contentId       Int?
+  contentTitle    String?
   topic           String
   message         String
   tracking        String
@@ -64,6 +68,32 @@ model ContactVerification {
   lastSentAt      DateTime @default(now())
   expiresAt       DateTime
   createdAt       DateTime @default(now())
+}
+
+model ContentItem {
+  id           Int       @id @default(autoincrement())
+  kind         String
+  title        String
+  slug         String
+  summary      String
+  body         String    @default("")
+  coverImage   String?
+  published    Boolean   @default(false)
+  publishedAt  DateTime  @default(now())
+  sourceUrl    String?
+  startsAt     DateTime?
+  endsAt       DateTime?
+  format       String?
+  venue        String?
+  recordingUrl String?
+  resourceType String?
+  fileKey      String?
+  gated        Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([kind, slug])
+  @@index([kind, published])
 }
 
 model Admin {
