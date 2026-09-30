@@ -106,12 +106,40 @@ export default {
 			imageAlt: "Map of India with callouts reading: 100% Made in India Technology; 500+ Assessments; 100% Automated Privacy Tools; 100+ Privacy Compliance Globally; 10+ Partners; 15+ Expert Privacy Advisors; 24x7 Instant Expert Advice",
 		},
 		{
-			type: "stats",
+			type: "features",
+			eyebrow: "Why Us?",
+			heading: "Your trusted partner in navigating data privacy with expertise and precision",
 			items: [
-				{ value: "100+", label: "Privacy Compliance Globally" },
-				{ value: "500+", label: "Total Assessments" },
-				{ value: "50+", label: "Expert Privacy Advisors" },
-				{ value: "100%", label: "Automated Privacy Tools" },
+				{
+					icon: "tji-excellence",
+					title: "Expertise",
+					text: "In-depth knowledge of DPDPA compliance regulations and industry best practices",
+				},
+				{
+					icon: "tji-innovative",
+					title: "Proprietary Tools",
+					text: "Access to innovative, tailored tools that streamline compliance management and reduce risks",
+				},
+				{
+					icon: "tji-strategy",
+					title: "Customized Solutions",
+					text: "Personalized consulting services to address your unique business needs",
+				},
+				{
+					icon: "tji-performance",
+					title: "Efficient Process",
+					text: "Fast, reliable compliance solutions that save you time and resources",
+				},
+				{
+					icon: "tji-support",
+					title: "End-to-End Support",
+					text: "Ongoing assistance to ensure continuous compliance and privacy protection",
+				},
+				{
+					icon: "tji-award",
+					title: "Proven Track Record",
+					text: "Successful partnerships with businesses across industries, ensuring optimal outcomes",
+				},
 			],
 		},
 		{
@@ -135,14 +163,14 @@ export default {
 				},
 				{
 					title: "Resources",
-					text: "Guides, templates and tools to support your DPDP Act compliance journey.",
+					text: "Guides and tools to support your DPDP Act compliance journey.",
 					href: "/resources",
 				},
 			],
 		},
 		{
 			type: "cta",
-			heading: "Ready to Simplify Your DPDP Act Compliance?",
+			heading: "Turning Compliance into Competitive Advantage",
 			text: "Book a consultation to see how our consulting team and compliance tools can help your organisation meet DPDP Act requirements with confidence.",
 			primary: { label: "Book a Consultation", href: "/book-consultation" },
 			secondary: { label: "Contact Us", href: "/contact" },
