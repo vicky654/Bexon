@@ -151,7 +151,7 @@ const Header = ({
 									)}
 									{headerType !== 5 ? (
 										<div className="header-button">
-											<ButtonPrimary text={"Book a Consultation"} url={"/book-consultation"} />
+											<ButtonPrimary text={"Book a Consultation"} url={"/book-consultation"} className="page-btn-glow" />
 										</div>
 									) : (
 										""

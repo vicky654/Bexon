@@ -1,6 +1,8 @@
 // Menu tree mirrors every option the old website offered, grouped the same
 // way (About Us, DPDP Act 2023, Compliance Tools, Services, Resources,
-// Career). `mega: true` renders the template's icon mega menu.
+// Career). `mega: true` renders the two-column mega panel: each child's
+// `icon` and `desc`, plus the `feature` card; the "All ..." child that links
+// back to the parent page is shown as the feature card's button instead.
 export const NAVIGATION = [
 	{ label: "Home", href: "/" },
 	{
@@ -30,13 +32,19 @@ export const NAVIGATION = [
 		label: "Compliance Tools",
 		href: "/products",
 		mega: true,
+		feature: {
+			title: "DPDP Compliance Tools Suite",
+			text: "Automate consent, rights, DPIAs and third-party risk in one platform.",
+			primary: { label: "View all tools", href: "/products" },
+			secondary: { label: "Book a Demo", href: "/book-consultation" },
+		},
 		children: [
-			{ label: "Consent Management", href: "/products/consent-management", icon: "tji-check" },
-			{ label: "Grievance Redressal", href: "/products/grievance-redressal", icon: "tji-support" },
-			{ label: "Awareness Program", href: "/products/awareness-program", icon: "tji-team" },
-			{ label: "Impact Assessment", href: "/products/impact-assessment", icon: "tji-chart" },
-			{ label: "Third-Party Assessment", href: "/products/third-party-assessment", icon: "tji-organize" },
-			{ label: "Cookie Consent", href: "/products/cookie-consent", icon: "tji-window" },
+			{ label: "Consent Management", href: "/products/consent-management", icon: "tji-check", desc: "Automate legacy, paper and live consent" },
+			{ label: "Grievance Redressal", href: "/products/grievance-redressal", icon: "tji-support", desc: "Honour Data Principal rights and complaints" },
+			{ label: "Awareness Program", href: "/products/awareness-program", icon: "tji-team", desc: "Build a privacy-aware culture across teams" },
+			{ label: "Impact Assessment", href: "/products/impact-assessment", icon: "tji-chart", desc: "Run and track DPIAs on one platform" },
+			{ label: "Third-Party Assessment", href: "/products/third-party-assessment", icon: "tji-organize", desc: "Assess vendor and sub-processor risk" },
+			{ label: "Cookie Consent", href: "/products/cookie-consent", icon: "tji-window", desc: "Consent banners, cookie blocking and logs" },
 			{ label: "All Compliance Tools", href: "/products", icon: "tji-box" },
 		],
 	},
@@ -44,12 +52,18 @@ export const NAVIGATION = [
 		label: "Services",
 		href: "/services",
 		mega: true,
+		feature: {
+			title: "Expert DPDP Consulting",
+			text: "From gap assessment to audit, our advisors guide every step of your compliance journey.",
+			primary: { label: "View all services", href: "/services" },
+			secondary: { label: "Book a Consultation", href: "/book-consultation" },
+		},
 		children: [
-			{ label: "Gap Assessment Review", href: "/services/gap-assessment", icon: "tji-search" },
-			{ label: "DPO as a Service", href: "/services/dpo-as-a-service", icon: "tji-user" },
-			{ label: "Contract Review & DPAs", href: "/services/contract-review", icon: "tji-list" },
-			{ label: "Consulting, Advisory & Audit", href: "/services/consulting-advisory-audit", icon: "tji-strategy" },
-			{ label: "Training Programs", href: "/services/training-programs", icon: "tji-growth" },
+			{ label: "Gap Assessment Review", href: "/services/gap-assessment", icon: "tji-search", desc: "Find and close DPDP Act compliance gaps" },
+			{ label: "DPO as a Service", href: "/services/dpo-as-a-service", icon: "tji-user", desc: "Your DPO requirement, handled by experts" },
+			{ label: "Contract Review & DPAs", href: "/services/contract-review", icon: "tji-list", desc: "Agreements that protect personal data" },
+			{ label: "Consulting, Advisory & Audit", href: "/services/consulting-advisory-audit", icon: "tji-strategy", desc: "Policies, impact assessments and audits" },
+			{ label: "Training Programs", href: "/services/training-programs", icon: "tji-growth", desc: "Structured DPDP Act training for your teams" },
 			{ label: "All Services", href: "/services", icon: "tji-service-1" },
 		],
 	},
