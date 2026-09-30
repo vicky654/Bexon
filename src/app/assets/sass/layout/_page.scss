@@ -53,6 +53,12 @@ START: Content Page CSS
 	height: 100%;
 }
 
+// Item titles in page-content sections render as <h3> for correct heading order,
+// but keep the visual size of the original <h4> they replaced.
+.page-item-title {
+	font-size: var(--tj-fs-h4);
+}
+
 .page-split-image {
 	width: 100%;
 	border-radius: 12px;

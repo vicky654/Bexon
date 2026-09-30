@@ -38,8 +38,11 @@ const MobileMenu = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 							<div className="contact-info">
 								<div className="contact-item">
 									<span className="subtitle">Phone</span>
-									<Link className="contact-link" href="tel:8089091313">
-										808-909-1313
+									<Link className="contact-link" href="tel:0120-6930999">
+										0120-6930999
+									</Link>
+									<Link className="contact-link" href="tel:1800-5711333">
+										1800-5711333
 									</Link>
 								</div>
 								<div className="contact-item">
@@ -62,22 +65,22 @@ const MobileMenu = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 						<div className="social-links style-3">
 							<ul>
 								<li>
-									<Link href="https://www.facebook.com/" target="_blank">
+									<Link href="https://www.facebook.com/profile.php?id=61561140562760" target="_blank">
 										<i className="fa-brands fa-facebook-f"></i>
 									</Link>
 								</li>
 								<li>
-									<Link href="https://www.instagram.com/" target="_blank">
+									<Link href="https://www.instagram.com/dpdp.consultants/" target="_blank">
 										<i className="fa-brands fa-instagram"></i>
 									</Link>
 								</li>
 								<li>
-									<Link href="https://x.com/" target="_blank">
+									<Link href="https://x.com/socialdpdp43979" target="_blank">
 										<i className="fa-brands fa-x-twitter"></i>
 									</Link>
 								</li>
 								<li>
-									<Link href="https://www.linkedin.com/" target="_blank">
+									<Link href="https://www.linkedin.com/company/dpdpconsultants/" target="_blank">
 										<i className="fa-brands fa-linkedin-in"></i>
 									</Link>
 								</li>

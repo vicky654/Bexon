@@ -1,6 +1,7 @@
 export default {
 	path: "/services/dpo-as-a-service",
 	parent: "/services",
+	label: "DPO as a Service",
 	title: "Data Protection Officer as a Service for DPDP Act Compliance",
 	description: "Get Data Protection Officer as a Service to ensure DPDP Act compliance, manage risks, and build a strong culture of data privacy in your business.",
 	hero: {

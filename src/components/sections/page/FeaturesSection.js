@@ -13,7 +13,7 @@ const FeaturesSection = ({ eyebrow, heading, intro, items }) => (
 								<div className="choose-icon">
 									<i className={item.icon || "tji-service-1"}></i>
 								</div>
-								<h4 className="title">{item.title}</h4>
+								<h3 className="title page-item-title">{item.title}</h3>
 								<p className="desc">{item.text}</p>
 								{item.href ? (
 									<Link className="text-btn" href={item.href}>

@@ -1,5 +1,6 @@
 export default {
 	path: "/terms-and-conditions",
+	label: "Terms & Conditions",
 	title: "Terms & Conditions for DPDP Act Foundation Course",
 	description: "Terms of use for DPDP Consultants' platforms and the DPDP Act Foundation Course, covering fees, account registration, content usage, conduct and liability.",
 	hero: {

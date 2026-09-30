@@ -24,7 +24,7 @@ export default {
 				},
 				{
 					icon: "tji-service-2",
-					title: "Grievance Redressal",
+					title: "Rights & Grievance Redressal",
 					text: "Ensures Data Principal rights are honored with a clear mechanism for addressing complaints under the DPDP Act.",
 					href: "/products/grievance-redressal",
 				},
@@ -61,31 +61,31 @@ export default {
 			items: [
 				{
 					icon: "tji-check",
-					title: "Gap Assessment Review",
+					title: "Gap Assessment & Readiness Review",
 					text: "A detailed evaluation and expert guidance to help your business meet DPDP Act compliance requirements with minimal disruption.",
 					href: "/services/gap-assessment",
 				},
 				{
 					icon: "tji-team",
-					title: "Data Protection Officer as a Service",
+					title: "DPO as a Service",
 					text: "Turns the DPDP Act's DPO requirement into a strategic advantage, strengthening your data protection framework.",
 					href: "/services/dpo-as-a-service",
 				},
 				{
 					icon: "tji-organize",
-					title: "Contract Review & Data Processing Agreements",
+					title: "Contract Review & DPAs",
 					text: "Draft and review agreements with third parties that protect personal data and uphold Data Principal rights.",
 					href: "/services/contract-review",
 				},
 				{
 					icon: "tji-strategy",
-					title: "Consulting, Advisory and Audit",
+					title: "Consulting, Advisory & Audit",
 					text: "Tailored policies, impact assessments, internal audit frameworks and automated privacy tools to meet DPDP Act requirements.",
 					href: "/services/consulting-advisory-audit",
 				},
 				{
 					icon: "tji-growth",
-					title: "Training Programs for DPDPA Compliance",
+					title: "Training Programs",
 					text: "Structured training with expert guidance, interactive learning and real-world case studies on DPDP Act compliance.",
 					href: "/services/training-programs",
 				},
@@ -162,7 +162,7 @@ export default {
 					href: "/events",
 				},
 				{
-					title: "Resources",
+					title: "Whitepapers & Guides",
 					text: "Guides and tools to support your DPDP Act compliance journey.",
 					href: "/resources",
 				},

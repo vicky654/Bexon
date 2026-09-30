@@ -1,6 +1,7 @@
 export default {
 	path: "/products/grievance-redressal",
 	parent: "/products",
+	label: "Rights & Grievance Redressal",
 	title: "Grievance Redressal Software for DPDP Act",
 	description: "Simplify DPDP Act compliance with our grievance redressal software that manages user complaints efficiently and ensures timely resolutions.",
 	hero: {

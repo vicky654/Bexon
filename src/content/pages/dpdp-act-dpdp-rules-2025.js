@@ -1,6 +1,7 @@
 export default {
 	path: "/dpdp-act/dpdp-rules-2025",
 	parent: "/dpdp-act",
+	label: "DPDP Rules 2025",
 	title: "Draft DPDP Rules 2025 - Ready Reckoner",
 	description: "Review draft rules on consent manager, DPIA, grievances and reporting with actionable compliance checklists.",
 	hero: {

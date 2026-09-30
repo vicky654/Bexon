@@ -1,6 +1,7 @@
 export default {
 	path: "/services/gap-assessment",
 	parent: "/services",
+	label: "Gap Assessment & Readiness Review",
 	title: "DPDP Act Gap Assessment Review & Risk Assessment",
 	description: "Identify gaps and risks with our DPDP Act gap assessment & risk review services to ensure full compliance and strong data protection.",
 	hero: {

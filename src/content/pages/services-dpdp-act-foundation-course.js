@@ -1,6 +1,7 @@
 export default {
 	path: "/services/dpdp-act-foundation-course",
 	parent: "/services",
+	label: "DPDP Act Foundation Course",
 	title: "Get Certified with DPDP Act Foundation Course",
 	description: "Enroll in the DPDP Act Foundation Course to understand key privacy obligations, data rights, and DPDP Act compliance strategies for Indian businesses.",
 	hero: {

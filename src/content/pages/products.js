@@ -1,5 +1,6 @@
 export default {
 	path: "/products",
+	label: "Compliance Tools",
 	title: "India's Most Trusted DPDP Act Compliance Management Software",
 	description: "Simplify DPDP Act compliance with India's most trusted compliance management software, designed to protect data and ensure regulatory readiness.",
 	hero: {
@@ -21,39 +22,33 @@ export default {
 			items: [
 				{
 					icon: "tji-check",
-					title: "Data Principal Consent Management",
+					title: "Consent Management",
 					text: "DPCM is our solution to completely automate the management of Data Principal's consent. It is capable of handling legacy data, paper consent as well as live consent with equal ease.",
-					href: "/products/consent-management",
 				},
 				{
 					icon: "tji-support",
-					title: "Data Principal Grievance Redressal",
+					title: "Rights & Grievance Redressal",
 					text: "DPGR process is an essential part of any comprehensive data protection strategy. Our tool ensures that Data Principal's rights are duly honored and providing a clear mechanism for addressing complaints and concerns related to their personal data as per the DPDP Act.",
-					href: "/products/grievance-redressal",
 				},
 				{
 					icon: "tji-team",
-					title: "Data Protection Awareness Program",
+					title: "Awareness Program",
 					text: "DPAP tool educates employees, stakeholders, and partners about the importance of safeguarding personal and sensitive data, adhering to privacy laws, and implementing best practices in their daily operations. The tool fosters a culture of privacy and accountability within the organization.",
-					href: "/products/awareness-program",
 				},
 				{
 					icon: "tji-chart",
-					title: "Data Protection Impact Assessment",
+					title: "Impact Assessment",
 					text: "DPIA tool helps build compliance with the DPDP Act 2023 whereby companies need to hold periodic DPIAs. DPIA tool infuses automation to the entire DPIA process. It allows stakeholders/DPOs to conduct DPIAs through a user-friendly platform and track risks identified during the DPIA ensuring that every stakeholder is aware of the developments on the mitigation of these identified risks.",
-					href: "/products/impact-assessment",
 				},
 				{
 					icon: "tji-search",
-					title: "Data Protection Third Party Assessment",
+					title: "Third-Party Risk Assessment",
 					text: "DPTPA tool is ensuring that the data fiduciary is regularly reviewing the compliance of the third parties or sub processors and assessing the risk associated with the third parties, which can in turn help them in decision making while selecting a third party or mandating work to them. Additionally, if there is any personal data shared with the third parties, they are also notified about the rights of the data principal.",
-					href: "/products/third-party-assessment",
 				},
 				{
 					icon: "tji-window",
-					title: "Cookie Consent Management Tool",
+					title: "Cookie Consent",
 					text: "CCM is our comprehensive solution for capturing, managing, and documenting user consent for website cookies. Fully compliant with GDPR, ePrivacy Directive, CCPA/CPRA, and India's DPDP Act, the tool enables businesses to display dynamic consent banners, categorize cookies, and allow users to adjust preferences at any time. With automated cookie blocking and real-time consent logs, CCM ensures both transparency for users and accountability for organizations, helping build trust and demonstrate regulatory compliance effortlessly.",
-					href: "/products/cookie-consent",
 				},
 			],
 		},
@@ -148,7 +143,7 @@ export default {
 					href: "/products/consent-management",
 				},
 				{
-					title: "Grievance Redressal",
+					title: "Rights & Grievance Redressal",
 					text: "Ensures Data Principal rights are honored with a clear mechanism for addressing complaints under the DPDP Act.",
 					href: "/products/grievance-redressal",
 				},

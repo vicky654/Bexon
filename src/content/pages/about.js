@@ -1,5 +1,6 @@
 export default {
 	path: "/about",
+	label: "About Us",
 	title: "India's Leading DPDP Act Compliance Management System",
 	description: "India's trusted partner for DPDP Act compliance, combining consulting expertise with advanced compliance management software.",
 	hero: {

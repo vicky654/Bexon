@@ -156,6 +156,11 @@ test("an unknown page-level field is rejected", () => {
 	assert.ok(errors.some(e => e.includes("bogus is not a field of page")));
 });
 
+test("a page label is accepted when short and rejected when over 60 characters", () => {
+	assert.deepEqual(validatePage({ ...good, label: "Short Label" }, ctx), []);
+	assert.ok(validatePage({ ...good, label: "x".repeat(61) }, ctx).some(e => e.includes("label")));
+});
+
 test("every real content page is valid and paths are unique", () => {
 	const paths = PAGES.map(p => p.path);
 	assert.equal(new Set(paths).size, paths.length, "duplicate page paths");

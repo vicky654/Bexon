@@ -1,6 +1,7 @@
 export default {
 	path: "/products/cookie-consent",
 	parent: "/products",
+	label: "Cookie Consent",
 	title: "Cookie Consent Management Software for DPDP Act Compliance",
 	description: "Our cookie consent management software ensures DPDP Act compliance by simplifying consent collection, storage, and user privacy preferences.",
 	hero: {

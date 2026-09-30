@@ -1,5 +1,6 @@
 export default {
 	path: "/dpdp-act",
+	label: "DPDP Act 2023",
 	title: "DPDP Act Explained",
 	description: "Learn DPDP Act concepts like consent, rights, notices and security with our simplified compliance guide.",
 	hero: {

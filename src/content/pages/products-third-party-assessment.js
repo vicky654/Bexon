@@ -1,6 +1,7 @@
 export default {
 	path: "/products/third-party-assessment",
 	parent: "/products",
+	label: "Third-Party Risk Assessment",
 	title: "Third-Party Risk Assessment Software for DPDP Act",
 	description: "Assess and manage vendor risks seamlessly with DPDP Act-compliant third-party risk assessment software designed for data protection.",
 	hero: {

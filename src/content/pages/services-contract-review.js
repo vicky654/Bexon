@@ -1,6 +1,7 @@
 export default {
 	path: "/services/contract-review",
 	parent: "/services",
+	label: "Contract Review & DPAs",
 	title: "DPDP Act Legal Compliance Management Services",
 	description: "Ensure seamless DPDP Act compliance with our legal services designed to simplify data protection, governance, and risk management.",
 	hero: {

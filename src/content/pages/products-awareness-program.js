@@ -1,6 +1,7 @@
 export default {
 	path: "/products/awareness-program",
 	parent: "/products",
+	label: "Awareness Program",
 	title: "DPDP Act Employee Training & Awareness Program",
 	description: "Empower your workforce with DPDP Act employee training & awareness programs designed to build compliance, accountability, and data protection culture.",
 	hero: {

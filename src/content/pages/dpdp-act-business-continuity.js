@@ -1,6 +1,7 @@
 export default {
 	path: "/dpdp-act/business-continuity",
 	parent: "/dpdp-act",
+	label: "DPDPA & Business Continuity",
 	title: "DPDP Act & Business Continuity",
 	description: "Build resilience with privacy by design, retention controls & automation while meeting DPDP Act.",
 	hero: {

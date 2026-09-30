@@ -1,6 +1,7 @@
 export default {
 	path: "/products/consent-management",
 	parent: "/products",
+	label: "Consent Management",
 	title: "Consent Management Software for DPDP Act",
 	description: "Simplify DPDP Act compliance with our consent management software designed to manage, track, and safeguard user consents with ease.",
 	hero: {

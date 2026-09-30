@@ -1,6 +1,7 @@
 export default {
 	path: "/dpdp-act/penalties-and-fines",
 	parent: "/dpdp-act",
+	label: "Penalties & Fines",
 	title: "DPDP Act Penalties & Fines India",
 	description: "Know fine tiers, common violations & mitigating controls to reduce DPDP Act enforcement risks.",
 	hero: {
@@ -15,7 +16,7 @@ export default {
 			items: [
 				{
 					icon: "tji-chart",
-					title: "Breach of the obligation to take reasonable security safeguards to prevent a personal data breach under sub-section (5) of Section 8",
+					title: "Breach of the obligation of the Data Fiduciary to take reasonable security safeguards to prevent a personal data breach under sub-section (5) of Section 8",
 					text: "May extend to two hundred and fifty crore rupees.",
 				},
 				{

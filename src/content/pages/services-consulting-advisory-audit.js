@@ -1,6 +1,7 @@
 export default {
 	path: "/services/consulting-advisory-audit",
 	parent: "/services",
+	label: "Consulting, Advisory & Audit",
 	title: "DPDP Act Consulting, Advisory & Audit Services",
 	description: "Expert DPDP Act consulting, advisory & audit services to help businesses ensure compliance, manage risks, and strengthen data protection.",
 	hero: {

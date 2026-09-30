@@ -1,6 +1,7 @@
 export default {
 	path: "/services/training-programs",
 	parent: "/services",
+	label: "Training Programs",
 	title: "DPDP Act Compliance Employee Training & Awareness",
 	description: "Empower teams with DPDP Act compliance employee training that builds awareness, reduces risks, and fosters a data protection culture.",
 	hero: {

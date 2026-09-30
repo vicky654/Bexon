@@ -8,7 +8,7 @@ const StepsSection = ({ eyebrow, heading, intro, items }) => (
 				{items.map((item, idx) => (
 					<li className="page-step" key={`${idx}-${item.title}`}>
 						<span className="page-step-number">{String(idx + 1).padStart(2, "0")}</span>
-						<h4 className="page-step-title">{item.title}</h4>
+						<h3 className="page-step-title page-item-title">{item.title}</h3>
 						<p className="page-step-text">{item.text}</p>
 					</li>
 				))}

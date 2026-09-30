@@ -1,5 +1,6 @@
 export default {
 	path: "/case-studies",
+	label: "Case Studies",
 	title: "DPDP Act Case Studies India",
 	description: "Learn how organizations achieved DPDP Act compliance with privacy management software, audits & measurable risk reduction.",
 	hero: {

@@ -21,8 +21,8 @@ const ContentPage = ({ page }) => {
 						{page.hero ? (
 							<HeroInner
 								title={page.hero.title}
-								text={page.hero.title}
-								breadcrums={parent ? [{ name: parent.title, path: parent.path }] : []}
+								text={page.label || page.hero.title}
+								breadcrums={parent ? [{ name: parent.label || parent.title, path: parent.path }] : []}
 							/>
 						) : null}
 						{page.hero?.text ? (

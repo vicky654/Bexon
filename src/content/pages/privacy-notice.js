@@ -1,5 +1,6 @@
 export default {
 	path: "/privacy-notice",
+	label: "Privacy Notice",
 	title: "Privacy Notice",
 	description: "Understand how we collect, use and secure data under the DPDP Act. Learn your rights and contact our DPO.",
 	hero: {

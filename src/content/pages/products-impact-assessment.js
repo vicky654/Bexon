@@ -1,6 +1,7 @@
 export default {
 	path: "/products/impact-assessment",
 	parent: "/products",
+	label: "Impact Assessment",
 	title: "Impact Assessment Software for DPDP Act",
 	description: "Ensure DPDP Act compliance with our impact assessment software solution that identifies data risks, mitigates threats, and streamlines compliance reporting.",
 	hero: {

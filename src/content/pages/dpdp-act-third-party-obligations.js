@@ -1,6 +1,7 @@
 export default {
 	path: "/dpdp-act/third-party-obligations",
 	parent: "/dpdp-act",
+	label: "Third-Party & Processor Obligations",
 	title: "DPDP Act Vendor & Sub-Processor Risks",
 	description: "Standardize onboarding with DPDP clauses, DPAs, security & monitoring to manage third-party risks.",
 	hero: {

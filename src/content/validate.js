@@ -273,7 +273,7 @@ const SECTION_FIELDS = {
 	cardsLinks: ["eyebrow", "heading", "intro", "items"],
 };
 
-const PAGE_FIELDS = ["path", "title", "description", "parent", "hero", "sections"];
+const PAGE_FIELDS = ["path", "title", "description", "parent", "label", "hero", "sections"];
 
 function checkUnknownKeys(obj, allowed, label, where, errors) {
 	if (!obj || typeof obj !== "object" || Array.isArray(obj)) return;
@@ -289,6 +289,7 @@ export function validatePage(page, ctx) {
 	if (typeof page?.path !== "string" || !page.path.startsWith("/")) errors.push(`${where}: path must start with /`);
 	checkText(page?.title, "title", where, errors);
 	checkText(page?.description, "description", where, errors, 160);
+	if (page?.label !== undefined) checkText(page.label, "label", where, errors, 60);
 	if (page?.parent && !ctx.knownRoutes.has(page.parent)) errors.push(`${where}: unknown parent ${page.parent}`);
 	if (page?.hero) {
 		checkText(page.hero.title, "hero.title", where, errors);

@@ -1,5 +1,6 @@
 export default {
 	path: "/faq",
+	label: "FAQs",
 	title: "DPDP Act 2023 FAQs: Expert Answers to Your Compliance Questions",
 	description: "Find clear answers to frequently asked questions about the DPDP Act 2023. Learn about data fiduciary obligations, individual rights, penalties, and compliance",
 	hero: {
@@ -9,7 +10,7 @@ export default {
 	sections: [
 		{
 			type: "faq",
-			heading: "Frequently Asked Questions about the DPDP Act 2023",
+			heading: "Common Questions",
 			items: [
 				{
 					question: "What services does DPDP Consultants offer for data privacy and compliance?",

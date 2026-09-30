@@ -1,5 +1,6 @@
 export default {
 	path: "/services",
+	label: "Services",
 	title: "DPDP Act Regulatory Compliance Management Services",
 	description: "Our DPDP Act compliance consulting services empower businesses to protect data, reduce risks, and build a culture of privacy.",
 	hero: {
@@ -80,27 +81,27 @@ export default {
 			heading: "Explore Our Services",
 			items: [
 				{
-					title: "Gap Assessment Review",
+					title: "Gap Assessment & Readiness Review",
 					text: "A detailed evaluation and expert guidance to help your business meet DPDP Act compliance requirements with minimal disruption.",
 					href: "/services/gap-assessment",
 				},
 				{
-					title: "Data Protection Officer as a Service",
+					title: "DPO as a Service",
 					text: "Turns the DPDP Act's DPO requirement into a strategic advantage, strengthening your data protection framework.",
 					href: "/services/dpo-as-a-service",
 				},
 				{
-					title: "Contract Review & Data Processing Agreements",
+					title: "Contract Review & DPAs",
 					text: "Draft and review agreements with third parties that protect personal data and uphold Data Principal rights.",
 					href: "/services/contract-review",
 				},
 				{
-					title: "Consulting, Advisory and Audit",
+					title: "Consulting, Advisory & Audit",
 					text: "Tailored policies, impact assessments, internal audit frameworks and automated privacy tools to meet DPDP Act requirements.",
 					href: "/services/consulting-advisory-audit",
 				},
 				{
-					title: "Training Programs for DPDPA Compliance",
+					title: "Training Programs",
 					text: "Structured training with expert guidance, interactive learning and real-world case studies on DPDP Act compliance.",
 					href: "/services/training-programs",
 				},
