@@ -1,4 +1,5 @@
 import Link from "next/link";
+import ClampText from "./ClampText";
 import SectionHeading from "./SectionHeading";
 
 // Cards use the template's `rightSwipeWrap` / `right-swipe` GSAP animation:
@@ -25,7 +26,7 @@ const FeaturesSection = ({ anchor, eyebrow, heading, intro, items, variant, numb
 									<i className={item.icon || "tji-service-1"}></i>
 								</div>
 								<h3 className="title page-item-title">{item.title}</h3>
-								<p className="desc">{item.text}</p>
+								<ClampText className="desc" text={item.text} />
 								{item.href ? (
 									<Link className="text-btn" href={item.href}>
 										<span className="btn-text"><span>Learn More</span></span>

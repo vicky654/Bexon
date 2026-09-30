@@ -37,7 +37,6 @@ export default {
 				{ name: "Audrey Saralin", role: "Senior Director – Sales", image: "/images/team/audrey-saralin.webp" },
 				{ name: "Dr. Sanyam Agarwal", role: "Principal Advisor", image: "/images/team/dr-sanyam-agarwal.jpg" },
 				{ name: "Gargi Rawat", role: "Director – Human Resources", image: "/images/team/gargi-rawat.webp" },
-				{ name: "Muskan Singhi", role: "Senior Executive HR", image: "/images/team/muskan-singhi.jpg" },
 				{ name: "Riju Ghosh", role: "Manager- Consulting and Advisory", image: "/images/team/riju-ghosh.jpg" },
 				{ name: "Pawan Mishra", role: "Head of Marketing", image: "/images/team/pawan-mishra.png" },
 			],

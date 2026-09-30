@@ -10,6 +10,7 @@ export default {
 	sections: [
 		{
 			type: "split",
+			eyebrow: "Product Suite",
 			heading: "Data Protection, Compliance, and Governance Product Suite",
 			html: "<h4>Security</h4><p><strong>Data Discovery</strong></p><ul><li>Structured Data</li><li>Unstructured Data</li><li>Semi-Structured Data</li></ul><p><strong>Risk Remediation</strong></p><ul><li>Data Masking</li><li>Data Archival</li><li>Data Deletion</li></ul><h4>Privacy</h4><ul><li>Data Principal Request</li><li>Consent Management</li><li>Records of Processing Activity</li><li>Privacy Impact Assessment</li><li>Third-Party Risk Management</li><li>Right to Information</li></ul><h4>Governance</h4><ul><li>Labelling</li><li>Cataloging</li><li>Retention</li><li>Life Cycle</li><li>Access Management</li></ul>",
 			image: "/images/site/products/products.webp",
@@ -17,44 +18,53 @@ export default {
 		},
 		{
 			type: "features",
+			eyebrow: "The Tools",
 			heading: "Powerful Compliance Tools for Secure Data Protection, Seamless Regulation Adherence, and Enhanced User Privacy",
-			intro: "The Tools",
+			numbered: true,
 			items: [
 				{
 					icon: "tji-check",
 					title: "Consent Management",
 					text: "DPCM is our solution to completely automate the management of Data Principal's consent. It is capable of handling legacy data, paper consent as well as live consent with equal ease.",
+					href: "/products/consent-management",
 				},
 				{
 					icon: "tji-support",
 					title: "Rights & Grievance Redressal",
 					text: "DPGR process is an essential part of any comprehensive data protection strategy. Our tool ensures that Data Principal's rights are duly honored and providing a clear mechanism for addressing complaints and concerns related to their personal data as per the DPDP Act.",
+					href: "/products/grievance-redressal",
 				},
 				{
 					icon: "tji-team",
 					title: "Awareness Program",
 					text: "DPAP tool educates employees, stakeholders, and partners about the importance of safeguarding personal and sensitive data, adhering to privacy laws, and implementing best practices in their daily operations. The tool fosters a culture of privacy and accountability within the organization.",
+					href: "/products/awareness-program",
 				},
 				{
 					icon: "tji-chart",
 					title: "Impact Assessment",
 					text: "DPIA tool helps build compliance with the DPDP Act 2023 whereby companies need to hold periodic DPIAs. DPIA tool infuses automation to the entire DPIA process. It allows stakeholders/DPOs to conduct DPIAs through a user-friendly platform and track risks identified during the DPIA ensuring that every stakeholder is aware of the developments on the mitigation of these identified risks.",
+					href: "/products/impact-assessment",
 				},
 				{
 					icon: "tji-search",
 					title: "Third-Party Risk Assessment",
 					text: "DPTPA tool is ensuring that the data fiduciary is regularly reviewing the compliance of the third parties or sub processors and assessing the risk associated with the third parties, which can in turn help them in decision making while selecting a third party or mandating work to them. Additionally, if there is any personal data shared with the third parties, they are also notified about the rights of the data principal.",
+					href: "/products/third-party-assessment",
 				},
 				{
 					icon: "tji-window",
 					title: "Cookie Consent",
 					text: "CCM is our comprehensive solution for capturing, managing, and documenting user consent for website cookies. Fully compliant with GDPR, ePrivacy Directive, CCPA/CPRA, and India's DPDP Act, the tool enables businesses to display dynamic consent banners, categorize cookies, and allow users to adjust preferences at any time. With automated cookie blocking and real-time consent logs, CCM ensures both transparency for users and accountability for organizations, helping build trust and demonstrate regulatory compliance effortlessly.",
+					href: "/products/cookie-consent",
 				},
 			],
 		},
 		{
 			type: "features",
+			eyebrow: "Integrated Platform",
 			heading: "Key Features and Benefits",
+			variant: "dark",
 			intro: "Integrated Data Discovery with Consent Manager and Principal Rights enhances data governance, compliance, and security",
 			items: [
 				{
@@ -91,6 +101,7 @@ export default {
 		},
 		{
 			type: "features",
+			eyebrow: "Licensing",
 			heading: "One License, One Data Principal",
 			intro: "Maximizing value at minimal cost",
 			items: [

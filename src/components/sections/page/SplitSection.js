@@ -1,13 +1,13 @@
 import SectionHeading from "./SectionHeading";
 
 const SplitSection = ({ anchor, eyebrow, heading, html, image, imageAlt, reverse }) => (
-	<section id={anchor} className="tj-page-section section-gap-2">
+	<section id={anchor} className="tj-page-section section-gap-2 page-split">
 		<div className="container">
 			<div className={`row align-items-center row-gap-5 ${reverse ? "flex-row-reverse" : ""}`}>
 				<div className="col-lg-6">
 					<SectionHeading eyebrow={eyebrow} heading={heading} center={false} />
 					<div
-						className="page-rich-text wow fadeInUp"
+						className="page-rich-text page-split-body wow fadeInUp"
 						data-wow-delay=".4s"
 						dangerouslySetInnerHTML={{ __html: html }}
 					/>

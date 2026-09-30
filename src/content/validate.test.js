@@ -225,6 +225,6 @@ test("every About page team member has a photo", () => {
 	const about = PAGES.find(p => p.path === "/about");
 	const team = about.sections.find(s => s.anchor === "our-team");
 	assert.equal(team.type, "team");
-	assert.equal(team.items.length, 13);
+	assert.equal(team.items.length, 12);
 	assert.ok(team.items.every(m => m.image));
 });
