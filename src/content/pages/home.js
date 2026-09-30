@@ -122,10 +122,7 @@ export default {
 			html: "<p>Your trusted partner in data protection, ensuring privacy &amp; security across every corner.</p><p><a href=\"/about\">Learn more about DPDP Consultants</a></p>",
 			image: "/images/site/home/nationwide-presence.webp",
 			imageAlt: "Map of India with callouts reading: 100% Made in India Technology; 500+ Assessments; 100% Automated Privacy Tools; 100+ Privacy Compliance Globally; 10+ Partners; 15+ Expert Privacy Advisors; 24x7 Instant Expert Advice",
-		},
-		{
-			type: "stats",
-			items: [
+			stats: [
 				{ value: "500+", label: "Assessments" },
 				{ value: "100+", label: "Privacy Compliance Globally" },
 				{ value: "10+", label: "Partners" },

@@ -469,6 +469,130 @@
 		}
 	}
 }
+/* ---------- Split band (e.g. home "Pan India Presence") ---------- */
+.page-split-band {
+	position: relative;
+	isolation: isolate;
+	margin: 30px 15px;
+	border-radius: 24px;
+	overflow: hidden;
+	background: linear-gradient(135deg, #f4f7ff 0%, #e8eefb 55%, #dfe8fb 100%);
+	@media #{$md, $sm, $xs} {
+		margin: 20px 10px;
+		border-radius: 18px;
+	}
+	.page-split-body {
+		font-size: 18px;
+		a {
+			display: inline-flex;
+			align-items: center;
+			gap: 10px;
+			margin-top: 6px;
+			font-weight: var(--tj-fw-sbold);
+			text-decoration: none;
+			color: var(--page-blue);
+			&::after {
+				content: "\2192";
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+				color: var(--tj-color-common-white);
+				background: var(--page-gradient);
+				transition: transform 0.4s var(--page-ease);
+			}
+			&:hover::after {
+				transform: translateX(4px);
+			}
+		}
+	}
+	.page-split-media {
+		border-radius: 24px;
+		box-shadow:
+			0 0 0 1px rgba(37, 99, 235, 0.12),
+			0 40px 80px -40px rgba(37, 99, 235, 0.55);
+		animation: pageFloat 8s ease-in-out infinite;
+	}
+}
+.page-split-band-bg {
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background-image: radial-gradient(rgba(37, 99, 235, 0.14) 1.2px, transparent 1.2px);
+	background-size: 22px 22px;
+	mask-image: linear-gradient(90deg, #000 0%, transparent 60%);
+}
+.page-split-band-glow {
+	position: absolute;
+	border-radius: 50%;
+	filter: blur(80px);
+	&.glow-1 {
+		width: 420px;
+		height: 420px;
+		top: -140px;
+		inset-inline-end: 10%;
+		background: rgba(56, 189, 248, 0.35);
+		animation: pageDrift 16s ease-in-out infinite alternate;
+	}
+	&.glow-2 {
+		width: 360px;
+		height: 360px;
+		bottom: -160px;
+		inset-inline-start: -80px;
+		background: rgba(99, 102, 241, 0.25);
+		animation: pageDrift 20s ease-in-out infinite alternate-reverse;
+	}
+}
+.page-split-stats {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 16px;
+	margin-top: 34px;
+	@media #{$xs} {
+		gap: 12px;
+	}
+}
+.page-split-stat {
+	position: relative;
+	padding: 22px 22px 20px;
+	border-radius: 18px;
+	background: rgba(255, 255, 255, 0.85);
+	border: 1px solid rgba(37, 99, 235, 0.12);
+	backdrop-filter: blur(8px);
+	box-shadow: 0 20px 40px -30px rgba(2, 9, 44, 0.45);
+	overflow: hidden;
+	transition:
+		transform 0.5s var(--page-ease),
+		box-shadow 0.5s var(--page-ease);
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		inset-inline-start: 0;
+		width: 4px;
+		background: var(--page-gradient);
+	}
+	.page-stat-value {
+		font-size: 40px;
+		margin-bottom: 4px;
+		@media #{$xs} {
+			font-size: 30px;
+		}
+	}
+	.page-stat-label {
+		font-size: 14px;
+		line-height: 1.4;
+	}
+	&:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 26px 50px -28px rgba(37, 99, 235, 0.5);
+	}
+}
+
 /* ---------- Footer ---------- */
 .tj-footer-section.page-footer {
 	margin: 0 15px 15px;
@@ -645,6 +769,11 @@
 
 /* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
+	.page-split-band .page-split-media,
+	.page-split-band-glow {
+		animation: none !important;
+	}
+	.page-split-stat,
 	.page-team-card,
 	.page-team-photo img,
 	.page-split-body li,

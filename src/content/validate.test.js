@@ -228,3 +228,10 @@ test("every About page team member has a photo", () => {
 	assert.equal(team.items.length, 12);
 	assert.ok(team.items.every(m => m.image));
 });
+
+test("split sections may carry stat tiles", () => {
+	const split = { type: "split", heading: "H", html: "<p>x</p>", image: "/images/site/home/nationwide-presence.webp", imageAlt: "Map" };
+	assert.deepEqual(validatePage({ ...good, sections: [{ ...split, stats: [{ value: "500+", label: "Assessments" }] }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ ...split, stats: [{ value: "", label: "Assessments" }] }] }, ctx).some(e => e.includes("value")));
+	assert.ok(validatePage({ ...good, sections: [{ ...split, stats: "500+" }] }, ctx).some(e => e.includes("stats")));
+});

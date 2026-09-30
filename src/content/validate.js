@@ -216,6 +216,15 @@ const SECTION_CHECKS = {
 		checkHtml(section.html, where, ctx, errors);
 		checkImage(section.image, where, ctx, errors);
 		checkText(section.imageAlt, "imageAlt", where, errors);
+		if (section.stats !== undefined) {
+			if (!Array.isArray(section.stats)) return errors.push(`${where}: stats must be a list`);
+			section.stats.forEach((item, i) => {
+				const itemWhere = `${where}.stats[${i}]`;
+				if (!checkItem(item, itemWhere, errors)) return;
+				checkText(item.value, "value", itemWhere, errors);
+				checkText(item.label, "label", itemWhere, errors, 60);
+			});
+		}
 	},
 	steps(section, where, ctx, errors) {
 		checkText(section.heading, "heading", where, errors);
@@ -291,7 +300,7 @@ const SECTION_FIELDS = {
 	homeHero: ["eyebrow", "title", "highlight", "text", "primary", "secondary", "image", "badges"],
 	richText: ["heading", "html"],
 	features: ["eyebrow", "heading", "intro", "items", "variant", "numbered"],
-	split: ["eyebrow", "heading", "html", "image", "imageAlt", "reverse"],
+	split: ["eyebrow", "heading", "html", "image", "imageAlt", "reverse", "stats"],
 	steps: ["eyebrow", "heading", "intro", "items"],
 	stats: ["eyebrow", "heading", "intro", "items"],
 	faq: ["eyebrow", "heading", "items"],
