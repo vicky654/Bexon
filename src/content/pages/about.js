@@ -56,12 +56,10 @@ export default {
 			heading: "Awards & Certifications",
 			intro: "Our team is proud to hold a range of industry-recognized awards and certifications that demonstrate our commitment to excellence in data privacy and compliance.",
 			items: [
-				{ icon: "tji-award", title: "ISO/IEC 27001:2022 – Information Security Management Systems", text: "Certified by Royal Impact Certification Ltd. (RICL) for information security management across our consulting, advisory, audit and privacy compliance tools." },
 				{ icon: "tji-award", title: "Startup India Recognition", text: "Recognised as a startup by the Department for Promotion of Industry and Internal Trade (DPIIT), Government of India." },
 				{ icon: "tji-award", title: "ICAI Northern India Regional Council", text: "Proud sponsor of ICA events 2024-2025 with the Institute of Chartered Accountants of India, Northern India Regional Council." },
 				{ icon: "tji-award", title: "BFSI Technology Conclave Partnership", text: "Recognised by Express Computer for our support and partnership at the 6th BFSI Technology Conclave 2024, Pune." },
-				{ icon: "tji-award", title: "ADIF Alliance Membership", text: "Alliance member of the Alliance of Digital India Foundation (ADIF)." },
-				{ icon: "tji-award", title: "Start In UP Registration", text: "Registered as a startup with Uttar Pradesh Electronics Corporation Ltd. (UPLC) under the Start In UP programme." },
+				{ icon: "tji-award", title: "Start In UP Registration", text: "Recognized as a Startup by the Department of IT & Electronics, Government of Uttar Pradesh (GoUP), through its nodal agency Uttar Pradesh Electronics Corporation Ltd. (UPLC)." },
 			],
 		},
 		{
