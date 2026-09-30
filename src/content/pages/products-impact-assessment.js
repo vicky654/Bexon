@@ -9,12 +9,9 @@ export default {
 	},
 	sections: [
 		{
-			type: "split",
-			eyebrow: "The Tool",
-			heading: "Streamlined Impact Assessment, Ensuring Compliance and Risk Control",
+			type: "richText",
+			heading: "DPDPA Data Protection Impact Assessment (DPIA) Tool – Identify & Mitigate Privacy Risks",
 			html: "<p>Our advanced, highly customizable DPIA platform simplifies and automates the entire Data Protection Impact Assessment (DPIA) process across various processing activities and functions. It enables organizations handling sensitive, large, and high-risk data to proactively identify, evaluate, and mitigate potential data privacy risks while implementing robust safeguards to protect personal information. The platform ensures smooth regulatory compliance while enhancing operational efficiency, transparency, and accountability in managing data privacy risks.</p><p>A comprehensive solution for impact assessment, ensuring compliance and fostering accountability.</p>",
-			image: "/images/site/products/impact-assessment.webp",
-			imageAlt: "Data protection impact assessment tool illustration",
 		},
 		{
 			type: "features",

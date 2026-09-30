@@ -9,12 +9,9 @@ export default {
 	},
 	sections: [
 		{
-			type: "split",
-			eyebrow: "The Tool",
-			heading: "Seamless Consent Management, Trusted Compliance for a Privacy-First Future",
+			type: "richText",
+			heading: "DPDPA Consent Management Platform – Collect, Store & Withdraw Data Principal Consent",
 			html: "<p>Our Consent Manager ensures that consent is specific, freely given, informed, and affirmatively indicated through clear action, as mandated by the Digital Personal Data Protection Act, 2023. Data Principals retain complete control through easily accessible consent withdrawal mechanisms and comprehensive notice provisions. With robust automation and multi-channel integration, our DPCM optimizes consent lifecycle management across all digital touchpoints, maintaining detailed consent records, enhancing regulatory compliance, mitigating enforcement risks, and streamlining operational efficiency while upholding Data Principal rights.</p><p>A tool that simplifies consent management while ensuring compliance and user privacy.</p>",
-			image: "/images/site/products/consent-management.webp",
-			imageAlt: "Consent management tool illustration",
 		},
 		{
 			type: "features",

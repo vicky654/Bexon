@@ -9,12 +9,9 @@ export default {
 	},
 	sections: [
 		{
-			type: "split",
-			eyebrow: "The Tool",
-			heading: "Proactive Third Party Assessment, Ensuring Compliance and Risk Mitigation",
+			type: "richText",
+			heading: "DPDPA Third-Party Vendor Risk Assessment & Compliance Management Tool",
 			html: "<p>Our Data Protection and Third Party Assessment (DPTPA) Solution empowers organizations to seamlessly manage vendor compliance by issuing clear instructions, monitoring vendor actions, and receiving real-time confirmation of adherence to data protection requirements. In the event of non-compliance, the system promptly alerts the Data Fiduciary, identifying potential risks and enabling them to take proactive corrective measures to safeguard sensitive data and maintain regulatory compliance.</p><p>An advanced solution for Third Party assessment, promoting compliance and safeguarding operations.</p>",
-			image: "/images/site/products/third-party-assessment.webp",
-			imageAlt: "Third party assessment tool illustration",
 		},
 		{
 			type: "features",

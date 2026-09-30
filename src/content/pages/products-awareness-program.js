@@ -9,12 +9,9 @@ export default {
 	},
 	sections: [
 		{
-			type: "split",
-			eyebrow: "The Tool",
-			heading: "Empowering Data Protection Awareness: Strengthening Compliance and Organizational Trust",
+			type: "richText",
+			heading: "DPDPA Compliance Awareness & Training Tool – Build a Data Privacy-First Organization",
 			html: "<p>Our Data Protection Awareness Program is a comprehensive Learning Management System (LMS) designed to provide online training on data privacy in line with the Digital Personal Data Protection Act, 2023 (DPDP Act). The training modules are tailored to educate both employees and privacy champions within the organization, ensuring they stay informed and equipped to uphold data protection standards effectively.</p><p>A streamlined solution for data protection training, ensuring compliance and empowering employees.</p>",
-			image: "/images/site/products/awareness-program.webp",
-			imageAlt: "Data protection awareness program illustration",
 		},
 		{
 			type: "features",

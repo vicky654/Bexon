@@ -9,12 +9,9 @@ export default {
 	},
 	sections: [
 		{
-			type: "split",
-			eyebrow: "The Tool",
-			heading: "Seamless Cookie Consent Management, Trusted Compliance for a Privacy-First Future",
+			type: "richText",
+			heading: "DPDPA Cookie Consent Management (CCM) Tool – Achieve Lawful, Auditable Web Consent",
 			html: "<p>Our Cookie Consent Manager (CCM) Tool provides an intuitive, automated solution for capturing and managing user consent for website cookies, fully compliant with global privacy laws including the GDPR, ePrivacy Directive, CCPA/CPRA, and India's DPDP Act. The platform ensures that users are informed, in control, and empowered to manage their cookie preferences. From initial consent banners to ongoing preference management and cookie blocking, our tool delivers complete transparency and regulatory assurance.</p><p>Designed to respect user choice, our Cookie Consent Manager ensures transparent consent management and effortless compliance.</p>",
-			image: "/images/site/products/cookie-consent.webp",
-			imageAlt: "Cookie consent management tool illustration",
 		},
 		{
 			type: "features",

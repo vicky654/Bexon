@@ -9,12 +9,9 @@ export default {
 	},
 	sections: [
 		{
-			type: "split",
-			eyebrow: "The Tool",
-			heading: "Efficient Grievance Redressal, Strengthening Compliance and Trust",
+			type: "richText",
+			heading: "DPDPA Data Principal Rights Management Tool – Handle Access, Correction, Erasure & Grievance Redressal",
 			html: "<p>Our Grievance Redressal Management (DPGR) Tool simplifies grievance handling by providing a user-friendly, automated platform that ensures compliance with the Digital Personal Data Protection Act, 2023 (DPDP Act). It empowers Data Fiduciaries to efficiently manage, track, and resolve grievances while maintaining audit-ready records and adhering to statutory timelines. With intuitive workflows and a centralized dashboard, our tool enhances transparency, reduces response times, and builds trust with Data Principals.</p><p>An efficient solution for grievance redressal, ensuring compliance and building user confidence.</p>",
-			image: "/images/site/products/grievance-redressal.webp",
-			imageAlt: "Grievance redressal tool illustration",
 		},
 		{
 			type: "features",
