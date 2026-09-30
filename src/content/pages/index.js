@@ -6,6 +6,7 @@ import dpdpActDpdpRules2025 from "./dpdp-act-dpdp-rules-2025.js";
 import dpdpActPenaltiesAndFines from "./dpdp-act-penalties-and-fines.js";
 import dpdpActThirdPartyObligations from "./dpdp-act-third-party-obligations.js";
 import faq from "./faq.js";
+import home from "./home.js";
 import privacyNotice from "./privacy-notice.js";
 import products from "./products.js";
 import productsAwarenessProgram from "./products-awareness-program.js";
@@ -24,6 +25,7 @@ import servicesTrainingPrograms from "./services-training-programs.js";
 import termsAndConditions from "./terms-and-conditions.js";
 
 export const PAGES = [
+	home,
 	about,
 	caseStudies,
 	faq,

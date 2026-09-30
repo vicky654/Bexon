@@ -1,0 +1,151 @@
+export default {
+	path: "/",
+	title: "India's Best DPDP Act Compliance Management Software",
+	description: "Achieve DPDP Act compliance with India's top data protection consultants using automated compliance management software.",
+	hero: null,
+	sections: [
+		{
+			type: "homeHero",
+			title: "Empowering organisations with DPDPA compliance solutions",
+			text: "End-to-end data protection consulting with automated compliance tools for proactive risk management.",
+			primary: { label: "Book a Consultation", href: "/book-consultation" },
+			secondary: { label: "Explore Products", href: "/products" },
+		},
+		{
+			type: "features",
+			eyebrow: "Our Tools",
+			heading: "Elevate Your Data Privacy Stance with Intelligent Automation",
+			items: [
+				{
+					icon: "tji-service-1",
+					title: "Consent Management",
+					text: "Automates the management of Data Principal consent, handling legacy, paper and live consent with equal ease.",
+					href: "/products/consent-management",
+				},
+				{
+					icon: "tji-service-2",
+					title: "Grievance Redressal",
+					text: "Ensures Data Principal rights are honored with a clear mechanism for addressing complaints under the DPDP Act.",
+					href: "/products/grievance-redressal",
+				},
+				{
+					icon: "tji-service-3",
+					title: "Awareness Program",
+					text: "Educates employees, stakeholders and partners on safeguarding personal data and privacy best practices.",
+					href: "/products/awareness-program",
+				},
+				{
+					icon: "tji-service-4",
+					title: "Impact Assessment",
+					text: "Automates the DPIA process and helps stakeholders track and mitigate identified risks.",
+					href: "/products/impact-assessment",
+				},
+				{
+					icon: "tji-service-5",
+					title: "Third-Party Risk Assessment",
+					text: "Reviews third-party and sub-processor compliance, assessing the risk associated with the third parties.",
+					href: "/products/third-party-assessment",
+				},
+				{
+					icon: "tji-service-6",
+					title: "Cookie Consent",
+					text: "Captures, manages and documents user consent for website cookies in line with the DPDP Act and global privacy laws.",
+					href: "/products/cookie-consent",
+				},
+			],
+		},
+		{
+			type: "features",
+			eyebrow: "Our Services",
+			heading: "Helping businesses navigate data privacy and compliance with ease",
+			items: [
+				{
+					icon: "tji-check",
+					title: "Gap Assessment Review",
+					text: "A detailed evaluation and expert guidance to help your business meet DPDP Act compliance requirements with minimal disruption.",
+					href: "/services/gap-assessment",
+				},
+				{
+					icon: "tji-team",
+					title: "Data Protection Officer as a Service",
+					text: "Turns the DPDP Act's DPO requirement into a strategic advantage, strengthening your data protection framework.",
+					href: "/services/dpo-as-a-service",
+				},
+				{
+					icon: "tji-organize",
+					title: "Contract Review & Data Processing Agreements",
+					text: "Draft and review agreements with third parties that protect personal data and uphold Data Principal rights.",
+					href: "/services/contract-review",
+				},
+				{
+					icon: "tji-strategy",
+					title: "Consulting, Advisory and Audit",
+					text: "Tailored policies, impact assessments, internal audit frameworks and automated privacy tools to meet DPDP Act requirements.",
+					href: "/services/consulting-advisory-audit",
+				},
+				{
+					icon: "tji-growth",
+					title: "Training Programs for DPDPA Compliance",
+					text: "Structured training with expert guidance, interactive learning and real-world case studies on DPDP Act compliance.",
+					href: "/services/training-programs",
+				},
+				{
+					icon: "tji-award",
+					title: "DPDP Act Foundation Course",
+					text: "A certification course building foundational expertise in digital data protection under the DPDPA.",
+					href: "/services/dpdp-act-foundation-course",
+				},
+			],
+		},
+		{
+			type: "split",
+			eyebrow: "Pan India Presence",
+			heading: "Seamless Compliance with Automated Privacy Tools",
+			html: "<p>Your trusted partner in data protection, ensuring privacy &amp; security across every corner.</p><p><a href=\"/about\">Learn more about DPDP Consultants</a></p>",
+			image: "/images/site/home/nationwide-presence.webp",
+			imageAlt: "Map of India with callouts reading: 100% Made in India Technology; 500+ Assessments; 100% Automated Privacy Tools; 100+ Privacy Compliance Globally; 10+ Partners; 15+ Expert Privacy Advisors; 24x7 Instant Expert Advice",
+		},
+		{
+			type: "stats",
+			items: [
+				{ value: "100+", label: "Privacy Compliance Globally" },
+				{ value: "500+", label: "Total Assessments" },
+				{ value: "50+", label: "Expert Privacy Advisors" },
+				{ value: "100%", label: "Automated Privacy Tools" },
+			],
+		},
+		{
+			type: "cardsLinks",
+			heading: "Explore More",
+			items: [
+				{
+					title: "Blogs",
+					text: "Insights, updates, and expert advice on navigating the ever-evolving world of data privacy and compliance.",
+					href: "/blogs",
+				},
+				{
+					title: "News",
+					text: "The latest developments in data protection law and regulation.",
+					href: "/news",
+				},
+				{
+					title: "Webinars & Events",
+					text: "Live sessions and events on DPDP Act compliance and data privacy best practices.",
+					href: "/events",
+				},
+				{
+					title: "Resources",
+					text: "Guides, templates and tools to support your DPDP Act compliance journey.",
+					href: "/resources",
+				},
+			],
+		},
+		{
+			type: "cta",
+			heading: "Ready to Simplify Your DPDP Act Compliance?",
+			text: "Book a consultation to see how our consulting team and compliance tools can help your organisation meet DPDP Act requirements with confidence.",
+			primary: { label: "Book a Consultation", href: "/book-consultation" },
+			secondary: { label: "Contact Us", href: "/contact" },
+		},
+	],
+};
