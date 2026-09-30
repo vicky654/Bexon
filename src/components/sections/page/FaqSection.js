@@ -1,8 +1,8 @@
 import SectionHeading from "./SectionHeading";
 import FaqAccordion from "./FaqAccordion";
 
-const FaqSection = ({ eyebrow, heading, items, idPrefix }) => (
-	<section className="tj-faq-section section-gap-2">
+const FaqSection = ({ anchor, eyebrow, heading, items, idPrefix }) => (
+	<section id={anchor} className="tj-faq-section section-gap-2">
 		<div className="container">
 			<SectionHeading eyebrow={eyebrow} heading={heading} />
 			<div className="row justify-content-center">

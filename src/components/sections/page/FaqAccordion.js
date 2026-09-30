@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { delay } from "./animation";
 
 const FaqAccordion = ({ items, idPrefix }) => {
 	const [openIndex, setOpenIndex] = useState(0);
@@ -15,7 +16,7 @@ const FaqAccordion = ({ items, idPrefix }) => {
 				const id = `${idPrefix}-faq-${idx}`;
 				const buttonId = `${id}-title`;
 				return (
-					<div className="accordion-item" key={id}>
+					<div className="accordion-item wow fadeInUp" data-wow-delay={delay(idx, 0.1, 0.05, 0.5)} key={id}>
 						<button
 							id={buttonId}
 							className={`faq-title ${isOpen ? "" : "collapsed"}`}

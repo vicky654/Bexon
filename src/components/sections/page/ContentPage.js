@@ -5,6 +5,7 @@ import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getPage } from "@/content/pages";
+import HashScroller from "./HashScroller";
 import PageRenderer from "./PageRenderer";
 
 const ContentPage = ({ page }) => {
@@ -28,7 +29,8 @@ const ContentPage = ({ page }) => {
 						{page.hero?.text ? (
 							<section className="page-hero-intro">
 								<div className="container">
-									<p>{page.hero.text}</p>
+									{/* tj-text-invert: template scroll-driven text reveal */}
+									<p className="tj-text-invert">{page.hero.text}</p>
 								</div>
 							</section>
 						) : null}
@@ -38,6 +40,7 @@ const ContentPage = ({ page }) => {
 				</div>
 			</div>
 			<ClientWrapper />
+			<HashScroller />
 		</div>
 	);
 };

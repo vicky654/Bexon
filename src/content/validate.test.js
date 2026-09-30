@@ -167,3 +167,25 @@ test("every real content page is valid and paths are unique", () => {
 	const errors = PAGES.flatMap(p => validatePage(p, ctx));
 	assert.deepEqual(errors, []);
 });
+
+test("section anchors must be slug-like and unique per page", () => {
+	const html = "<p>x</p>";
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "richText", anchor: "our-team", html }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ type: "richText", anchor: "Our Team", html }] }, ctx).length);
+	const dup = validatePage({ ...good, sections: [
+		{ type: "richText", anchor: "a", html },
+		{ type: "richText", anchor: "a", html },
+	] }, ctx);
+	assert.ok(dup.some(e => e.includes("duplicate anchor")));
+});
+
+test("the About Us menu anchors exist on the About page", async () => {
+	const { NAVIGATION } = await import("./navigation.js");
+	const about = PAGES.find(p => p.path === "/about");
+	const anchors = new Set(about.sections.map(s => s.anchor).filter(Boolean));
+	const aboutMenu = NAVIGATION.find(item => item.href === "/about");
+	for (const child of aboutMenu.children) {
+		const hash = child.href.split("#")[1];
+		assert.ok(anchors.has(hash), `missing anchor #${hash} on /about`);
+	}
+});

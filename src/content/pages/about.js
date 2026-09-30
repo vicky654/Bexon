@@ -9,16 +9,19 @@ export default {
 	},
 	sections: [
 		{
+			anchor: "who-we-are",
 			type: "richText",
 			heading: "Who We Are",
 			html: "<p>87% of consumers will take their business elsewhere if they don't trust a company with their data. We can help you:</p><ul><li>Avoid Financial Penalties</li><li>Enhance Customer Trust and Loyalty</li><li>Improve Business Reputation</li><li>Mitigate Risks of Data Breaches</li></ul><h3>Empowering Businesses to Seamlessly Navigate Data Protection Compliance</h3><p>By prioritizing data protection and privacy, businesses can strengthen compliance and build trust with customers and stakeholders.</p><p>We understand that Data Protection and Data Privacy regulations can be complex and time-consuming for businesses. That's why we empower our clients with the skills, tools, and knowledge needed to navigate and ensure compliance with these critical regulations successfully. With our dedicated data protection consultants, including certified Privacy Compliance Consultants and Data Protection Officers, businesses can ensure comprehensive data risk mitigation. We navigate you to the evolving landscape of data protection regulations to establish a solid foundation for privacy management within your organization. We have expertise in assisting business in achieving data privacy compliance, managing customer data securely, and enhancing your overall data governance framework.</p>",
 		},
 		{
+			anchor: "mission-vision",
 			type: "richText",
 			heading: "Mission and Vision",
 			html: "<h3>Transforming the Complex World of Data Protection into a Seamless Journey for Organizations Privacy and Compliance</h3><h4>Mission</h4><p>Our mission is to empower businesses to navigate the complexities of data protection and privacy with confidence and ease. Through expert consulting and proprietary compliance tools, we help organizations achieve and sustain regulatory compliance while fostering a culture of security and accountability. We are committed to fostering a culture of awareness and responsibility in data security, enabling our clients to safeguard sensitive information, build consumer trust, and thrive in an ever-evolving regulatory landscape.</p><h4>Vision</h4><p>Our vision is to be the premier consulting and solutioning partner in the realm of data protection and data privacy, recognized globally for our innovative approach and cutting-edge proprietary tools. We envision a future where all organizations prioritize data privacy as a fundamental aspect of their operations, ensuring that personal information is handled with utmost care and respect. By fostering an ecosystem of trust and transparency, we aim to lead the way in shaping best practices and setting standards for data protection compliance that empower businesses to succeed responsibly in the digital age.</p>",
 		},
 		{
+			anchor: "our-team",
 			type: "features",
 			heading: "Our Team",
 			intro: "Our team ensures your data privacy journey is seamless and secure.",
@@ -39,6 +42,7 @@ export default {
 			],
 		},
 		{
+			anchor: "what-we-do",
 			type: "features",
 			eyebrow: "What We Do",
 			heading: "Enabling Secure and Compliant Data Practices with Innovative Compliance Tools and Expertise",
@@ -53,6 +57,7 @@ export default {
 			],
 		},
 		{
+			anchor: "awards",
 			type: "features",
 			heading: "Awards & Certifications",
 			intro: "Our team is proud to hold a range of industry-recognized awards and certifications that demonstrate our commitment to excellence in data privacy and compliance.",

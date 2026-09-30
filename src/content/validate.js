@@ -273,6 +273,8 @@ const SECTION_FIELDS = {
 	cardsLinks: ["eyebrow", "heading", "intro", "items"],
 };
 
+const ANCHOR_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
+
 const PAGE_FIELDS = ["path", "title", "description", "parent", "label", "hero", "sections"];
 
 function checkUnknownKeys(obj, allowed, label, where, errors) {
@@ -299,12 +301,24 @@ export function validatePage(page, ctx) {
 		errors.push(`${where}: sections are required`);
 		return errors;
 	}
+	const anchors = new Set();
 	page.sections.forEach((section, i) => {
 		const sectionWhere = `${where}: sections[${i}] (${section?.type})`;
 		const check = SECTION_CHECKS[section?.type];
 		if (!check) errors.push(`${sectionWhere}: unknown section type "${section?.type}"`);
 		else check(section, sectionWhere, ctx, errors);
-		checkUnknownKeys(section, ["type", ...(SECTION_FIELDS[section?.type] || [])], section?.type, sectionWhere, errors);
+		// `anchor` (optional, any section type) becomes the section's id so
+		// menu links like /about#our-team can jump to it.
+		checkUnknownKeys(section, ["type", "anchor", ...(SECTION_FIELDS[section?.type] || [])], section?.type, sectionWhere, errors);
+		if (section?.anchor !== undefined) {
+			if (typeof section.anchor !== "string" || !ANCHOR_PATTERN.test(section.anchor)) {
+				errors.push(`${sectionWhere}: anchor must be lowercase letters, numbers and hyphens`);
+			} else if (anchors.has(section.anchor)) {
+				errors.push(`${sectionWhere}: duplicate anchor "${section.anchor}"`);
+			} else {
+				anchors.add(section.anchor);
+			}
+		}
 	});
 	return errors;
 }

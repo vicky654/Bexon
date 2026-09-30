@@ -24,8 +24,16 @@ import tjStackAnimation2 from "@/libs/tjStackAnimation2";
 import tjStackAnimation3 from "@/libs/tjStackAnimation3";
 import tjZoomInScroll from "@/libs/tjZoomInScroll";
 import { useEffect } from "react";
+
+// Visitors who ask their device to reduce motion get a static page: no scroll
+// reveals, smooth scrolling or cursor effects (CSS in _page.scss shows the
+// .wow elements in place).
+const prefersReducedMotion = () =>
+	typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
 const ClientWrapper = () => {
 	useEffect(() => {
+		if (prefersReducedMotion()) return;
 		import("wow.js").then(({ default: WOW }) => {
 			new WOW().init();
 		});
@@ -36,6 +44,11 @@ const ClientWrapper = () => {
 		};
 	}, []);
 	useGSAP((context, contextSafe) => {
+		if (prefersReducedMotion()) {
+			sidebarSticky();
+			onePageNavAnim(contextSafe);
+			return;
+		}
 		initSmoothScroller();
 		tjRightSwipeAnimation();
 		tjLeftSwipeAnimation();
