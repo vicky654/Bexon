@@ -20,7 +20,7 @@ const good = {
 };
 
 test("section types are the fixed set", () => {
-	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks"]);
+	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee"]);
 });
 
 test("a valid page has no errors", () => {
@@ -188,4 +188,27 @@ test("the About Us menu anchors exist on the About page", async () => {
 		const hash = child.href.split("#")[1];
 		assert.ok(anchors.has(hash), `missing anchor #${hash} on /about`);
 	}
+});
+
+test("home hero highlight must be part of the title, badges are short strings", () => {
+	const hero = { type: "homeHero", title: "Empowering DPDPA compliance", text: "t", primary: { label: "Go", href: "/contact" } };
+	assert.deepEqual(validatePage({ ...good, sections: [{ ...hero, highlight: "DPDPA compliance", badges: ["24x7 Expert Advice"] }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ ...hero, highlight: "not in title" }] }, ctx).some(e => e.includes("highlight")));
+	assert.ok(validatePage({ ...good, sections: [{ ...hero, badges: ["x".repeat(61)] }] }, ctx).some(e => e.includes("badges")));
+	assert.ok(validatePage({ ...good, sections: [{ ...hero, badges: "nope" }] }, ctx).some(e => e.includes("badges")));
+});
+
+test("marquee needs short text items; features variant and numbered are checked", () => {
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "marquee", items: ["Consent Management", "DPIA"] }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ type: "marquee", items: [] }] }, ctx).length);
+	assert.ok(validatePage({ ...good, sections: [{ type: "marquee", items: [""] }] }, ctx).length);
+	const item = { icon: "tji-check", title: "T", text: "t" };
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "features", heading: "H", variant: "dark", numbered: true, items: [item] }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ type: "features", heading: "H", variant: "neon", items: [item] }] }, ctx).some(e => e.includes("variant")));
+	assert.ok(validatePage({ ...good, sections: [{ type: "features", heading: "H", numbered: "yes", items: [item] }] }, ctx).some(e => e.includes("numbered")));
+});
+
+test("stats may carry an optional heading", () => {
+	const items = [{ value: "500+", label: "Assessments" }];
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "stats", eyebrow: "E", heading: "H", intro: "I", items }] }, ctx), []);
 });

@@ -10,7 +10,7 @@ const initSmoothScroller = contanerRef => {
 		let smoother = ScrollSmoother.create({
 			content: "#smooth-content",
 			wrapper: "#smooth-wrapper",
-			smooth: 1.5,
+			smooth: 1.1,
 			effects: true,
 			smoothTouch: 0.1,
 			ignoreMobileResize: true,

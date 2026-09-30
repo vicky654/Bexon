@@ -6,14 +6,31 @@ export default {
 	sections: [
 		{
 			type: "homeHero",
+			eyebrow: "DPDP Act 2023 compliance experts",
 			title: "Empowering organisations with DPDPA compliance solutions",
+			highlight: "DPDPA compliance solutions",
 			text: "End-to-end data protection consulting with automated compliance tools for proactive risk management.",
 			primary: { label: "Book a Consultation", href: "/book-consultation" },
 			secondary: { label: "Explore Products", href: "/products" },
+			badges: ["100% Made in India Technology", "500+ Assessments", "24x7 Instant Expert Advice"],
+		},
+		{
+			type: "marquee",
+			items: [
+				"Consent Management",
+				"Rights & Grievance Redressal",
+				"Impact Assessment",
+				"DPO as a Service",
+				"Third-Party Risk Assessment",
+				"Cookie Consent",
+				"Gap Assessment",
+				"Training Programs",
+			],
 		},
 		{
 			type: "features",
 			eyebrow: "Our Tools",
+			numbered: true,
 			heading: "Elevate Your Data Privacy Stance with Intelligent Automation",
 			items: [
 				{
@@ -57,6 +74,7 @@ export default {
 		{
 			type: "features",
 			eyebrow: "Our Services",
+			variant: "dark",
 			heading: "Helping businesses navigate data privacy and compliance with ease",
 			items: [
 				{
@@ -104,6 +122,15 @@ export default {
 			html: "<p>Your trusted partner in data protection, ensuring privacy &amp; security across every corner.</p><p><a href=\"/about\">Learn more about DPDP Consultants</a></p>",
 			image: "/images/site/home/nationwide-presence.webp",
 			imageAlt: "Map of India with callouts reading: 100% Made in India Technology; 500+ Assessments; 100% Automated Privacy Tools; 100+ Privacy Compliance Globally; 10+ Partners; 15+ Expert Privacy Advisors; 24x7 Instant Expert Advice",
+		},
+		{
+			type: "stats",
+			items: [
+				{ value: "500+", label: "Assessments" },
+				{ value: "100+", label: "Privacy Compliance Globally" },
+				{ value: "10+", label: "Partners" },
+				{ value: "24x7", label: "Instant Expert Advice" },
+			],
 		},
 		{
 			type: "features",

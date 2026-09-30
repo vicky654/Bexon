@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks"];
+export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee"];
 
 const ALLOWED_TAGS = new Set(["p", "h3", "h4", "ul", "ol", "li", "strong", "em", "a", "br"]);
 const STATIC_ROUTES = ["/", "/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe"];
@@ -184,12 +184,23 @@ const SECTION_CHECKS = {
 		checkText(section.primary?.label, "primary.label", where, errors);
 		checkSecondary(section.secondary, where, ctx, errors);
 		if (section.image) checkImage(section.image, where, ctx, errors);
+		if (section.highlight !== undefined) {
+			checkText(section.highlight, "highlight", where, errors);
+			if (typeof section.highlight === "string" && typeof section.title === "string" && !section.title.includes(section.highlight))
+				errors.push(`${where}: highlight must be part of the title`);
+		}
+		if (section.badges !== undefined) {
+			if (!Array.isArray(section.badges)) errors.push(`${where}: badges must be a list`);
+			else section.badges.forEach((badge, i) => checkText(badge, `badges[${i}]`, where, errors, 60));
+		}
 	},
 	richText(section, where, ctx, errors) {
 		checkHtml(section.html, where, ctx, errors);
 	},
 	features(section, where, ctx, errors) {
 		checkText(section.heading, "heading", where, errors);
+		if (section.variant !== undefined && section.variant !== "dark") errors.push(`${where}: variant must be "dark"`);
+		if (section.numbered !== undefined && typeof section.numbered !== "boolean") errors.push(`${where}: numbered must be true or false`);
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => {
 			const itemWhere = `${where}.items[${i}]`;
@@ -254,6 +265,10 @@ const SECTION_CHECKS = {
 			if (item.image) checkImage(item.image, itemWhere, ctx, errors);
 		});
 	},
+	marquee(section, where, ctx, errors) {
+		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
+		section.items.forEach((item, i) => checkText(item, `items[${i}]`, where, errors, 60));
+	},
 };
 
 // Allowed keys per section type, derived from each section component's own props (the
@@ -262,15 +277,16 @@ const SECTION_CHECKS = {
 // `intro` on a richText section would never appear on the page). `idPrefix` is injected by
 // PageRenderer itself, not read from content, so it is deliberately not listed here.
 const SECTION_FIELDS = {
-	homeHero: ["eyebrow", "title", "text", "primary", "secondary", "image"],
+	homeHero: ["eyebrow", "title", "highlight", "text", "primary", "secondary", "image", "badges"],
 	richText: ["heading", "html"],
-	features: ["eyebrow", "heading", "intro", "items"],
+	features: ["eyebrow", "heading", "intro", "items", "variant", "numbered"],
 	split: ["eyebrow", "heading", "html", "image", "imageAlt", "reverse"],
 	steps: ["eyebrow", "heading", "intro", "items"],
-	stats: ["items"],
+	stats: ["eyebrow", "heading", "intro", "items"],
 	faq: ["eyebrow", "heading", "items"],
 	cta: ["heading", "text", "primary", "secondary"],
 	cardsLinks: ["eyebrow", "heading", "intro", "items"],
+	marquee: ["items"],
 };
 
 const ANCHOR_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;

@@ -2,9 +2,9 @@ import { gsap, SplitText } from "@/libs/gsap.config";
 const titleAnim = contanerRef => {
 	const animItems = gsap.utils.toArray(".title-anim");
 	if (animItems.length) {
-		let staggerAmount = 0.01,
+		let staggerAmount = 0.015,
 			delayValue = 0.1,
-			easeType = "power1.inout",
+			easeType = "power3.out",
 			animatedTextElements = animItems;
 
 		animatedTextElements.forEach(element => {
@@ -14,7 +14,7 @@ const titleAnim = contanerRef => {
 			});
 			gsap.from(animatedTextElements.chars, {
 				y: "100%",
-				duration: 0.5,
+				duration: 0.9,
 				delay: delayValue,
 				autoAlpha: 0,
 				stagger: staggerAmount,
