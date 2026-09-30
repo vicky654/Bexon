@@ -51,12 +51,12 @@ export default {
 				{
 					icon: "tji-team",
 					title: "Internship Opportunity",
-					text: "Work on real-world DPDP Law compliance assignments, guided by experienced legal and data protection consultants. Learn to draft data protection policies, consent forms and data processing agreements, get exposure to data protection automation tools, and receive career support including resume reviews and mock interviews, plus a certificate of completion recognized by industry experts.",
+					text: "Work on real-world DPDP Law compliance assignments, guided by experienced legal and data protection consultants. Learn to draft data protection policies, consent forms and data processing agreements, get exposure to data protection automation tools and frameworks, and receive career support including resume reviews, LinkedIn optimization and mock interviews, plus a certificate of completion recognized by industry experts.",
 				},
 				{
 					icon: "tji-award",
 					title: "Get Certification",
-					text: "A step-by-step, self-paced breakdown of the DPDPA 2023 and its applicability, with an assessment after each module and a completion certificate.",
+					text: "A step-by-step breakdown of the DPDPA 2023 and its applicability, with self-paced learning you can access anytime, anywhere. Test your knowledge after the module, and receive a completion certificate recognized by industry professionals.",
 				},
 				{
 					icon: "tji-box",
@@ -88,7 +88,7 @@ export default {
 				{
 					icon: "tji-innovative",
 					title: "Tech Students",
-					text: "Making privacy-aware developers and architects, aligned with industry demand for privacy-literate tech talent, an edge in product design and software engineering roles, and hands-on experience with tools that help automate compliance tasks.",
+					text: "Making privacy-aware developers and architects since inception, aligned with industry demand for privacy-literate tech talent, an edge in product design and software engineering roles, and hands-on experience with tools that help automate compliance tasks.",
 				},
 				{
 					icon: "tji-user",

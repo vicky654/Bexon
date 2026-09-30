@@ -14,23 +14,47 @@ export default {
 			items: [
 				{
 					title: "Policy & Notice Framework Notice",
-					text: "Our techno-legal consultants create organisational and public-facing notices that comply with the DPDPA framework, and develop specific consent templates and policies tailored to the DPDPA for your public-facing platforms.",
+					text: "Our techno-legal consultants create organizational and public-facing notices that comply with the Digital Personal Data Protection Act (DPDPA) framework.",
+				},
+				{
+					title: "Consent Management Framework",
+					text: "Our data protection experts will develop specific consent templates and policies tailored to the Digital Personal Data Protection Act (DPDPA) for your public-facing platforms.",
 				},
 				{
 					title: "Principal Rights Management Procedure",
-					text: "We establish a process for efficiently managing and responding to principal rights requests in a timely manner, and create DPDPA-compliant rights request forms and templates to facilitate easy access and exercise of rights by data principals.",
+					text: "We will establish a process for efficiently managing and responding to principal rights requests in a timely manner.",
+				},
+				{
+					title: "Principal Rights Management Forms and Templates",
+					text: "We will create DPDPA-compliant rights request forms and templates to facilitate easy access and exercise of rights by data principals.",
 				},
 				{
 					title: "Processing Activity Assessments",
-					text: "We conduct a thorough analysis of your business processes to identify gaps in your privacy framework and ensure alignment with DPDPA requirements. We assess risks related to DPDPA non-compliance and provide a comprehensive mitigation plan, and implement a structured procedure and methodology to conduct Data Protection Impact Assessments (DPIAs) for identified processing activities.",
+					text: "We conduct a thorough analysis of your business processes to identify gaps in your privacy framework and ensure alignment with DPDPA requirements.",
+				},
+				{
+					title: "Risk and Mitigation",
+					text: "We assess risks related to DPDPA non-compliance and provide a comprehensive mitigation plan to address these risks.",
+				},
+				{
+					title: "Impact Assessment Methodology",
+					text: "We implement a structured procedure and methodology to conduct Data Protection Impact Assessments (DPIAs) for identified processing activities.",
 				},
 				{
 					title: "Employee Awareness",
-					text: "We offer tailored training, assessments, certifications, and compliance agreements on DPDPA for employees and key stakeholders, and educate your workforce to minimise liability in the event of employee non-compliance with data protection regulations.",
+					text: "We offer tailored training, assessments, certifications, and compliance agreements on DPDPA for employees and key stakeholders.",
+				},
+				{
+					title: "Employee Compliance Agreement",
+					text: "We educate your workforce to minimize liability in the event of employee non-compliance with data protection regulations.",
 				},
 				{
 					title: "Data Processing Agreement",
-					text: "We help manage your compliance obligations with processors through vendor risk assessments and customised Data Processing Agreements, and facilitate the sharing of explicit consent and manage rights fulfilment across your processors to ensure compliance.",
+					text: "We help manage your compliance obligations with processors through vendor risk assessments and customized Data Processing Agreements.",
+				},
+				{
+					title: "Third Party Consent Sharing and Rights Fulfillment",
+					text: "We facilitate the sharing of explicit consent and manage rights fulfillment across your processors to ensure compliance.",
 				},
 			],
 		},
