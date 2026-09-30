@@ -20,7 +20,7 @@ const good = {
 };
 
 test("section types are the fixed set", () => {
-	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee"]);
+	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team"]);
 });
 
 test("a valid page has no errors", () => {
@@ -211,4 +211,20 @@ test("marquee needs short text items; features variant and numbered are checked"
 test("stats may carry an optional heading", () => {
 	const items = [{ value: "500+", label: "Assessments" }];
 	assert.deepEqual(validatePage({ ...good, sections: [{ type: "stats", eyebrow: "E", heading: "H", intro: "I", items }] }, ctx), []);
+});
+
+test("team members need a name, role and an existing photo", () => {
+	const member = { name: "Jaspal Singh", role: "Director", image: "/images/team/jaspal-singh.png" };
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "team", heading: "Our Team", items: [member] }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ type: "team", heading: "Our Team", items: [] }] }, ctx).length);
+	assert.ok(validatePage({ ...good, sections: [{ type: "team", heading: "T", items: [{ ...member, role: "" }] }] }, ctx).some(e => e.includes("role")));
+	assert.ok(validatePage({ ...good, sections: [{ type: "team", heading: "T", items: [{ ...member, image: "/images/team/nobody.png" }] }] }, ctx).some(e => e.includes("does not exist")));
+});
+
+test("every About page team member has a photo", () => {
+	const about = PAGES.find(p => p.path === "/about");
+	const team = about.sections.find(s => s.anchor === "our-team");
+	assert.equal(team.type, "team");
+	assert.equal(team.items.length, 13);
+	assert.ok(team.items.every(m => m.image));
 });

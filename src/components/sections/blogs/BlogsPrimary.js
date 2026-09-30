@@ -4,7 +4,7 @@ import BlogSidebar from "@/components/shared/sidebar/BlogSidebar";
 import usePagination from "@/hooks/usePagination";
 import { useEffect } from "react";
 
-const BlogsPrimary = ({ filteredItems }) => {
+const BlogsPrimary = ({ filteredItems, allPosts }) => {
 	const items = [...filteredItems];
 	const limit = 3;
 	// get pagination details
@@ -58,7 +58,7 @@ const BlogsPrimary = ({ filteredItems }) => {
 						</div>
 					</div>
 					<div className="col-lg-4">
-						<BlogSidebar />
+						<BlogSidebar posts={allPosts} />
 					</div>
 				</div>
 			</div>

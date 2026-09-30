@@ -8,6 +8,7 @@ import RichTextSection from "./RichTextSection";
 import SplitSection from "./SplitSection";
 import StatsSection from "./StatsSection";
 import StepsSection from "./StepsSection";
+import TeamSection from "./TeamSection";
 
 const COMPONENTS = {
 	homeHero: HomeHeroSection,
@@ -20,6 +21,7 @@ const COMPONENTS = {
 	cta: CtaSection,
 	cardsLinks: CardsLinksSection,
 	marquee: MarqueeSection,
+	team: TeamSection,
 };
 
 const PageRenderer = ({ sections }) =>

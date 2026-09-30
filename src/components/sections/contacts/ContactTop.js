@@ -42,9 +42,6 @@ const ContactTop = () => {
 								<li>
 									<Link href="mailto:info@dpdpconsultants.com">info@dpdpconsultants.com</Link>
 								</li>
-								<li>
-									<Link href="mailto:info@dpdpconsultants.com">info@dpdpconsultants.com</Link>
-								</li>
 							</ul>
 						</div>
 					</div>
@@ -59,10 +56,10 @@ const ContactTop = () => {
 							<h3 className="contact-title">Call us</h3>
 							<ul className="contact-list">
 								<li>
-									<Link href="tel:10095447818">+1 (009) 544-7818</Link>
+									<Link href="tel:01206930999">0120-6930999</Link>
 								</li>
 								<li>
-									<Link href="tel:10098801810">+1 (009) 880-1810</Link>
+									<Link href="tel:18005711333">1800-5711333 (Toll free)</Link>
 								</li>
 							</ul>
 						</div>
@@ -75,15 +72,11 @@ const ContactTop = () => {
 							<div className="contact-icon">
 								<i className="tji-chat"></i>
 							</div>
-							<h3 className="contact-title">Live chat</h3>
+							<h3 className="contact-title">Book a Consultation</h3>
 							<ul className="contact-list">
-								<li>
-									<Link href="mailto:info@dpdpconsultants.com">
-										info@dpdpconsultants.com
-									</Link>
-								</li>
+								<li>Talk to a DPDP Act expert</li>
 								<li className="active">
-									<Link href="/contact">Need help?</Link>
+									<Link href="/book-consultation">Book now</Link>
 								</li>
 							</ul>
 						</div>

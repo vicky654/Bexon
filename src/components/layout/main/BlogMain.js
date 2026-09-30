@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 const BlogMain = () => {
 	const [filteredItems, setFilteredItems] = useState([]);
+	const [allPosts, setAllPosts] = useState([]);
 	const category = useSearchParams()?.get("category");
 	const tag = useSearchParams()?.get("tag");
 	const author_role = useSearchParams()?.get("author_role");
@@ -24,6 +25,14 @@ const BlogMain = () => {
 			.then(data => setFilteredItems(data?.blogs || []))
 			.catch(() => setFilteredItems([]));
 	}, [category, tag, author_role, search]);
+
+	// Unfiltered list for the sidebar (recent posts, categories, tags).
+	useEffect(() => {
+		fetch("/api/blogs")
+			.then(res => res.json())
+			.then(data => setAllPosts(data?.blogs || []))
+			.catch(() => setAllPosts([]));
+	}, []);
 
 	return (
 		<div>
@@ -56,7 +65,7 @@ const BlogMain = () => {
 						: []
 				}
 			/>
-			<BlogsPrimary filteredItems={filteredItems} />
+			<BlogsPrimary filteredItems={filteredItems} allPosts={allPosts} />
 		</div>
 	);
 };

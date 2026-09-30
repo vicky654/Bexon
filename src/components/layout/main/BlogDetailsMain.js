@@ -23,7 +23,7 @@ const BlogDetailsMain = async ({ currentSlug }) => {
 				breadcrums={[{ name: "Blogs", path: "/blogs" }]}
 			/>
 			<BlogDetailsPrimary
-				option={{ currentItem, prevSlug, nextSlug, isPrevItem, isNextItem }}
+				option={{ currentItem, prevSlug, nextSlug, isPrevItem, isNextItem, posts: items }}
 			/>
 		</div>
 	);

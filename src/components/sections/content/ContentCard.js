@@ -1,10 +1,11 @@
+import coverImage from "@/libs/coverImage";
 import Link from "next/link";
 
 const ContentCard = ({ href, image, eyebrow, title, summary, meta }) => (
 	<div className="blog-item content-card">
 		<div className="blog-thumb">
 			<Link href={href}>
-				<img src={image || "/images/blog/blog-1.webp"} alt="" loading="lazy" />
+				<img src={coverImage(image)} alt="" loading="lazy" />
 			</Link>
 		</div>
 		<div className="blog-content">

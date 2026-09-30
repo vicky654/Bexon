@@ -3,7 +3,7 @@ const RichTextSection = ({ anchor, heading, html }) => (
 	<section id={anchor} className="tj-page-section section-gap-2">
 		<div className="container">
 			<div className="row justify-content-center">
-				<div className="col-lg-10">
+				<div className="col-lg-10 page-rich-card">
 					{heading ? (
 						<div className="sec-heading">
 							<h2 className="sec-title title-anim">{heading}</h2>

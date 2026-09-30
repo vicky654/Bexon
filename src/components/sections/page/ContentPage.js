@@ -23,16 +23,9 @@ const ContentPage = ({ page }) => {
 							<HeroInner
 								title={page.hero.title}
 								text={page.label || page.hero.title}
+								intro={page.hero.text}
 								breadcrums={parent ? [{ name: parent.label || parent.title, path: parent.path }] : []}
 							/>
-						) : null}
-						{page.hero?.text ? (
-							<section className="page-hero-intro">
-								<div className="container">
-									{/* tj-text-invert: template scroll-driven text reveal */}
-									<p className="tj-text-invert">{page.hero.text}</p>
-								</div>
-							</section>
 						) : null}
 						<PageRenderer sections={page.sections} />
 					</main>

@@ -4,31 +4,29 @@ import { FOOTER_LINKS } from "@/content/navigation";
 
 const Footer = () => {
 	return (
-		<footer className="tj-footer-section footer-1 section-gap-x">
+		<footer className="tj-footer-section footer-1 page-footer">
+			<div className="page-home-hero-bg" aria-hidden="true">
+				<span className="page-home-hero-glow glow-1"></span>
+				<span className="page-home-hero-glow glow-2"></span>
+				<span className="page-home-hero-grid"></span>
+			</div>
 			<div className="footer-main-area">
 				<div className="container">
 					<div className="row justify-content-between">
 						<div className="col-xl-3 col-lg-4 col-md-6">
 							<div className="footer-widget wow fadeInUp" data-wow-delay=".1s">
-								<div className="footer-logo">
+								<div className="footer-logo page-footer-logo">
 									<Link href="/">
-										<img src="/images/logos/logo.webp" alt="Logos" />
+										<img src="/images/logos/logo.webp" alt="DPDP Consultants" />
 									</Link>
 								</div>
 								<div className="footer-text">
-									<p>
-										Developing personalze our customer journeys to increase
-										satisfaction & loyalty of our expansion.
-									</p>
+									<p>Empowering Privacy in Digital World. End-to-end DPDP Act consulting and automated compliance tools for organisations across India.</p>
 								</div>
-								<div className="award-logo-area">
-									<div className="award-logo">
-										<img src="/images/footer/award-logo-1.webp" alt="" />
-									</div>
-									<div className="award-logo">
-										<img src="/images/footer/award-logo-2.webp" alt="" />
-									</div>
-								</div>
+								<address className="page-footer-address">
+									<i className="tji-location"></i>
+									<span>GM IT Park, 4th Floor, Plot no 32-33, Sector 142, Noida 201305, Uttar Pradesh</span>
+								</address>
 							</div>
 						</div>
 						{FOOTER_LINKS.map((group, idx) => (
@@ -143,12 +141,6 @@ const Footer = () => {
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className="bg-shape-1">
-				<img src="/images/shape/pattern-2.svg" alt="" />
-			</div>
-			<div className="bg-shape-2">
-				<img src="/images/shape/pattern-3.svg" alt="" />
 			</div>
 		</footer>
 	);

@@ -1,0 +1,496 @@
+@use "../utilities" as *;
+
+/* ==========================================================
+   Site-wide: the home page design applied to every page.
+   Uses the --page-* tokens defined in _page-design.scss.
+   ========================================================== */
+
+/* ---------- Inner page banner ---------- */
+.tj-page-header.page-inner-hero {
+	margin: 0 15px;
+	padding: 90px 0 100px;
+	border-radius: 24px;
+	isolation: isolate;
+	background: radial-gradient(120% 140% at 0% 0%, var(--page-navy-2) 0%, var(--page-navy) 55%, #02051a 100%);
+	@media #{$lg} {
+		padding: 70px 0 80px;
+	}
+	@media #{$md, $sm, $xs} {
+		margin: 0 10px;
+		padding: 56px 0 64px;
+		border-radius: 18px;
+	}
+	.tj-page-link {
+		margin: 0 0 26px;
+		padding: 8px 16px;
+		background: rgba(56, 189, 248, 0.1);
+		border: 1px solid rgba(56, 189, 248, 0.3);
+		span {
+			font-size: 14px;
+			color: #cfe8ff;
+			i {
+				color: var(--page-sky);
+			}
+			a {
+				color: rgba(255, 255, 255, 0.7);
+			}
+		}
+	}
+}
+.page-inner-hero-title {
+	font-size: 58px;
+	line-height: 1.1;
+	letter-spacing: -0.02em;
+	@media #{$lg} {
+		font-size: 46px;
+	}
+	@media #{$md, $sm, $xs} {
+		font-size: 34px;
+	}
+}
+.page-inner-hero-intro {
+	max-width: 760px;
+	margin: 24px auto 0;
+	font-size: 18px;
+	line-height: 1.65;
+	color: rgba(255, 255, 255, 0.72);
+}
+
+/* ---------- Shared card treatment ---------- */
+%page-card {
+	position: relative;
+	background: var(--tj-color-common-white);
+	border: 1px solid rgba(2, 9, 44, 0.06);
+	border-radius: 18px;
+	overflow: hidden;
+	transition:
+		transform 0.5s var(--page-ease),
+		box-shadow 0.5s var(--page-ease),
+		border-color 0.5s ease;
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		inset-inline: 0;
+		height: 3px;
+		background: var(--page-gradient);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 0.6s var(--page-ease);
+		z-index: 2;
+	}
+	&:hover {
+		transform: translateY(-8px);
+		border-color: transparent;
+		box-shadow: 0 30px 60px -25px rgba(2, 9, 44, 0.35);
+		&::before {
+			transform: scaleX(1);
+		}
+	}
+}
+.blog-item.content-card,
+.tj-blog-section .blog-item,
+.tj-careers,
+.contact-item.style-2,
+.page-team-card {
+	@extend %page-card;
+}
+.blog-item {
+	.blog-thumb {
+		overflow: hidden;
+		img {
+			width: 100%;
+			aspect-ratio: 16 / 9;
+			object-fit: cover;
+			transition: transform 1s var(--page-ease);
+		}
+	}
+	&:hover .blog-thumb img {
+		transform: scale(1.05);
+	}
+	.blog-meta .categories,
+	.blog-meta .categories a {
+		color: var(--tj-color-common-white);
+		background: var(--page-gradient);
+		border-radius: 100px;
+	}
+}
+.tj-blog-section .blog-item .blog-content {
+	padding: 30px;
+}
+.tj-careers {
+	height: 100%;
+	.tj-careers-icon {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 64px;
+		height: 64px;
+		border-radius: 16px;
+		color: var(--tj-color-common-white);
+		background: var(--page-gradient);
+		box-shadow: 0 14px 30px -12px rgba(37, 99, 235, 0.7);
+	}
+	.tj-careers-tag span,
+	.tj-careers-tag a {
+		border-radius: 100px;
+	}
+}
+.contact-item.style-2 {
+	height: 100%;
+	.contact-icon {
+		color: var(--tj-color-common-white);
+		background: var(--page-gradient);
+		box-shadow: 0 14px 30px -12px rgba(37, 99, 235, 0.7);
+	}
+}
+
+/* ---------- Sidebars ---------- */
+.tj-main-sidebar .tj-sidebar-widget,
+.tj-careers-details .tj-sidebar-widget {
+	border: 1px solid rgba(2, 9, 44, 0.06);
+	border-radius: 18px;
+	.widget-title {
+		position: relative;
+		padding-bottom: 12px;
+		&::after {
+			content: "";
+			position: absolute;
+			bottom: 0;
+			inset-inline-start: 0;
+			width: 40px;
+			height: 3px;
+			border-radius: 3px;
+			background: var(--page-gradient);
+		}
+	}
+}
+.page-sidebar .tj-recent-posts .post-thumb img {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	border-radius: 12px;
+}
+
+/* ---------- Blog post ---------- */
+.page-post-image {
+	overflow: hidden;
+	border-radius: 20px;
+	box-shadow: 0 30px 60px -30px rgba(2, 9, 44, 0.35);
+	img {
+		width: 100%;
+		aspect-ratio: 16 / 8;
+		object-fit: cover;
+	}
+}
+.page-post-meta .cate-icons {
+	color: var(--tj-color-common-white);
+	background: var(--page-gradient);
+}
+
+/* ---------- Forms ---------- */
+.contact-form,
+.tj-careers-form {
+	border: 1px solid rgba(2, 9, 44, 0.06);
+	border-radius: 22px;
+	box-shadow: 0 40px 80px -40px rgba(2, 9, 44, 0.35);
+	.form-input input,
+	.form-input textarea,
+	.form-input select,
+	.tj-nice-select-box .nice-select {
+		border-radius: 12px;
+		transition:
+			border-color 0.3s ease,
+			box-shadow 0.3s ease;
+		&:focus {
+			border-color: var(--page-blue);
+			box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+			outline: none;
+		}
+	}
+	.tj-primary-btn {
+		background: var(--page-gradient);
+		background-size: 160% auto;
+		box-shadow: 0 10px 30px -8px rgba(56, 189, 248, 0.6);
+		transition:
+			background-position 0.6s var(--page-ease),
+			transform 0.4s var(--page-ease);
+		&:hover {
+			background-position: right center;
+			transform: translateY(-2px);
+		}
+	}
+}
+.lead-form-point-icon,
+.lead-form-contact-icon {
+	color: var(--tj-color-common-white);
+	background: var(--page-gradient);
+}
+
+/* ---------- FAQ ---------- */
+.tj-faq .accordion-item {
+	border: 1px solid rgba(2, 9, 44, 0.06);
+	border-radius: 16px;
+	overflow: hidden;
+	transition:
+		box-shadow 0.4s var(--page-ease),
+		border-color 0.4s ease;
+	&.active,
+	&:hover {
+		border-color: rgba(37, 99, 235, 0.25);
+		box-shadow: 0 20px 40px -24px rgba(2, 9, 44, 0.3);
+	}
+}
+
+/* ---------- Team ---------- */
+.page-team-card {
+	margin: 0;
+	height: 100%;
+}
+.page-team-photo {
+	position: relative;
+	overflow: hidden;
+	aspect-ratio: 4 / 4.4;
+	background: linear-gradient(160deg, #eef2fb, #dde6f7);
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		object-position: center 18%;
+		transition: transform 1.1s var(--page-ease);
+	}
+	&::after {
+		content: "";
+		position: absolute;
+		inset: auto 0 0 0;
+		height: 45%;
+		background: linear-gradient(0deg, rgba(5, 11, 46, 0.55), transparent);
+		opacity: 0;
+		transition: opacity 0.5s ease;
+	}
+}
+.page-team-card:hover .page-team-photo {
+	img {
+		transform: scale(1.06);
+	}
+	&::after {
+		opacity: 1;
+	}
+}
+.page-team-info {
+	padding: 20px 22px 24px;
+	text-align: center;
+	@media #{$xs} {
+		padding: 14px 10px 16px;
+	}
+}
+.page-team-name {
+	margin: 0 0 6px;
+	font-size: 19px;
+	font-weight: var(--tj-fw-sbold);
+	@media #{$xs} {
+		font-size: 15px;
+	}
+}
+.page-team-role {
+	margin: 0;
+	font-size: 14px;
+	line-height: 1.45;
+	font-weight: var(--tj-fw-medium);
+	@media #{$xs} {
+		font-size: 12px;
+	}
+	background: var(--page-gradient);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+/* ---------- Footer ---------- */
+.tj-footer-section.page-footer {
+	margin: 0 15px 15px;
+	padding-top: 0;
+	border-radius: 24px;
+	isolation: isolate;
+	background: linear-gradient(160deg, var(--page-navy-2), var(--page-navy) 60%, #02051a);
+	color: rgba(255, 255, 255, 0.7);
+	@media #{$md, $sm, $xs} {
+		margin: 0 10px 10px;
+		padding-top: 0;
+		border-radius: 18px;
+	}
+	.footer-main-area {
+		padding: 90px 0 60px;
+		@media #{$sm, $xs} {
+			padding: 60px 0 40px;
+		}
+	}
+	.page-footer-logo {
+		display: inline-block;
+		max-width: 170px;
+		padding: 10px 14px;
+		border-radius: 14px;
+		background: var(--tj-color-common-white);
+	}
+	.footer-text p {
+		margin: 24px 0 18px;
+		color: rgba(255, 255, 255, 0.7);
+	}
+	.title {
+		color: var(--tj-color-common-white);
+	}
+	.widget-nav-menu ul li a {
+		color: rgba(255, 255, 255, 0.7);
+		transition:
+			color 0.3s ease,
+			padding 0.3s var(--page-ease);
+		&:hover {
+			color: var(--page-sky);
+			padding-inline-start: 6px;
+		}
+	}
+	.widget-subscribe {
+		input {
+			color: var(--tj-color-common-white);
+			background: rgba(255, 255, 255, 0.06);
+			border-color: rgba(255, 255, 255, 0.15);
+			&::placeholder {
+				color: rgba(255, 255, 255, 0.5);
+			}
+		}
+		label,
+		p,
+		span {
+			color: rgba(255, 255, 255, 0.7);
+		}
+		a {
+			color: var(--tj-color-common-white);
+		}
+	}
+	.tj-copyright-area {
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		background: transparent;
+	}
+	.footer-contact ul li a {
+		color: rgba(255, 255, 255, 0.8);
+		.icon {
+			color: var(--tj-color-common-white);
+			background: var(--page-gradient);
+		}
+	}
+	.social-links ul li a {
+		color: var(--tj-color-common-white);
+		background: rgba(255, 255, 255, 0.08);
+		border-color: rgba(255, 255, 255, 0.12);
+		transition:
+			background 0.3s ease,
+			transform 0.3s var(--page-ease);
+		&:hover {
+			background: var(--page-gradient);
+			transform: translateY(-3px);
+		}
+	}
+	.copyright-text p {
+		color: rgba(255, 255, 255, 0.6);
+	}
+}
+.page-footer-address {
+	display: flex;
+	gap: 10px;
+	margin: 0;
+	font-style: normal;
+	font-size: 15px;
+	line-height: 1.55;
+	color: rgba(255, 255, 255, 0.7);
+	i {
+		flex-shrink: 0;
+		margin-top: 3px;
+		color: var(--page-sky);
+	}
+}
+
+/* ---------- Text sections ---------- */
+.page-rich-card {
+	position: relative;
+	padding: 56px 60px;
+	border-radius: 24px;
+	background: var(--tj-color-common-white);
+	border: 1px solid rgba(2, 9, 44, 0.06);
+	box-shadow: 0 40px 80px -50px rgba(2, 9, 44, 0.3);
+	overflow: hidden;
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		inset-inline-start: 0;
+		width: 5px;
+		background: var(--page-gradient);
+	}
+	.sec-heading {
+		margin-bottom: 24px;
+	}
+	.page-rich-text {
+		font-size: 17px;
+		line-height: 1.75;
+		h3 {
+			font-size: 24px;
+		}
+		h4 {
+			font-size: 20px;
+			background: var(--page-gradient);
+			-webkit-background-clip: text;
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+			display: inline-block;
+		}
+		ul {
+			list-style: none;
+			padding-inline-start: 0;
+			li {
+				position: relative;
+				padding-inline-start: 32px;
+				&::before {
+					content: "";
+					position: absolute;
+					inset-inline-start: 0;
+					top: 5px;
+					width: 20px;
+					height: 20px;
+					border-radius: 50%;
+					background: var(--page-gradient);
+				}
+				&::after {
+					content: "";
+					position: absolute;
+					inset-inline-start: 7px;
+					top: 9px;
+					width: 6px;
+					height: 10px;
+					border: solid #fff;
+					border-width: 0 2px 2px 0;
+					transform: rotate(45deg);
+				}
+			}
+		}
+	}
+	@media #{$md, $sm, $xs} {
+		padding: 36px 26px;
+		border-radius: 18px;
+	}
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+	.page-team-card,
+	.page-team-photo img,
+	.blog-item,
+	.blog-item .blog-thumb img,
+	.tj-careers,
+	.contact-item.style-2 {
+		transition: none !important;
+		&:hover {
+			transform: none !important;
+		}
+	}
+}
