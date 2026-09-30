@@ -1,8 +1,12 @@
+import about from "./about.js";
+import caseStudies from "./case-studies.js";
 import dpdpAct from "./dpdp-act.js";
 import dpdpActBusinessContinuity from "./dpdp-act-business-continuity.js";
 import dpdpActDpdpRules2025 from "./dpdp-act-dpdp-rules-2025.js";
 import dpdpActPenaltiesAndFines from "./dpdp-act-penalties-and-fines.js";
 import dpdpActThirdPartyObligations from "./dpdp-act-third-party-obligations.js";
+import faq from "./faq.js";
+import privacyNotice from "./privacy-notice.js";
 import products from "./products.js";
 import productsAwarenessProgram from "./products-awareness-program.js";
 import productsConsentManagement from "./products-consent-management.js";
@@ -17,8 +21,14 @@ import servicesDpdpActFoundationCourse from "./services-dpdp-act-foundation-cour
 import servicesDpoAsAService from "./services-dpo-as-a-service.js";
 import servicesGapAssessment from "./services-gap-assessment.js";
 import servicesTrainingPrograms from "./services-training-programs.js";
+import termsAndConditions from "./terms-and-conditions.js";
 
 export const PAGES = [
+	about,
+	caseStudies,
+	faq,
+	privacyNotice,
+	termsAndConditions,
 	dpdpAct,
 	dpdpActDpdpRules2025,
 	dpdpActPenaltiesAndFines,
