@@ -10,6 +10,13 @@ import productsCookieConsent from "./products-cookie-consent.js";
 import productsGrievanceRedressal from "./products-grievance-redressal.js";
 import productsImpactAssessment from "./products-impact-assessment.js";
 import productsThirdPartyAssessment from "./products-third-party-assessment.js";
+import services from "./services.js";
+import servicesConsultingAdvisoryAudit from "./services-consulting-advisory-audit.js";
+import servicesContractReview from "./services-contract-review.js";
+import servicesDpdpActFoundationCourse from "./services-dpdp-act-foundation-course.js";
+import servicesDpoAsAService from "./services-dpo-as-a-service.js";
+import servicesGapAssessment from "./services-gap-assessment.js";
+import servicesTrainingPrograms from "./services-training-programs.js";
 
 export const PAGES = [
 	dpdpAct,
@@ -24,6 +31,13 @@ export const PAGES = [
 	productsImpactAssessment,
 	productsThirdPartyAssessment,
 	productsCookieConsent,
+	services,
+	servicesGapAssessment,
+	servicesDpoAsAService,
+	servicesContractReview,
+	servicesConsultingAdvisoryAudit,
+	servicesTrainingPrograms,
+	servicesDpdpActFoundationCourse,
 ];
 
 const BY_PATH = new Map(PAGES.map(page => [page.path, page]));

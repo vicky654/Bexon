@@ -68,22 +68,22 @@ const Footer2 = () => {
 								<h5 className="title">Services</h5>
 								<ul>
 									<li>
-										<Link href="/services/1">Customer Experience</Link>
+										<Link href="/services">Customer Experience</Link>
 									</li>
 									<li>
-										<Link href="/services/2">Training Programs</Link>
+										<Link href="/services">Training Programs</Link>
 									</li>
 									<li>
-										<Link href="/services/3">Business Strategy</Link>
+										<Link href="/services">Business Strategy</Link>
 									</li>
 									<li>
-										<Link href="/services/4">Training Program</Link>
+										<Link href="/services">Training Program</Link>
 									</li>
 									<li>
-										<Link href="/services/5">ESG Consulting</Link>
+										<Link href="/services">ESG Consulting</Link>
 									</li>
 									<li>
-										<Link href="/services/6">Development Hub</Link>
+										<Link href="/services">Development Hub</Link>
 									</li>
 								</ul>
 							</div>
