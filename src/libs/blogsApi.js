@@ -50,7 +50,7 @@ async function getBlogsFromBackend(filters = {}) {
 		const data = await res.json();
 		return data.blogs || [];
 	} catch (error) {
-		console.error("Falling back to local blog data:", error.message);
+		console.warn("Falling back to local blog data:", error.message);
 		return localFilteredBlogs(filters);
 	}
 }
@@ -65,7 +65,7 @@ async function getBlogFromBackendBySlug(slug) {
 		const data = await res.json();
 		return data.blog || null;
 	} catch (error) {
-		console.error("Falling back to local blog data:", error.message);
+		console.warn("Falling back to local blog data:", error.message);
 		const items = readLocalBlogs();
 		return items.find(item => item.slug === slug) || null;
 	}
