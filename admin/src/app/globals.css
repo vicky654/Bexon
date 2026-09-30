@@ -3190,3 +3190,70 @@ a {
 	color: #374151;
 	cursor: pointer;
 }
+
+/* Settings: preset colour designs */
+.color-preset-section {
+	margin: 12px 0 20px;
+}
+
+.color-preset-label {
+	margin: 0 0 10px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #5b6275;
+}
+
+.color-preset-preview {
+	position: relative;
+	height: 72px;
+	border-radius: 8px;
+	overflow: hidden;
+	border: 1px solid rgba(16, 18, 35, 0.06);
+}
+
+.color-preset-preview span {
+	position: absolute;
+	display: block;
+	border-radius: 3px;
+}
+
+.color-preset-preview-bar {
+	inset: 0 0 auto 0;
+	height: 14px;
+	border-radius: 0 !important;
+}
+
+.color-preset-preview-heading {
+	top: 24px;
+	left: 10px;
+	width: 55%;
+	height: 8px;
+}
+
+.color-preset-preview-text {
+	top: 38px;
+	left: 10px;
+	width: 70%;
+	height: 5px;
+	opacity: 0.8;
+}
+
+.color-preset-preview-btn {
+	bottom: 8px;
+	left: 10px;
+	width: 48px;
+	height: 12px;
+	border-radius: 6px !important;
+}
+
+.color-preset-swatches {
+	display: flex;
+	gap: 4px;
+}
+
+.color-preset-swatches span {
+	flex: 1;
+	height: 16px;
+	border-radius: 4px;
+	border: 1px solid rgba(16, 18, 35, 0.08);
+}
