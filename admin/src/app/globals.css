@@ -3257,3 +3257,35 @@ a {
 	border-radius: 4px;
 	border: 1px solid rgba(16, 18, 35, 0.08);
 }
+
+/* Logos: Clients / Partners tabs */
+.logo-kind-tabs {
+	display: inline-flex;
+	gap: 4px;
+	padding: 4px;
+	margin-bottom: 18px;
+	border-radius: 12px;
+	background: #eef0f5;
+}
+
+.logo-kind-tab {
+	padding: 8px 18px;
+	border: 0;
+	border-radius: 9px;
+	background: transparent;
+	font-size: 14px;
+	font-weight: 600;
+	color: #5b6275;
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.logo-kind-tab:hover {
+	color: #02092c;
+}
+
+.logo-kind-tab-active {
+	background: #fff;
+	color: #02092c;
+	box-shadow: 0 2px 8px rgba(16, 18, 35, 0.08);
+}

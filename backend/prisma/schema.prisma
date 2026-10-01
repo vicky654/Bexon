@@ -106,6 +106,8 @@ model BrandLogo {
   id        Int      @id @default(autoincrement())
   imageUrl  String
   alt       String   @default("")
+  // "client" or "partner": which home page strip the logo appears in.
+  kind      String   @default("client")
   sortOrder Int      @default(0)
   createdAt DateTime @default(now())
 }

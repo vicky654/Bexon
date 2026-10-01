@@ -8,6 +8,19 @@ import { SkeletonLogoGrid } from "@/components/Skeleton";
 import { UploadIcon, TrashIcon, GripIcon, CheckIcon } from "@/components/Icons";
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:4000";
+
+// Each kind is its own home page strip ("Our Clients" / "Our Partners").
+const KINDS = [
+	{ value: "client", label: "Clients", singular: "client" },
+	{ value: "partner", label: "Partners", singular: "partner" },
+];
+
+// Partner logos ship with the website as paths like /images/partner/x.png;
+// show those from the website, uploads from wherever they are stored.
+function previewSrc(imageUrl) {
+	return imageUrl?.startsWith("/") ? `${SITE_URL}${imageUrl}` : imageUrl;
+}
 
 function AlertIcon() {
 	return (
@@ -20,6 +33,7 @@ function AlertIcon() {
 }
 
 function LogosManager() {
+	const [kind, setKind] = useState("client");
 	const [logos, setLogos] = useState(null);
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
@@ -28,15 +42,21 @@ function LogosManager() {
 	const [draggedId, setDraggedId] = useState(null);
 	const fileInputRef = useRef(null);
 
-	const loadLogos = () => {
-		apiFetch("/api/admin/brand-logos")
+	const loadLogos = (forKind = kind) => {
+		apiFetch(`/api/admin/brand-logos?kind=${forKind}`)
 			.then(data => setLogos(data.logos || []))
 			.catch(err => setError(err.message));
 	};
 
 	useEffect(() => {
-		loadLogos();
-	}, []);
+		setLogos(null);
+		setError("");
+		setSuccess("");
+		loadLogos(kind);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [kind]);
+
+	const current = KINDS.find(option => option.value === kind);
 
 	const uploadFiles = async fileList => {
 		const files = Array.from(fileList || []).filter(file => file.type.startsWith("image/"));
@@ -63,10 +83,10 @@ function LogosManager() {
 				const alt = file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim();
 				await apiFetch("/api/admin/brand-logos", {
 					method: "POST",
-					body: JSON.stringify({ imageUrl: `${BACKEND_URL}${data.url}`, alt }),
+					body: JSON.stringify({ imageUrl: `${BACKEND_URL}${data.url}`, alt, kind }),
 				});
 			}
-			setSuccess(`Uploaded ${files.length} logo${files.length === 1 ? "" : "s"}.`);
+			setSuccess(`Uploaded ${files.length} ${current.singular} logo${files.length === 1 ? "" : "s"}.`);
 			loadLogos();
 		} catch (err) {
 			setError(err.message);
@@ -149,14 +169,31 @@ function LogosManager() {
 
 	return (
 		<div>
-			<Breadcrumbs items={[{ label: "Dashboard", href: "/" }, { label: "Client Logos" }]} />
+			<Breadcrumbs items={[{ label: "Dashboard", href: "/" }, { label: "Logos" }]} />
 			<div className="page-header">
 				<div>
-					<h1>Client Logos</h1>
+					<h1>Logos</h1>
 					<p className="dashboard-subtitle">
-						{isLoading ? "Loading..." : `${logos.length} logo${logos.length === 1 ? "" : "s"} shown on the public site`}
+						{isLoading
+							? "Loading..."
+							: `${logos.length} ${current.singular} logo${logos.length === 1 ? "" : "s"} shown in the home page "Our ${current.label}" section`}
 					</p>
 				</div>
+			</div>
+
+			<div className="logo-kind-tabs" role="tablist" aria-label="Logo type">
+				{KINDS.map(option => (
+					<button
+						type="button"
+						role="tab"
+						key={option.value}
+						aria-selected={kind === option.value}
+						className={`logo-kind-tab${kind === option.value ? " logo-kind-tab-active" : ""}`}
+						onClick={() => setKind(option.value)}
+					>
+						{option.label}
+					</button>
+				))}
 			</div>
 
 			<label
@@ -170,7 +207,7 @@ function LogosManager() {
 			>
 				<UploadIcon size={22} />
 				<p>
-					<strong>Drag and drop</strong> logo images here, or click to browse
+					<strong>Drag and drop</strong> {current.singular} logo images here, or click to browse
 				</p>
 				<span className="logo-dropzone-hint">PNG, JPG, WEBP, GIF or SVG</span>
 				<input
@@ -217,7 +254,7 @@ function LogosManager() {
 							</div>
 							<div className="logo-card-preview">
 								{/* eslint-disable-next-line @next/next/no-img-element */}
-								<img src={logo.imageUrl} alt={logo.alt || "Client logo"} />
+								<img src={previewSrc(logo.imageUrl)} alt={logo.alt || `${current.singular} logo`} />
 							</div>
 							<input
 								className="logo-card-alt"
@@ -238,7 +275,7 @@ function LogosManager() {
 					))}
 				</div>
 			) : (
-				<p className="dashboard-empty">No logos yet. Drag some images in above to get started.</p>
+				<p className="dashboard-empty">No {current.singular} logos yet. Drag some images in above to get started.</p>
 			)}
 		</div>
 	);

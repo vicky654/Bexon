@@ -240,6 +240,7 @@ test("logo sections list existing images, or load clients from the admin", () =>
 	const logo = { name: "Lenovo", image: "/images/partner/lenovo.png" };
 	assert.deepEqual(validatePage({ ...good, sections: [{ type: "logos", heading: "Our Partners", items: [logo] }] }, ctx), []);
 	assert.deepEqual(validatePage({ ...good, sections: [{ type: "logos", heading: "Our Clients", source: "clients" }] }, ctx), []);
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "logos", heading: "Our Partners", source: "partners" }] }, ctx), []);
 	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P" }] }, ctx).some(e => e.includes("items")));
 	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P", source: "everyone" }] }, ctx).some(e => e.includes("source")));
 	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P", items: [{ ...logo, image: "/images/partner/nope.png" }] }] }, ctx).some(e => e.includes("does not exist")));

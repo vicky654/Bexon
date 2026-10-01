@@ -1,9 +1,10 @@
-import { getClientLogos } from "@/libs/clientLogosApi";
+import { getLogos } from "@/libs/clientLogosApi";
 import SectionHeading from "./SectionHeading";
 
 // Scrolling logo strip(s). Logos show in grey and turn full colour on hover;
 // the strip pauses on hover. Long lists split into two rows that move in
-// opposite directions. `source: "clients"` loads the logos from the admin.
+// opposite directions. `source: "clients"` / `"partners"` loads the logos
+// managed in the admin; otherwise `items` lists them in the content file.
 const SPLIT_AT = 16;
 
 const LogoRow = ({ logos, reverse }) => (
@@ -23,7 +24,7 @@ const LogoRow = ({ logos, reverse }) => (
 );
 
 const LogosSection = async ({ anchor, eyebrow, heading, intro, items, source }) => {
-	const logos = source === "clients" ? await getClientLogos() : items || [];
+	const logos = source ? await getLogos(source === "partners" ? "partner" : "client") : items || [];
 	if (!logos.length) return null;
 	const rows = logos.length > SPLIT_AT ? [logos.slice(0, Math.ceil(logos.length / 2)), logos.slice(Math.ceil(logos.length / 2))] : [logos];
 	return (

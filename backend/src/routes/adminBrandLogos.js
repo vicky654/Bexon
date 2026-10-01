@@ -6,25 +6,34 @@ const router = express.Router();
 
 router.use(requireAdmin);
 
+// Which home page strip a logo belongs to.
+const LOGO_KINDS = ["client", "partner"];
+
 router.get("/", async (req, res) => {
+	const { kind } = req.query;
 	const logos = await prisma.brandLogo.findMany({
+		where: LOGO_KINDS.includes(kind) ? { kind } : undefined,
 		orderBy: [{ sortOrder: "asc" }, { id: "asc" }],
 	});
 	res.json({ logos });
 });
 
 router.post("/", async (req, res) => {
-	const { imageUrl, alt } = req.body || {};
+	const { imageUrl, alt, kind = "client" } = req.body || {};
 
 	if (!imageUrl || typeof imageUrl !== "string") {
 		return res.status(400).json({ message: "imageUrl is required." });
 	}
+	if (!LOGO_KINDS.includes(kind)) {
+		return res.status(400).json({ message: 'kind must be "client" or "partner".' });
+	}
 
-	const last = await prisma.brandLogo.findFirst({ orderBy: { sortOrder: "desc" } });
+	// New logos go to the end of their own list.
+	const last = await prisma.brandLogo.findFirst({ where: { kind }, orderBy: { sortOrder: "desc" } });
 	const sortOrder = last ? last.sortOrder + 1 : 0;
 
 	const logo = await prisma.brandLogo.create({
-		data: { imageUrl, alt: alt || "", sortOrder },
+		data: { imageUrl, alt: alt || "", kind, sortOrder },
 	});
 
 	res.status(201).json({ logo });

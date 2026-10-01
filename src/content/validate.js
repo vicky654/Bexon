@@ -287,9 +287,9 @@ const SECTION_CHECKS = {
 	},
 	logos(section, where, ctx, errors) {
 		checkText(section.heading, "heading", where, errors);
-		// `source: "clients"` loads the client logos managed in the admin.
+		// `source` loads the client or partner logos managed in the admin.
 		if (section.source !== undefined) {
-			if (section.source !== "clients") errors.push(`${where}: source must be "clients"`);
+			if (!["clients", "partners"].includes(section.source)) errors.push(`${where}: source must be "clients" or "partners"`);
 			return;
 		}
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);

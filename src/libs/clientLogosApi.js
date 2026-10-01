@@ -16,9 +16,12 @@ function toSitePath(url) {
 	}
 }
 
-// Client logos managed under Admin -> Logos, as [{ name, image }].
-// Returns [] when the backend is unavailable, so the section is hidden.
-async function getClientLogos() {
+// Logos managed under Admin -> Logos, as [{ name, image }] for one kind
+// ("client" or "partner"). Both home page strips call this with the same URL,
+// so Next.js serves them from one cached request. Logos saved before kinds
+// existed count as clients. Returns [] when the backend is unavailable, so
+// the section is hidden.
+async function getLogos(kind = "client") {
 	try {
 		const res = await fetch(`${BACKEND_URL}/api/brand-logos`, {
 			next: { revalidate: REVALIDATE_SECONDS },
@@ -27,12 +30,13 @@ async function getClientLogos() {
 		if (!res.ok) throw new Error(`Backend responded with ${res.status}`);
 		const data = await res.json();
 		return (data.logos || [])
+			.filter(logo => (logo.kind || "client") === kind)
 			.map(logo => ({ name: logo.alt || "Client", image: toSitePath(logo.imageUrl) }))
 			.filter(logo => logo.image);
 	} catch (error) {
-		console.warn("Client logos unavailable:", error.message);
+		console.warn("Logos unavailable:", error.message);
 		return [];
 	}
 }
 
-module.exports = { getClientLogos, toSitePath };
+module.exports = { getLogos, toSitePath };
