@@ -787,3 +787,12 @@
 		}
 	}
 }
+
+/* Side menus: one phone number per line (they rendered run together). */
+.hamburger-infos .contact-item .contact-link,
+.tj-offcanvas-area .contact-item .contact-link {
+	display: block;
+	& + .contact-link {
+		margin-top: 4px;
+	}
+}

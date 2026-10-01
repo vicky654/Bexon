@@ -46,7 +46,14 @@ START: Site design refresh (brand colours from the DPDP logo)
 		transform: none;
 	}
 }
+// Hidden until WOW starts its reveal (was in the removed template h5-hero
+// partial); the reduced-motion block below makes them visible again.
+.wow {
+	visibility: hidden;
+}
+// Replaces animate.css's .animated base (duration + hold first/last frame).
 .wow.animated {
+	animation-fill-mode: both;
 	animation-duration: 1s;
 	animation-timing-function: var(--page-ease);
 	&.fadeInUp {

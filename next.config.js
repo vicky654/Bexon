@@ -1,6 +1,13 @@
+const path = require("node:path");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: false,
+	// A package-lock.json and node_modules on the Desktop made Next.js treat the
+	// whole Desktop as the project root, so the dev compiler watched and
+	// resolved every other project there. Pin the root to this folder.
+	turbopack: { root: path.resolve(__dirname) },
+	outputFileTracingRoot: path.resolve(__dirname),
 	images: {
 		// Admin can set a blog's Image URL to any external address; without a
 		// permissive remotePatterns entry next/image throws ("hostname not

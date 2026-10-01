@@ -1,19 +1,9 @@
 import { Mona_Sans } from "next/font/google";
-import "react-range-slider-input/dist/style.css";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
-import "./assets/css/animate.min.css";
 import "./assets/css/dpdp-icons.css";
 import "./assets/css/bootstrap.min.css";
-import "./assets/css/font-awesome-pro.min.css";
-import "./assets/css/glightbox.min.css";
+import "./assets/css/font-awesome-subset.css";
 import "./assets/css/meanmenu.css";
 import "./assets/css/nice-select2.css";
-import "./assets/css/odometer-theme-default.css";
 import "./globals.scss";
 import { getSiteSettings } from "@/libs/settingsApi";
 import GoogleAdsTag from "@/components/shared/others/GoogleAdsTag";
@@ -23,14 +13,14 @@ const bodyFont = Mona_Sans({
 	variable: "--tj-ff-body",
 	subsets: ["latin"],
 	weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-	style: ["normal", "italic"],
+	style: ["normal"],
 	display: "swap",
 });
 const headingFont = Mona_Sans({
 	variable: "--tj-ff-heading",
 	subsets: ["latin"],
 	weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-	style: ["normal", "italic"],
+	style: ["normal"],
 	display: "swap",
 });
 

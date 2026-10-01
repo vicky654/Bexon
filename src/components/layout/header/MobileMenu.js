@@ -28,7 +28,7 @@ const MobileMenu = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 							</div>
 							<div className="hamburger_close">
 								<button className="hamburger_close_btn" onClick={handleClick}>
-									<i className="fa-thin fa-times"></i>
+									<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
 								</button>
 							</div>
 						</div>
