@@ -477,7 +477,9 @@ img {
 		--bs-gutter-x: 0;
 	}
 }
-.wow {
+// Scroll-reveal hidden states apply only once the animation script has started
+// (it adds html.page-anim), so search engines and no-JS visitors see everything.
+html.page-anim .wow {
 	visibility: hidden;
 }
 .container-end-align {
@@ -526,12 +528,14 @@ img {
 	}
 }
 
-.title-anim,
-.text-anim,
-.hero-text-anim {
-	opacity: 0;
-	&.start-anim {
-		opacity: 1;
+html.page-anim {
+	.title-anim,
+	.text-anim,
+	.hero-text-anim {
+		opacity: 0;
+		&.start-anim {
+			opacity: 1;
+		}
 	}
 }
 .odometer.odometer-auto-theme {

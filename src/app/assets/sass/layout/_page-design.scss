@@ -46,9 +46,9 @@ START: Site design refresh (brand colours from the DPDP logo)
 		transform: none;
 	}
 }
-// Hidden until WOW starts its reveal (was in the removed template h5-hero
-// partial); the reduced-motion block below makes them visible again.
-.wow {
+// Hidden until WOW reveals it, once the animation script has started (it adds
+// html.page-anim); the reduced-motion block below keeps them visible.
+html.page-anim .wow {
 	visibility: hidden;
 }
 // Replaces animate.css's .animated base (duration + hold first/last frame).
@@ -82,9 +82,8 @@ START: Site design refresh (brand colours from the DPDP logo)
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 	color: transparent;
-	animation:
-		pageGradientIn 1.2s var(--page-ease) 0.5s both,
-		pageGradientShift 6s ease-in-out 1.7s infinite alternate;
+	// Entrance only: a looping background-position shimmer repaints every frame.
+	animation: pageGradientIn 1.2s var(--page-ease) 0.5s both;
 }
 @keyframes pageGradientIn {
 	from {
@@ -94,11 +93,6 @@ START: Site design refresh (brand colours from the DPDP logo)
 	to {
 		opacity: 1;
 		filter: blur(0);
-	}
-}
-@keyframes pageGradientShift {
-	to {
-		background-position: 100% center;
 	}
 }
 
@@ -181,12 +175,7 @@ START: Site design refresh (brand colours from the DPDP logo)
 		linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 	background-size: 56px 56px;
 	mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 100%);
-	animation: pageGridPan 30s linear infinite;
-}
-@keyframes pageGridPan {
-	to {
-		background-position: 56px 56px;
-	}
+	// Static: panning background-position repaints the whole hero every frame.
 }
 .page-home-hero-eyebrow {
 	display: inline-flex;
@@ -206,14 +195,23 @@ START: Site design refresh (brand colours from the DPDP logo)
 		width: 8px;
 		height: 8px;
 		border-radius: 50%;
+		position: relative;
 		background: var(--page-sky);
-		box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7);
-		animation: pagePulse 2s ease-out infinite;
+		// Pulse ring animated with transform/opacity (compositor only), not box-shadow.
+		&::after {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: 50%;
+			background: rgba(56, 189, 248, 0.7);
+			animation: pagePulse 2s ease-out infinite;
+		}
 	}
 }
 @keyframes pagePulse {
 	to {
-		box-shadow: 0 0 0 10px rgba(56, 189, 248, 0);
+		transform: scale(3.2);
+		opacity: 0;
 	}
 }
 .page-home-hero-title {
@@ -887,7 +885,7 @@ START: Site design refresh (brand colours from the DPDP logo)
 	.page-gradient-text,
 	.page-home-hero-glow,
 	.page-home-hero-grid,
-	.page-home-hero-eyebrow .dot,
+	.page-home-hero-eyebrow .dot::after,
 	.page-hero-dash-card,
 	.page-hero-dash-chip,
 	.page-hero-dash-checks li,

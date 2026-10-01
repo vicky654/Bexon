@@ -71,7 +71,7 @@
 }
 // A soft light sweeping across the dots (masked to the dot shapes).
 .page-presence-sweep {
-	animation: pagePresenceSweep 9s ease-in-out infinite;
+	// Static highlight: animating it inside the SVG mask repaints the map every frame.
 }
 @keyframes pagePresenceSweep {
 	0% {

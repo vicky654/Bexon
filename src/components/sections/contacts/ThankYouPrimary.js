@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
-import { consumeContactSubmitted, GOOGLE_ADS_CONVERSION } from "@/libs/tracking";
+import { consumeContactSubmitted, GOOGLE_ADS_CONVERSION, GOOGLE_ADS_ID } from "@/libs/tracking";
 import { DOWNLOAD_URL_KEY, downloadUrlExpiry, isSafeDownloadUrl, leadForm } from "@/libs/leadForms";
 
 const ThankYouPrimary = ({ type }) => {
@@ -14,12 +14,16 @@ const ThankYouPrimary = ({ type }) => {
 		if (!consumeContactSubmitted()) return;
 		// gtag.js may still be loading; queueing on dataLayer is how gtag
 		// itself buffers calls until it's ready.
+		// The Ads tag loads after the page (lazyOnload), so if it hasn't run yet,
+		// queue its setup commands before the conversion, in gtag's own order.
 		window.dataLayer = window.dataLayer || [];
-		window.gtag =
-			window.gtag ||
-			function gtag() {
+		if (!window.gtag) {
+			window.gtag = function gtag() {
 				window.dataLayer.push(arguments);
 			};
+			window.gtag("js", new Date());
+			window.gtag("config", GOOGLE_ADS_ID);
+		}
 		window.gtag("event", "conversion", { send_to: GOOGLE_ADS_CONVERSION });
 	}, []);
 
