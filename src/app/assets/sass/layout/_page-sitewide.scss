@@ -130,6 +130,12 @@
 		color: var(--tj-color-common-white);
 		background: var(--page-gradient);
 		box-shadow: 0 14px 30px -12px rgba(37, 99, 235, 0.7);
+		// The template colours the glyph itself navy; keep it white on the gradient.
+		i {
+			color: var(--tj-color-common-white);
+			font-size: 30px;
+			line-height: 1;
+		}
 	}
 	.tj-careers-tag span,
 	.tj-careers-tag a {
