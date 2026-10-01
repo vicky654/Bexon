@@ -9,16 +9,18 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentItem } from "@/libs/contentApi";
 import { formatDate } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
 	const item = await getContentItem("news", slug);
 	if (!item) return { title: "News | DPDP Consultants" };
-	return {
+	return pageMetadata({
 		title: `${item.title} | DPDP Consultants`,
 		description: item.summary,
-		openGraph: item.coverImage ? { images: [item.coverImage] } : undefined,
-	};
+		path: `/news/${slug}`,
+		image: item.coverImage || undefined,
+	});
 }
 
 export default async function NewsDetails({ params }) {

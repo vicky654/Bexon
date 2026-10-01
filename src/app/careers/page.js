@@ -6,6 +6,14 @@ import HeroInner from "@/components/sections/hero/HeroInner";
 import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
+import { pageMetadata } from "@/libs/seo";
+
+// Title and description carried over from the old site's page.
+export const metadata = pageMetadata({
+	title: "Build Your Career in Data Protection Compliance Management | DPDP Consultants",
+	description: "Apply for roles in DPDP Act consulting, training & compliance management software to help Indian businesses achieve DPDP Act compliance.",
+	path: "/careers",
+});
 
 export default function Careers() {
 	return (

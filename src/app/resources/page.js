@@ -10,11 +10,13 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentList } from "@/libs/contentApi";
 import { RESOURCE_TYPE_FILTERS, RESOURCE_TYPE_LABELS, pageFrom } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
 	title: "Resources | DPDP Consultants",
 	description: "Whitepapers, guides, checklists and reports from DPDP Consultants.",
-};
+	path: "/resources",
+});
 
 export default async function Resources({ searchParams }) {
 	const params = await searchParams;

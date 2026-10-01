@@ -9,11 +9,13 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentList } from "@/libs/contentApi";
 import { formatDate, pageFrom } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
 	title: "News | DPDP Consultants",
 	description: "Company news, announcements and DPDP Act updates from DPDP Consultants.",
-};
+	path: "/news",
+});
 
 export default async function News({ searchParams }) {
 	const params = await searchParams;

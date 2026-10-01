@@ -10,11 +10,13 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentList } from "@/libs/contentApi";
 import { EVENT_FORMAT_LABELS, eventState, formatDateTime, pageFrom } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
 	title: "Webinars & Events | DPDP Consultants",
 	description: "Upcoming and past webinars and events hosted by DPDP Consultants.",
-};
+	path: "/events",
+});
 
 export default async function Events({ searchParams }) {
 	const params = await searchParams;

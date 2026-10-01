@@ -7,6 +7,20 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getBlogFromBackendBySlug, getBlogsFromBackend } from "@/libs/blogsApi";
 import { notFound } from "next/navigation";
+import { pageMetadata } from "@/libs/seo";
+import coverImage from "@/libs/coverImage";
+
+export async function generateMetadata({ params }) {
+	const { slug } = await params;
+	const blog = await getBlogFromBackendBySlug(slug);
+	if (!blog) return {};
+	return pageMetadata({
+		title: `${blog.title} | DPDP Consultants`,
+		description: blog.desc || undefined,
+		path: `/blogs/${slug}`,
+		image: coverImage(blog.img).endsWith(".svg") ? undefined : coverImage(blog.img),
+	});
+}
 
 export default async function BlogDetails({ params }) {
 	const { slug } = await params;

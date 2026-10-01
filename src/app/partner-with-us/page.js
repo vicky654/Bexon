@@ -6,11 +6,13 @@ import HeroInner from "@/components/sections/hero/HeroInner";
 import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
 	title: "Partner With Us | DPDP Consultants",
 	description: "Collaborate with DPDP Consultants on data protection compliance initiatives.",
-};
+	path: "/partner-with-us",
+});
 
 export default function PartnerWithUs() {
 	return (
