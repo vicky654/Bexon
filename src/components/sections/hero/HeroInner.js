@@ -4,8 +4,9 @@ import React from "react";
 
 // Inner-page banner in the home hero's style: dark brand panel with drifting
 // glows and a faint grid, the page title, an optional intro line, and a
-// breadcrumb pill.
-const HeroInner = ({ title, text, intro, breadcrums = [] }) => {
+// breadcrumb pill. Detail pages (blog posts, news, events, resources) pass
+// titleAs="p" so the item's own title below is the page's single <h1>.
+const HeroInner = ({ title, text, intro, breadcrums = [], titleAs: TitleTag = "h1" }) => {
 	return (
 		<section className="tj-page-header page-inner-hero">
 			<div className="page-home-hero-bg" aria-hidden="true">
@@ -41,7 +42,7 @@ const HeroInner = ({ title, text, intro, breadcrums = [] }) => {
 									: ""}
 								<span aria-current="page">{sliceText(text, 28, true)}</span>
 							</nav>
-							<h1 className="tj-page-title page-inner-hero-title title-anim">{title}</h1>
+							<TitleTag className="tj-page-title page-inner-hero-title title-anim">{title}</TitleTag>
 							{intro ? (
 								<p className="page-inner-hero-intro wow fadeInUp" data-wow-delay=".4s">
 									{intro}

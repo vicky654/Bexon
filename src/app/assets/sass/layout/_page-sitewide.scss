@@ -100,6 +100,7 @@
 		overflow: hidden;
 		img {
 			width: 100%;
+			height: auto;
 			aspect-ratio: 16 / 9;
 			object-fit: cover;
 			transition: transform 1s var(--page-ease);
@@ -185,6 +186,7 @@
 	box-shadow: 0 30px 60px -30px rgba(2, 9, 44, 0.35);
 	img {
 		width: 100%;
+		height: auto;
 		aspect-ratio: 16 / 8;
 		object-fit: cover;
 	}
@@ -800,5 +802,109 @@
 	display: block;
 	& + .contact-link {
 		margin-top: 4px;
+	}
+}
+
+/* ---------- Article typography (blog posts, news, events, resources) ----------
+   Post titles are now the page <h1>; keep them at article-title size, and give
+   long-form content readable headings, normal lists, tables and images. */
+.page-post .post-details-wrapper > h1.title,
+.content-detail-title {
+	font-size: 44px;
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	margin: 28px 0 22px;
+	@media #{$md, $sm, $xs} {
+		font-size: 30px;
+	}
+}
+// .post-details-wrapper is in the selector to outrank the template's
+// ".post-details-wrapper .blog-text ul" (two bold columns).
+.page-post .post-details-wrapper .blog-text,
+.content-detail-body {
+	font-size: 17px;
+	line-height: 1.75;
+	h2 {
+		font-size: 30px;
+		line-height: 1.25;
+		margin: 38px 0 14px;
+		scroll-margin-top: 110px;
+		@media #{$md, $sm, $xs} {
+			font-size: 24px;
+		}
+	}
+	h3 {
+		font-size: 23px;
+		line-height: 1.3;
+		margin: 30px 0 12px;
+	}
+	h4 {
+		font-size: 19px;
+		margin: 24px 0 10px;
+	}
+	p {
+		margin: 0 0 16px;
+	}
+	ul,
+	ol {
+		display: block;
+		columns: auto;
+		margin: 0 0 18px;
+		padding-inline-start: 24px;
+		li {
+			display: list-item;
+			margin: 0 0 8px;
+			padding: 0;
+			font-weight: var(--tj-fw-regular);
+			color: inherit;
+			&::before {
+				content: none;
+			}
+		}
+	}
+	ul {
+		list-style: disc;
+	}
+	ol {
+		list-style: decimal;
+	}
+	li::marker {
+		color: var(--page-blue);
+	}
+	a {
+		color: var(--page-blue);
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+	img {
+		max-width: 100%;
+		height: auto;
+		margin: 10px 0 18px;
+		border-radius: 14px;
+	}
+	table {
+		width: 100%;
+		margin: 10px 0 22px;
+		border-collapse: collapse;
+		font-size: 15px;
+		display: block;
+		overflow-x: auto;
+	}
+	th,
+	td {
+		padding: 10px 12px;
+		border: 1px solid rgba(2, 9, 44, 0.12);
+		vertical-align: top;
+	}
+	th {
+		background: #eef3fd;
+		font-weight: var(--tj-fw-sbold);
+	}
+	blockquote {
+		margin: 22px 0;
+		padding: 16px 20px;
+		border-inline-start: 4px solid var(--page-blue);
+		background: rgba(37, 99, 235, 0.05);
+		border-radius: 0 12px 12px 0;
 	}
 }

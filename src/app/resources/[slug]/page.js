@@ -103,7 +103,7 @@ export default async function ResourceDetails({ params, searchParams }) {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<HeroInner title={"Resources"} text={item.title} breadcrums={[{ name: "Resources", path: "/resources" }]} />
+						<HeroInner titleAs="p" title={"Resources"} text={item.title} breadcrums={[{ name: "Resources", path: "/resources" }]} />
 						<ContentDetail item={item} meta={meta} aside={aside} />
 						<Cta />
 					</main>

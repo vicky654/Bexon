@@ -1,5 +1,5 @@
 import BlogSidebar from "@/components/shared/sidebar/BlogSidebar";
-import coverImage from "@/libs/coverImage";
+import BlogCover from "@/components/shared/blogs/BlogCover";
 import makePath from "@/libs/makePath";
 import Link from "next/link";
 
@@ -7,7 +7,7 @@ import Link from "next/link";
 // author, date, category, body, tags) plus previous/next navigation.
 const BlogDetailsPrimary = ({ option }) => {
 	const { prevSlug, nextSlug, currentItem, isPrevItem, isNextItem, posts } = option || {};
-	const { title, img, tags, content, author, author_role, category, date } = currentItem || {};
+	const { title, img, imgAlt, tags, content, author, author_role, category, date } = currentItem || {};
 	const isHtmlContent = content ? /<[a-z][\s\S]*>/i.test(content) : false;
 	const contentParagraphs = !isHtmlContent
 		? content
@@ -28,9 +28,9 @@ const BlogDetailsPrimary = ({ option }) => {
 					<div className="col-lg-8">
 						<article className="post-details-wrapper">
 							<div className="blog-images page-post-image wow fadeInUp" data-wow-delay=".1s">
-								<img src={coverImage(img)} alt="" />
+								<BlogCover src={img} alt={imgAlt || ""} priority />
 							</div>
-							<h2 className="title title-anim">{title}</h2>
+							<h1 className="title title-anim">{title}</h1>
 							{meta.length ? (
 								<div className="blog-category-two page-post-meta wow fadeInUp" data-wow-delay=".3s">
 									{meta.map(item => (

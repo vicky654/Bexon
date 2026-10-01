@@ -1,0 +1,362 @@
+[
+ {
+  "id": 1,
+  "slug": "what-are-the-different-types-of-consent"
+ },
+ {
+  "id": 2,
+  "slug": "the-unveiling-of-the-dpdp-rules-a-paradigm-shift-in-data-governance"
+ },
+ {
+  "id": 3,
+  "slug": "the-future-of-data-privacy-in-india-key-changes-under-the-dpdp-act-2023"
+ },
+ {
+  "id": 4,
+  "slug": "childrens-data-protection-under-dpdp-act-guidelines-for-businesses"
+ },
+ {
+  "id": 5,
+  "slug": "data-breach-notification-under-dpdp-act-requirements-and-best-practices"
+ },
+ {
+  "id": 6,
+  "slug": "dpdp-act-2023-a-comprehensive-guide-for-indian-businesses"
+ },
+ {
+  "id": 7,
+  "slug": "age-gating-vs-age-verification-whats-the-difference"
+ },
+ {
+  "id": 8,
+  "slug": "pias-vs-dpias-navigating-data-privacy-assessments-under-indias-dpdp-act"
+ },
+ {
+  "id": 9,
+  "slug": "cybersecurity-data-protection-dpdp-act-and-iso-27001-compliance"
+ },
+ {
+  "id": 10,
+  "slug": "dpdp-act-vs-gdpr-key-differences-and-implications-for-global-businesses"
+ },
+ {
+  "id": 11,
+  "slug": "how-to-ask-for-valid-consent-under-dpdpa"
+ },
+ {
+  "id": 12,
+  "slug": "privacy-notices-demystified-what-every-business-needs-to-know"
+ },
+ {
+  "id": 13,
+  "slug": "indian-data-protection-law-how-does-it-fare-against-gdpr"
+ },
+ {
+  "id": 14,
+  "slug": "legitimate-uses-under-the-dpdp-act-2023"
+ },
+ {
+  "id": 15,
+  "slug": "what-is-data-minimisation-under-dpdpa"
+ },
+ {
+  "id": 17,
+  "slug": "understanding-the-data-protection-board-of-india-under-dpdpa"
+ },
+ {
+  "id": 18,
+  "slug": "what-is-grievance-redressal-mechanism-under-the-dpdp-act"
+ },
+ {
+  "id": 19,
+  "slug": "whos-a-significant-data-fiduciary-under-the-dpdp-act"
+ },
+ {
+  "id": 20,
+  "slug": "what-are-the-data-principal-rights-under-the-dpdp-act"
+ },
+ {
+  "id": 21,
+  "slug": "7-steps-to-manage-legacy-data-under-dpdpa"
+ },
+ {
+  "id": 22,
+  "slug": "understanding-indias-dpdpa-2023-and-its-impact-on-businesses"
+ },
+ {
+  "id": 23,
+  "slug": "data-breaches-and-the-dpdp-act-2023"
+ },
+ {
+  "id": 24,
+  "slug": "how-will-the-dpdpa-impact-artificial-intelligence"
+ },
+ {
+  "id": 25,
+  "slug": "what-is-personal-data-under-the-dpdp-act"
+ },
+ {
+  "id": 26,
+  "slug": "what-is-appellate-tribunal-in-the-dpdpa"
+ },
+ {
+  "id": 27,
+  "slug": "dpdp-act-draft-rules-major-step-toward-indias-data-privacy"
+ },
+ {
+  "id": 28,
+  "slug": "data-processing-agreement-under-the-dpdp"
+ },
+ {
+  "id": 29,
+  "slug": "dpdp-act-vs-iso-27001-key-differences-compliance-guide"
+ },
+ {
+  "id": 30,
+  "slug": "10-common-dpdpa-compliance-mistakes-to-avoid-and-how-to-fix-them"
+ },
+ {
+  "id": 31,
+  "slug": "from-gdpr-to-dpdp-lessons-for-indian-businesses"
+ },
+ {
+  "id": 32,
+  "slug": "why-consent-management-is-key-for-dpdp-act-compliance"
+ },
+ {
+  "id": 33,
+  "slug": "valid-consent-management-under-the-dpdp-act"
+ },
+ {
+  "id": 34,
+  "slug": "data-minimisation-a-key-strategy-for-privacy-compliance"
+ },
+ {
+  "id": 35,
+  "slug": "dpdp-act-secondary-data-use-rules-consent-compliance"
+ },
+ {
+  "id": 36,
+  "slug": "cookie-management-dpdp-act-a-compliance-must-for-indian-firms"
+ },
+ {
+  "id": 37,
+  "slug": "june-2025-data-breaches-a-wake-up-call-for-dpdpa-enforcement-in-india"
+ },
+ {
+  "id": 38,
+  "slug": "how-will-the-dpdpa-impact-ai"
+ },
+ {
+  "id": 39,
+  "slug": "global-data-breaches-2025-lessons-for-indias-privacy-ecosystem"
+ },
+ {
+  "id": 40,
+  "slug": "why-digital-consent-management-is-essential-under-the-dpdp-act"
+ },
+ {
+  "id": 41,
+  "slug": "ai-and-dpdp-ethical-and-compliance-concerns-around-ai-driven-data-handling"
+ },
+ {
+  "id": 42,
+  "slug": "there-will-be-no-changes-to-the-dpdp-act-2023-the-law-is-final-no-room-no-time-for-delay"
+ },
+ {
+  "id": 43,
+  "slug": "best-consent-management-platforms-for-dpdpa-compliance-in-india"
+ },
+ {
+  "id": 46,
+  "slug": "dpo-as-a-service-dpoaas-a-2025-business-guide"
+ },
+ {
+  "id": 47,
+  "slug": "best-practices-and-tools-for-dpdp-ready-data-handling-2025-guide"
+ },
+ {
+  "id": 49,
+  "slug": "dpdpa-gap-assessment-preparing-for-2025-compliance"
+ },
+ {
+  "id": 51,
+  "slug": "top-8-dpdp-compliance-tools-and-frameworks-you-can-use-in-2025"
+ },
+ {
+  "id": 52,
+  "slug": "understanding-the-dpdp-act-key-insights"
+ },
+ {
+  "id": 53,
+  "slug": "understanding-the-role-of-data-fiduciaries"
+ },
+ {
+  "id": 54,
+  "slug": "dpdp-act-compliance-management-software"
+ },
+ {
+  "id": 55,
+  "slug": "the-cost-of-delay-why-early-dpdp-compliance-is-non-negotiable"
+ },
+ {
+  "id": 56,
+  "slug": "how-the-dpdp-law-is-shaping-india-s-digital-privacy-landscape"
+ },
+ {
+  "id": 57,
+  "slug": "data-fiduciary-vs-data-processor-key-differences-under-the-dpdp-act-2023"
+ },
+ {
+  "id": 58,
+  "slug": "india-s-data-protection-laws-in-2025-the-startups-essential-compliance-guide"
+ },
+ {
+  "id": 59,
+  "slug": "dpdp-act-compliance-checklist-step-by-step-guide-for-indian-businesses"
+ },
+ {
+  "id": 60,
+  "slug": "how-the-dpdp-act-2023-impacts-small-medium-scale-industries-smes"
+ },
+ {
+  "id": 61,
+  "slug": "dpdp-act-compliance-training-from-legal-requirements-to-practical-business-implementation"
+ },
+ {
+  "id": 63,
+  "slug": "impact-of-dpdp-act-2023-on-the-indian-retail-sector"
+ },
+ {
+  "id": 64,
+  "slug": "the-strategic-advantage-of-one-compliance-one-vendor-under-dpdpa"
+ },
+ {
+  "id": 66,
+  "slug": "why-third-party-vendor-compliance-is-no-longer-optional-for-data-fiduciaries"
+ },
+ {
+  "id": 67,
+  "slug": "the-price-of-non-compliance-with-india-s-dpdpa-a-cost-no-business-can-ignore"
+ },
+ {
+  "id": 68,
+  "slug": "what-cookies-meant-before-dpdp-act-and-what-they-mean-now"
+ },
+ {
+  "id": 69,
+  "slug": "does-your-organization-need-dpo-as-a-service"
+ },
+ {
+  "id": 70,
+  "slug": "comprehensive-comparative-analysis-of-gdpr-and-dpdp"
+ },
+ {
+  "id": 71,
+  "slug": "is-consent-enough-the-reality-of-click-to-agree-a-business-and-regulatory-analysis-under-the-dpdpa"
+ },
+ {
+  "id": 72,
+  "slug": "implications-of-the-dpdp-act-2023-on-corporate-social-responsibility-csr-activities"
+ },
+ {
+  "id": 73,
+  "slug": "does-the-dpdpa-take-over-the-rti-act"
+ },
+ {
+  "id": 74,
+  "slug": "dpdp-compliance-for-hr-enabling-employee-data-protection-in-india"
+ },
+ {
+  "id": 75,
+  "slug": "dpdp-act-for-edtech-what-happens-to-all-that-student-data-organizations-have-been-collecting"
+ },
+ {
+  "id": 76,
+  "slug": "impact-of-dpdp-act-on-healthcare-sector"
+ },
+ {
+  "id": 77,
+  "slug": "dpdpa-third-party-compliance-is-the-risk-nobody-s-managing"
+ },
+ {
+  "id": 78,
+  "slug": "the-complete-tools-list-you-need-for-dpdpa-compliance-in-2026"
+ },
+ {
+  "id": 79,
+  "slug": "how-to-get-dpdpa-compliant-in-a-week"
+ },
+ {
+  "id": 80,
+  "slug": "dpdpa-impact-on-real-estate-sector"
+ },
+ {
+  "id": 81,
+  "slug": "life-after-dpdpa-what-a-fully-compliant-world-looks-like"
+ },
+ {
+  "id": 82,
+  "slug": "dpdp-act-compliance-for-manufacturing-sector"
+ },
+ {
+  "id": 83,
+  "slug": "impact-on-the-automobile-sector-after-dpdpa-implementation-manufacturing-to-showroom-compliance-guide"
+ },
+ {
+  "id": 84,
+  "slug": "dpdpa-compliance-and-the-pharmaceutical-industry"
+ },
+ {
+  "id": 85,
+  "slug": "why-right-now-is-the-time-to-get-dpdpa-compliant"
+ },
+ {
+  "id": 86,
+  "slug": "impact-of-dpdpa-on-banks-nbfcs"
+ },
+ {
+  "id": 87,
+  "slug": "dpdpa-for-the-energy-sector"
+ },
+ {
+  "id": 88,
+  "slug": "dpdpa-for-the-transportation-logistics-sector"
+ },
+ {
+  "id": 89,
+  "slug": "hiring-a-dpo-internally-vs-dpo-as-a-service"
+ },
+ {
+  "id": 90,
+  "slug": "cookies-under-dpdpa-what-websites-must-change-by-2027"
+ },
+ {
+  "id": 91,
+  "slug": "ai-agents-are-the-new-employees"
+ },
+ {
+  "id": 92,
+  "slug": "what-happens-when-your-crm-knows-more-about-customers-than-your-sales-team"
+ },
+ {
+  "id": 93,
+  "slug": "dpdpa-for-hospitality-hotels-otas-restaurant-compliance"
+ },
+ {
+  "id": 94,
+  "slug": "dpdpa-myths-facts"
+ },
+ {
+  "id": 95,
+  "slug": "hr-tech-under-dpdpa-what-every-employer-must-know"
+ },
+ {
+  "id": 96,
+  "slug": "dpdpa-in-insurance-managing-customer-data-across-agents-tpas-insurers"
+ },
+ {
+  "id": 97,
+  "slug": "is-your-company-actually-ready-for-a-data-principal-request"
+ }
+]

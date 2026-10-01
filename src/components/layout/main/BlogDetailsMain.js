@@ -19,6 +19,7 @@ const BlogDetailsMain = async ({ currentSlug }) => {
 		<div>
 			<HeroInner
 				title={"Blog Details"}
+				titleAs="p"
 				text={title ? title : "Blog Details"}
 				breadcrums={[{ name: "Blogs", path: "/blogs" }]}
 			/>

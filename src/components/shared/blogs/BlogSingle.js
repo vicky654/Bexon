@@ -2,19 +2,19 @@
 import makePath from "@/libs/makePath";
 import makeWowDelay from "@/libs/makeWowDelay";
 import modifyNumber from "@/libs/modifyNumber";
-import coverImage from "@/libs/coverImage";
+import BlogCover from "./BlogCover";
 import Link from "next/link";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 
 // Blog list card, shown from the post's own data only.
 const BlogSingle = ({ blog, idx }) => {
-	const { slug, img, title, desc, category, author, day, month } = blog || {};
+	const { slug, img, imgAlt, title, desc, category, author, day, month } = blog || {};
 
 	return (
 		<article className="blog-item wow fadeInUp" data-wow-delay={makeWowDelay(idx, 0.1)}>
 			<div className="blog-thumb">
 				<Link href={`/blogs/${slug}`}>
-					<img src={coverImage(img)} alt="" loading="lazy" />
+					<BlogCover src={img} alt={imgAlt || ""} sizes="(max-width: 991px) 100vw, 760px" />
 				</Link>
 				{day ? (
 					<div className="blog-date">

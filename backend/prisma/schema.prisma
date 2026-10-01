@@ -11,9 +11,13 @@ model Blog {
   id          Int      @id @default(autoincrement())
   slug        String   @unique
   title       String
+  // <title> for search results when it should differ from the heading
+  metaTitle   String?
   excerpt     String?
   content     String?
   img         String?
+  // Alt text for the cover image
+  imgAlt      String?
   category    String?
   tags        String?
   author      String?

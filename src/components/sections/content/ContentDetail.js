@@ -6,7 +6,7 @@ const ContentDetail = ({ item, meta, aside }) => (
 				<div className={aside ? "col-lg-7" : "col-lg-10 mx-auto"}>
 					{item.coverImage ? <img className="content-detail-cover" src={item.coverImage} alt="" /> : null}
 					{meta ? <div className="content-detail-meta">{meta}</div> : null}
-					<h2 className="content-detail-title">{item.title}</h2>
+					<h1 className="content-detail-title">{item.title}</h1>
 					<p className="content-detail-summary">{item.summary}</p>
 					<div className="content-detail-body" dangerouslySetInnerHTML={{ __html: item.body || "" }} />
 				</div>

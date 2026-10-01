@@ -341,3 +341,9 @@ h3 {
 .auth-title {
 	color: #0c1e21;
 }
+
+.form-help {
+	margin: 2px 0 0;
+	font-size: 12px;
+	color: #6b7280;
+}

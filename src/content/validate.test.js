@@ -270,7 +270,9 @@ test("old-site redirects all land on real pages and are well-formed", async () =
 		seen.add(key);
 		const [pathPart, hash] = rule.to.split("#");
 		const route = pathPart.split("?")[0] || "/";
-		assert.ok(routes.has(route), `${rule.from} -> ${rule.to}: unknown page`);
+		// Migrated blog posts are checked against the import data in their own test.
+		const isMigratedPost = rule.from === "/blog.php" && rule.query?.id && route.startsWith("/blogs/");
+		assert.ok(isMigratedPost || routes.has(route), `${rule.from} -> ${rule.to}: unknown page`);
 		if (hash) {
 			const page = route === "/" ? home : route === "/about" ? about : null;
 			assert.ok(page && anchorsOf(page).has(hash), `${rule.from} -> ${rule.to}: missing anchor`);
@@ -285,4 +287,18 @@ test("old-site redirects all land on real pages and are well-formed", async () =
 		if (rule.query && firstPlain.has(rule.from)) assert.ok(i < firstPlain.get(rule.from), `${rule.from}?${JSON.stringify(rule.query)} is shadowed`);
 	});
 	assert.ok(toNextRedirects().every(r => r.permanent === true));
+});
+
+test("every migrated old blog post has its own redirect to the same slug as the import data", async () => {
+	const { createRequire } = await import("node:module");
+	const require = createRequire(import.meta.url);
+	const { SITE_REDIRECTS } = require("./redirects.cjs");
+	const imported = JSON.parse(fs.readFileSync(path.join(root, "backend/prisma/data/old-site-blogs.json"), "utf8"));
+	const blogRules = SITE_REDIRECTS.filter(r => r.from === "/blog.php" && r.query?.id);
+	assert.equal(blogRules.length, imported.length);
+	for (const post of imported) {
+		const rule = blogRules.find(r => r.query.id === String(post.oldId));
+		assert.ok(rule, `no redirect for old post ${post.oldId}`);
+		assert.equal(rule.to, `/blogs/${post.slug}`);
+	}
 });

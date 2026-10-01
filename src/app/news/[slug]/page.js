@@ -40,7 +40,7 @@ export default async function NewsDetails({ params }) {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<HeroInner title={"News"} text={item.title} breadcrums={[{ name: "News", path: "/news" }]} />
+						<HeroInner titleAs="p" title={"News"} text={item.title} breadcrums={[{ name: "News", path: "/news" }]} />
 						<ContentDetail item={item} meta={formatDate(item.publishedAt)} />
 						{item.sourceUrl ? (
 							<div className="container content-detail-footer">

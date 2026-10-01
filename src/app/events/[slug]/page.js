@@ -79,7 +79,7 @@ export default async function EventDetails({ params }) {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<HeroInner title={"Webinars & Events"} text={item.title} breadcrums={[{ name: "Events", path: "/events" }]} />
+						<HeroInner titleAs="p" title={"Webinars & Events"} text={item.title} breadcrums={[{ name: "Events", path: "/events" }]} />
 						<ContentDetail item={item} meta={meta} aside={aside} />
 						<Cta />
 					</main>

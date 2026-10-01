@@ -15,7 +15,8 @@ export async function generateMetadata({ params }) {
 	const blog = await getBlogFromBackendBySlug(slug);
 	if (!blog) return {};
 	return pageMetadata({
-		title: `${blog.title} | DPDP Consultants`,
+		// Migrated posts keep the <title> they ranked with on the old site.
+		title: blog.metaTitle || `${blog.title} | DPDP Consultants`,
 		description: blog.desc || undefined,
 		path: `/blogs/${slug}`,
 		image: coverImage(blog.img).endsWith(".svg") ? undefined : coverImage(blog.img),

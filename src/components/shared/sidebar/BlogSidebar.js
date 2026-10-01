@@ -1,4 +1,4 @@
-import coverImage from "@/libs/coverImage";
+import BlogCover from "@/components/shared/blogs/BlogCover";
 import makePath from "@/libs/makePath";
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ const BlogSidebar = ({ posts = [], currentSlug }) => {
 							<li key={post.slug}>
 								<div className="post-thumb">
 									<Link href={`/blogs/${post.slug}`}>
-										<img src={coverImage(post.img)} alt="" loading="lazy" />
+										<BlogCover src={post.img} alt="" sizes="80px" width={160} height={160} />
 									</Link>
 								</div>
 								<div className="post-content">
