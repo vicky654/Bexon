@@ -1,10 +1,15 @@
 import { delay } from "./animation";
+import PresenceMap from "./PresenceMap";
 import SectionHeading from "./SectionHeading";
 import StatCounter from "./StatCounter";
 
-// Text beside an image. With `stats`, the section becomes a highlighted band:
-// count-up stat tiles under the text and a floating, glowing image card.
-const SplitSection = ({ anchor, eyebrow, heading, html, image, imageAlt, reverse, stats }) => {
+// Built-in illustrations a split section can show instead of an image.
+const VISUALS = { "presence-map": PresenceMap };
+
+// Text beside an image (or a built-in `visual`). With `stats`, the section
+// becomes a highlighted band with count-up stat tiles under the text.
+const SplitSection = ({ anchor, eyebrow, heading, html, image, imageAlt, reverse, stats, visual }) => {
+	const Visual = VISUALS[visual];
 	const hasStats = Boolean(stats?.length);
 	return (
 		<section id={anchor} className={`tj-page-section section-gap-2 page-split${hasStats ? " page-split-band" : ""}`}>
@@ -35,8 +40,8 @@ const SplitSection = ({ anchor, eyebrow, heading, html, image, imageAlt, reverse
 						) : null}
 					</div>
 					<div className="col-lg-6">
-						<div className={`page-split-media wow ${reverse ? "fadeInLeft" : "fadeInRight"}`} data-wow-delay=".3s">
-							<img className="page-split-image" src={image} alt={imageAlt} loading="lazy" />
+						<div className={`${Visual ? "page-split-visual" : "page-split-media"} wow ${reverse ? "fadeInLeft" : "fadeInRight"}`} data-wow-delay=".3s">
+							{Visual ? <Visual /> : <img className="page-split-image" src={image} alt={imageAlt} loading="lazy" />}
 						</div>
 					</div>
 				</div>

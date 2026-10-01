@@ -176,6 +176,8 @@ function checkItem(item, where, errors) {
 	return true;
 }
 
+const SPLIT_VISUALS = ["presence-map"];
+
 const SECTION_CHECKS = {
 	homeHero(section, where, ctx, errors) {
 		checkText(section.title, "title", where, errors);
@@ -214,8 +216,13 @@ const SECTION_CHECKS = {
 	split(section, where, ctx, errors) {
 		checkText(section.heading, "heading", where, errors);
 		checkHtml(section.html, where, ctx, errors);
-		checkImage(section.image, where, ctx, errors);
-		checkText(section.imageAlt, "imageAlt", where, errors);
+		// A built-in illustration can stand in for the image.
+		if (section.visual !== undefined) {
+			if (!SPLIT_VISUALS.includes(section.visual)) errors.push(`${where}: visual must be one of ${SPLIT_VISUALS.join(", ")}`);
+		} else {
+			checkImage(section.image, where, ctx, errors);
+			checkText(section.imageAlt, "imageAlt", where, errors);
+		}
 		if (section.stats !== undefined) {
 			if (!Array.isArray(section.stats)) return errors.push(`${where}: stats must be a list`);
 			section.stats.forEach((item, i) => {
@@ -315,7 +322,7 @@ const SECTION_FIELDS = {
 	homeHero: ["eyebrow", "title", "highlight", "text", "primary", "secondary", "image", "badges"],
 	richText: ["heading", "html"],
 	features: ["eyebrow", "heading", "intro", "items", "variant", "numbered"],
-	split: ["eyebrow", "heading", "html", "image", "imageAlt", "reverse", "stats"],
+	split: ["eyebrow", "heading", "html", "image", "imageAlt", "reverse", "stats", "visual"],
 	steps: ["eyebrow", "heading", "intro", "items"],
 	stats: ["eyebrow", "heading", "intro", "items"],
 	faq: ["eyebrow", "heading", "items"],

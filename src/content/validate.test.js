@@ -246,3 +246,10 @@ test("logo sections list existing images, or load clients from the admin", () =>
 	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P", items: [{ ...logo, image: "/images/partner/nope.png" }] }] }, ctx).some(e => e.includes("does not exist")));
 	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P", items: [{ ...logo, name: "" }] }] }, ctx).some(e => e.includes("name")));
 });
+
+test("split sections can use a built-in visual instead of an image", () => {
+	const split = { type: "split", heading: "H", html: "<p>x</p>" };
+	assert.deepEqual(validatePage({ ...good, sections: [{ ...split, visual: "presence-map" }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ ...split, visual: "globe" }] }, ctx).some(e => e.includes("visual")));
+	assert.ok(validatePage({ ...good, sections: [split] }, ctx).some(e => e.includes("image")));
+});
