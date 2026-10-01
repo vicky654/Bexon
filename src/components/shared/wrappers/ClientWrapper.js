@@ -31,15 +31,27 @@ import { useEffect } from "react";
 const prefersReducedMotion = () =>
 	typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
+// wow.js listens for animationend on each .wow element and rewrites
+// event.target.className as a string. The event also bubbles up from animated
+// children (e.g. the home hero dashboard's SVG ring), whose className is an
+// SVGAnimatedString, so wow.js crashed with "className.replace is not a
+// function". Only let an element's own animation end reach wow.js.
+const WOW_END_EVENTS = ["animationend", "webkitAnimationEnd"];
+const keepAnimationEndOnWowElement = event => {
+	if (!event.target?.classList?.contains("wow")) event.stopPropagation();
+};
+
 const ClientWrapper = () => {
 	useEffect(() => {
 		if (prefersReducedMotion()) return;
+		WOW_END_EVENTS.forEach(type => document.addEventListener(type, keepAnimationEndOnWowElement, true));
 		import("wow.js").then(({ default: WOW }) => {
 			new WOW().init();
 		});
 		smoothScrollToTop();
 		const cleanup = tjMagicCursorAnimation();
 		return () => {
+			WOW_END_EVENTS.forEach(type => document.removeEventListener(type, keepAnimationEndOnWowElement, true));
 			if (cleanup) cleanup();
 		};
 	}, []);
