@@ -335,3 +335,17 @@ test("every migrated newsletter article has its own redirect to the same slug as
 		assert.ok(fs.existsSync(path.join(root, "public", item.coverImage)), `cover for ${item.oldId}`);
 	}
 });
+
+test("findRedirect resolves query rules first, then the plain rule, else null", async () => {
+	const { createRequire } = await import("node:module");
+	const require = createRequire(import.meta.url);
+	const { findRedirect } = require("./redirects.cjs");
+	const q = s => new URLSearchParams(s);
+	const blog = require("./oldBlogRedirects.json")[0];
+	assert.equal(findRedirect("/blog.php", q(`id=${blog.id}&title=anything`)), `/blogs/${blog.slug}`);
+	assert.equal(findRedirect("/blog.php", q("id=999999")), "/blogs");
+	assert.equal(findRedirect("/contact.php", q("act=newsletter")), "/subscribe");
+	assert.equal(findRedirect("/contact.php", q("")), "/contact");
+	assert.equal(findRedirect("/our-team.php", q("")), "/about#our-team");
+	assert.equal(findRedirect("/not-a-page.php", q("")), null);
+});

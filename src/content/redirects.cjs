@@ -118,7 +118,29 @@ const SITE_REDIRECTS = [
 	{ from: "/terms-and-conditions.php", to: "/terms-and-conditions" },
 ];
 
-// Next.js redirects() format.
+// Lookup used by src/proxy.js: a rule with `query` matches only when every
+// listed query value is present; query rules are tried before the plain rule
+// for the same file. Returns the new path (which may carry its own ?query or
+// #anchor), or null.
+const QUERY_RULES = new Map();
+const PLAIN_RULES = new Map();
+for (const rule of SITE_REDIRECTS) {
+	if (rule.query) {
+		if (!QUERY_RULES.has(rule.from)) QUERY_RULES.set(rule.from, []);
+		QUERY_RULES.get(rule.from).push(rule);
+	} else if (!PLAIN_RULES.has(rule.from)) {
+		PLAIN_RULES.set(rule.from, rule.to);
+	}
+}
+
+function findRedirect(pathname, searchParams) {
+	for (const rule of QUERY_RULES.get(pathname) || []) {
+		if (Object.entries(rule.query).every(([key, value]) => searchParams.get(key) === value)) return rule.to;
+	}
+	return PLAIN_RULES.get(pathname) || null;
+}
+
+// Next.js redirects() format (kept for reference; the site uses src/proxy.js).
 function toNextRedirects(rules = SITE_REDIRECTS) {
 	return rules.map(rule => ({
 		source: rule.from,
@@ -130,4 +152,4 @@ function toNextRedirects(rules = SITE_REDIRECTS) {
 	}));
 }
 
-module.exports = { SITE_REDIRECTS, toNextRedirects };
+module.exports = { SITE_REDIRECTS, toNextRedirects, findRedirect };

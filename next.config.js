@@ -1,5 +1,4 @@
 const path = require("node:path");
-const { toNextRedirects } = require("./src/content/redirects.cjs");
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -9,10 +8,6 @@ const nextConfig = {
 	// resolved every other project there. Pin the root to this folder.
 	turbopack: { root: path.resolve(__dirname) },
 	outputFileTracingRoot: path.resolve(__dirname),
-	// 301s from the old PHP site's addresses (see src/content/redirects.cjs).
-	async redirects() {
-		return toNextRedirects();
-	},
 	images: {
 		// Admin can set a blog's Image URL to any external address; without a
 		// permissive remotePatterns entry next/image throws ("hostname not
