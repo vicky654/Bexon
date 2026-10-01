@@ -2,10 +2,10 @@ import { getLogos } from "@/libs/clientLogosApi";
 import SectionHeading from "./SectionHeading";
 
 // Scrolling logo strip(s) in full colour; a logo lifts and grows on hover;
-// the strip pauses on hover. Long lists split into two rows that move in
-// opposite directions. `source: "clients"` / `"partners"` loads the logos
+// the strip pauses on hover. Logos split evenly into three rows that move in
+// alternating directions. `source: "clients"` / `"partners"` loads the logos
 // managed in the admin; otherwise `items` lists them in the content file.
-const SPLIT_AT = 16;
+const ROW_COUNT = 3;
 
 const LogoRow = ({ logos, reverse }) => (
 	<div className={`page-logos-row${reverse ? " is-reverse" : ""}`}>
@@ -26,7 +26,10 @@ const LogoRow = ({ logos, reverse }) => (
 const LogosSection = async ({ anchor, eyebrow, heading, intro, items, source }) => {
 	const logos = source ? await getLogos(source === "partners" ? "partner" : "client") : items || [];
 	if (!logos.length) return null;
-	const rows = logos.length > SPLIT_AT ? [logos.slice(0, Math.ceil(logos.length / 2)), logos.slice(Math.ceil(logos.length / 2))] : [logos];
+	const rowCount = Math.min(ROW_COUNT, logos.length);
+	const rows = Array.from({ length: rowCount }, (_, idx) =>
+		logos.slice(Math.ceil((idx * logos.length) / rowCount), Math.ceil(((idx + 1) * logos.length) / rowCount))
+	);
 	return (
 		<section id={anchor} className="tj-page-section section-gap-2 page-logos">
 			<div className="container">
