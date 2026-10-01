@@ -1,6 +1,7 @@
 import Footer from "@/components/layout/footer/Footer";
 import Header from "@/components/layout/header/Header";
 import BlogMain from "@/components/layout/main/BlogMain";
+import { Suspense } from "react";
 import Cta from "@/components/sections/cta/Cta";
 import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
@@ -16,7 +17,10 @@ export default function Blogs() {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<BlogMain />
+						{/* BlogMain reads ?category / ?tag / ?search with useSearchParams. */}
+						<Suspense fallback={null}>
+							<BlogMain />
+						</Suspense>
 						<Cta />
 					</main>
 					<Footer />
