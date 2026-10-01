@@ -23,6 +23,7 @@ export const NAVIGATION = [
 			{ label: "DPDP Act 2023", href: "/dpdp-act" },
 			{ label: "Draft DPDP Rules 2025", href: "/dpdp-act/dpdp-rules-2025" },
 			{ label: "Administrative Fines & Penalties", href: "/dpdp-act/penalties-and-fines" },
+			{ label: "Penalty Calculator", href: "/dpdp-act/penalties-and-fines#penalty-calculator" },
 			{ label: "Subcontractor & Third-Party Issues", href: "/dpdp-act/third-party-obligations" },
 			{ label: "DPDPA & Business Discontinuity", href: "/dpdp-act/business-continuity" },
 			{ label: "Case Study", href: "/case-studies" },

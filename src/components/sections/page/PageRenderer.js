@@ -5,6 +5,7 @@ import FeaturesSection from "./FeaturesSection";
 import HomeHeroSection from "./HomeHeroSection";
 import LogosSection from "./LogosSection";
 import MarqueeSection from "./MarqueeSection";
+import PenaltyCheckSection from "./PenaltyCheckSection";
 import RichTextSection from "./RichTextSection";
 import SplitSection from "./SplitSection";
 import StatsSection from "./StatsSection";
@@ -26,6 +27,7 @@ const COMPONENTS = {
 	team: TeamSection,
 	logos: LogosSection,
 	testimonials: TestimonialsSection,
+	penaltyCheck: PenaltyCheckSection,
 };
 
 const PageRenderer = ({ sections }) =>

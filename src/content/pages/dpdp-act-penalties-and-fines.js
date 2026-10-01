@@ -52,6 +52,13 @@ export default {
 			],
 		},
 		{
+			anchor: "penalty-calculator",
+			type: "penaltyCheck",
+			eyebrow: "Penalty Calculator",
+			heading: "Check Your DPDP Act Penalty Exposure",
+			intro: "Answer a few questions about your current practices to see which penalties in the Act's Schedule could apply to your organisation, and how ready you are.",
+		},
+		{
 			type: "cta",
 			heading: "Reduce your DPDP Act enforcement risk",
 			text: "Speak with our compliance experts to identify the violations that carry the highest penalty exposure for your organisation and put mitigating controls in place.",

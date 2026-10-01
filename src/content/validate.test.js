@@ -20,7 +20,7 @@ const good = {
 };
 
 test("section types are the fixed set", () => {
-	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos", "testimonials"]);
+	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos", "testimonials", "penaltyCheck"]);
 });
 
 test("a valid page has no errors", () => {
@@ -309,4 +309,11 @@ test("testimonials need a quote, name and role; logos must exist", () => {
 	assert.ok(validatePage({ ...good, sections: [{ type: "testimonials", heading: "T", items: [] }] }, ctx).length);
 	assert.ok(validatePage({ ...good, sections: [{ type: "testimonials", heading: "T", items: [{ ...item, quote: "" }] }] }, ctx).some(e => e.includes("quote")));
 	assert.ok(validatePage({ ...good, sections: [{ type: "testimonials", heading: "T", items: [{ ...item, logo: "/images/client-logo/nope.png" }] }] }, ctx).some(e => e.includes("does not exist")));
+});
+
+test("penalty check section takes only heading text and is on the penalties page", () => {
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "penaltyCheck", heading: "Check your exposure" }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ type: "penaltyCheck", heading: "H", amount: 5 }] }, ctx).some(e => e.includes("amount")));
+	const page = PAGES.find(p => p.path === "/dpdp-act/penalties-and-fines");
+	assert.ok(page.sections.some(s => s.type === "penaltyCheck" && s.anchor === "penalty-calculator"));
 });
