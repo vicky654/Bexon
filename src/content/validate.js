@@ -4,7 +4,7 @@ import path from "node:path";
 export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos"];
 
 const ALLOWED_TAGS = new Set(["p", "h3", "h4", "ul", "ol", "li", "strong", "em", "a", "br"]);
-const STATIC_ROUTES = ["/", "/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe"];
+const STATIC_ROUTES = ["/", "/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe", "/thank-you"];
 
 export function knownRoutes(pages) {
 	return new Set([...STATIC_ROUTES, ...pages.map(page => page.path)]);

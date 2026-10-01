@@ -129,6 +129,7 @@ export default {
 			],
 		},
 		{
+			anchor: "clients",
 			type: "logos",
 			eyebrow: "Our Clients",
 			heading: "Trusted by Leading Organisations",
@@ -172,6 +173,7 @@ export default {
 			],
 		},
 		{
+			anchor: "partners",
 			type: "logos",
 			eyebrow: "Our Partners",
 			heading: "Working Together with Industry Leaders",

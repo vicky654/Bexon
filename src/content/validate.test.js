@@ -253,3 +253,36 @@ test("split sections can use a built-in visual instead of an image", () => {
 	assert.ok(validatePage({ ...good, sections: [{ ...split, visual: "globe" }] }, ctx).some(e => e.includes("visual")));
 	assert.ok(validatePage({ ...good, sections: [split] }, ctx).some(e => e.includes("image")));
 });
+
+test("old-site redirects all land on real pages and are well-formed", async () => {
+	const { createRequire } = await import("node:module");
+	const require = createRequire(import.meta.url);
+	const { SITE_REDIRECTS, toNextRedirects } = require("./redirects.cjs");
+	const routes = knownRoutes(PAGES);
+	const home = PAGES.find(p => p.path === "/");
+	const about = PAGES.find(p => p.path === "/about");
+	const anchorsOf = page => new Set(page.sections.map(s => s.anchor).filter(Boolean));
+	const seen = new Set();
+	for (const rule of SITE_REDIRECTS) {
+		assert.match(rule.from, /^\/[\w-]+\.php$/, `bad source ${rule.from}`);
+		const key = rule.from + JSON.stringify(rule.query || {});
+		assert.ok(!seen.has(key), `duplicate redirect ${key}`);
+		seen.add(key);
+		const [pathPart, hash] = rule.to.split("#");
+		const route = pathPart.split("?")[0] || "/";
+		assert.ok(routes.has(route), `${rule.from} -> ${rule.to}: unknown page`);
+		if (hash) {
+			const page = route === "/" ? home : route === "/about" ? about : null;
+			assert.ok(page && anchorsOf(page).has(hash), `${rule.from} -> ${rule.to}: missing anchor`);
+		}
+	}
+	// A query-specific rule must come before the plain rule for the same file.
+	const firstPlain = new Map();
+	SITE_REDIRECTS.forEach((rule, i) => {
+		if (!rule.query && !firstPlain.has(rule.from)) firstPlain.set(rule.from, i);
+	});
+	SITE_REDIRECTS.forEach((rule, i) => {
+		if (rule.query && firstPlain.has(rule.from)) assert.ok(i < firstPlain.get(rule.from), `${rule.from}?${JSON.stringify(rule.query)} is shadowed`);
+	});
+	assert.ok(toNextRedirects().every(r => r.permanent === true));
+});
