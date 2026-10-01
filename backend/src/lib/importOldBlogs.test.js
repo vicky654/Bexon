@@ -52,3 +52,12 @@ test("imports every post as an unpublished draft and is safe to re-run", async t
 	const again = await importOldBlogs({ file: DATA });
 	assert.deepEqual(again, { created: 0, updated: 0, skipped: 90 });
 });
+
+test("--publish imports the posts as published", async t => {
+	t.after(async () => {
+		await prisma.blog.deleteMany();
+	});
+	const result = await importOldBlogs({ file: DATA, publish: true });
+	assert.equal(result.created, 90);
+	assert.equal(await prisma.blog.count({ where: { published: true } }), 90);
+});

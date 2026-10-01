@@ -1,10 +1,12 @@
 // Imports the blog posts copied from the old PHP website
-// (prisma/data/old-site-blogs.json) as unpublished drafts, for review in
-// Admin -> Blogs before publishing. Safe to re-run: posts whose slug already
-// exists are skipped (pass --update to refresh their content instead; the
-// published flag is never changed on existing posts).
+// (prisma/data/old-site-blogs.json). New posts are unpublished drafts for
+// review in Admin -> Blogs, or published straight away with --publish (the
+// content was reviewed and published on the development site). Safe to
+// re-run: posts whose slug already exists are skipped (pass --update to
+// refresh their content instead; the published flag of existing posts is
+// never changed).
 //
-//   node scripts/import-old-blogs.js [--update]
+//   node scripts/import-old-blogs.js [--publish] [--update]
 const path = require("node:path");
 const fs = require("node:fs");
 const prisma = require("../src/lib/prisma");
@@ -29,14 +31,14 @@ function toRecord(post) {
 	};
 }
 
-async function importOldBlogs({ update = false, file = DATA } = {}) {
+async function importOldBlogs({ update = false, publish = false, file = DATA } = {}) {
 	const posts = JSON.parse(fs.readFileSync(file, "utf8"));
 	const result = { created: 0, updated: 0, skipped: 0 };
 	for (const post of posts) {
 		const record = toRecord(post);
 		const existing = await prisma.blog.findUnique({ where: { slug: record.slug } });
 		if (!existing) {
-			await prisma.blog.create({ data: { ...record, published: false } });
+			await prisma.blog.create({ data: { ...record, published: publish } });
 			result.created++;
 		} else if (update) {
 			await prisma.blog.update({ where: { slug: record.slug }, data: record });
@@ -49,9 +51,10 @@ async function importOldBlogs({ update = false, file = DATA } = {}) {
 }
 
 if (require.main === module) {
-	importOldBlogs({ update: process.argv.includes("--update") })
+	const publish = process.argv.includes("--publish");
+	importOldBlogs({ update: process.argv.includes("--update"), publish })
 		.then(result => {
-			console.log(`Old blog import: ${result.created} created (as drafts), ${result.updated} updated, ${result.skipped} skipped.`);
+			console.log(`Old blog import: ${result.created} created (${publish ? "published" : "as drafts"}), ${result.updated} updated, ${result.skipped} skipped.`);
 		})
 		.catch(error => {
 			console.error(error);
