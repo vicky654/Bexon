@@ -3,6 +3,7 @@ import Link from "next/link";
 const ButtonPrimary = ({
 	className,
 	text,
+	hiddenText, // extra link text for screen readers and search engines
 	isTextBtn,
 	url,
 	type,
@@ -34,7 +35,10 @@ const ButtonPrimary = ({
 					}`}
 				>
 					<span className="btn-text">
-						<span>{text}</span>
+						<span>
+							{text}
+							{hiddenText ? <span className="visually-hidden">{hiddenText}</span> : null}
+						</span>
 					</span>
 					<span className="btn-icon">
 						<i className="tji-arrow-right-long"></i>

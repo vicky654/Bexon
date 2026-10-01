@@ -17,16 +17,18 @@ const FaqAccordion = ({ items, idPrefix }) => {
 				const buttonId = `${id}-title`;
 				return (
 					<div className="accordion-item wow fadeInUp" data-wow-delay={delay(idx, 0.1, 0.05, 0.5)} key={id}>
-						<button
-							id={buttonId}
-							className={`faq-title ${isOpen ? "" : "collapsed"}`}
-							type="button"
-							aria-expanded={isOpen}
-							aria-controls={id}
-							onClick={() => handleToggle(idx)}
-						>
-							{item.question}
-						</button>
+						<h3 className="faq-heading">
+							<button
+								id={buttonId}
+								className={`faq-title ${isOpen ? "" : "collapsed"}`}
+								type="button"
+								aria-expanded={isOpen}
+								aria-controls={id}
+								onClick={() => handleToggle(idx)}
+							>
+								{item.question}
+							</button>
+						</h3>
 						<div
 							id={id}
 							role="region"

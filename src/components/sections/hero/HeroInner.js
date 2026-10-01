@@ -1,5 +1,7 @@
 import sliceText from "@/libs/sliceText";
 import Link from "next/link";
+import JsonLd from "@/components/shared/others/JsonLd";
+import { breadcrumbList } from "@/libs/structuredData";
 import React from "react";
 
 // Inner-page banner in the home hero's style: dark brand panel with drifting
@@ -9,6 +11,7 @@ import React from "react";
 const HeroInner = ({ title, text, intro, breadcrums = [], titleAs: TitleTag = "h1" }) => {
 	return (
 		<section className="tj-page-header page-inner-hero">
+			<JsonLd data={breadcrumbList(breadcrums, text)} />
 			<div className="page-home-hero-bg" aria-hidden="true">
 				<span className="page-home-hero-glow glow-1"></span>
 				<span className="page-home-hero-glow glow-2"></span>

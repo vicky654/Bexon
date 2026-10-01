@@ -47,6 +47,9 @@ function mapBlogToLegacyShape(blog) {
 		month,
 		date,
 		date2,
+		// ISO dates for structured data (datePublished / dateModified).
+		publishedAt: new Date(blog.publishedAt).toISOString(),
+		updatedAt: blog.updatedAt ? new Date(blog.updatedAt).toISOString() : "",
 	};
 }
 

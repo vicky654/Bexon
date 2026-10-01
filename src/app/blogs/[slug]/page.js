@@ -9,6 +9,8 @@ import { getBlogFromBackendBySlug, getBlogsFromBackend } from "@/libs/blogsApi";
 import { notFound } from "next/navigation";
 import { pageMetadata } from "@/libs/seo";
 import coverImage from "@/libs/coverImage";
+import JsonLd from "@/components/shared/others/JsonLd";
+import { article } from "@/libs/structuredData";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
@@ -33,6 +35,17 @@ export default async function BlogDetails({ params }) {
 
 	return (
 		<div>
+			<JsonLd
+				data={article({
+					title: blog.title,
+					description: blog.desc,
+					path: `/blogs/${slug}`,
+					image: coverImage(blog.img),
+					publishedAt: blog.publishedAt,
+					updatedAt: blog.updatedAt,
+					author: blog.author,
+				})}
+			/>
 			<BackToTop />
 			<Header />
 			<Header isStickyHeader={true} />

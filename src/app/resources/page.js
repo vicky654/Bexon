@@ -16,8 +16,8 @@ import { pageMetadata } from "@/libs/seo";
 // each filtered view keeps its old title and its own canonical URL.
 const RESOURCE_META = {
 	whitepaper: {
-		title: "DPDP Act Whitepapers | In-Depth Privacy & Compliance Analysis",
-		description: "Access comprehensive whitepapers with in-depth analysis on data privacy, risk management, and compliance strategies about DPDP Act for your organization.",
+		title: "DPDP Act Whitepapers & Compliance Guides",
+		description: "Access whitepapers with in-depth analysis on data privacy, risk management, and compliance strategies about DPDP Act for your organization.",
 	},
 	report: {
 		title: "DPDP Act Compliance Research Reports | DPDP Consultants",

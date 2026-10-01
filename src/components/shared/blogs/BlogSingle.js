@@ -38,7 +38,7 @@ const BlogSingle = ({ blog, idx }) => {
 					<Link href={`/blogs/${slug}`}>{title}</Link>
 				</h3>
 				{desc ? <p className="desc">{desc}</p> : null}
-				<ButtonPrimary text={"Read More"} url={`/blogs/${slug}`} isTextBtn={true} />
+				<ButtonPrimary text={"Read More"} hiddenText={`: ${title}`} url={`/blogs/${slug}`} isTextBtn={true} />
 			</div>
 		</article>
 	);

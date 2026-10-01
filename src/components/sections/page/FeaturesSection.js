@@ -29,7 +29,7 @@ const FeaturesSection = ({ anchor, eyebrow, heading, intro, items, variant, numb
 								<ClampText className="desc" text={item.text} />
 								{item.href ? (
 									<Link className="text-btn" href={item.href}>
-										<span className="btn-text"><span>Learn More</span></span>
+										<span className="btn-text"><span>Learn More<span className="visually-hidden"> about {item.title}</span></span></span>
 										<span className="btn-icon"><i className="tji-arrow-right-long"></i></span>
 									</Link>
 								) : null}

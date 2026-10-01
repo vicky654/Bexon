@@ -10,6 +10,8 @@ import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentItem } from "@/libs/contentApi";
 import { formatDate } from "@/libs/contentFormat";
 import { pageMetadata } from "@/libs/seo";
+import JsonLd from "@/components/shared/others/JsonLd";
+import { article } from "@/libs/structuredData";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
@@ -33,6 +35,17 @@ export default async function NewsDetails({ params }) {
 
 	return (
 		<div>
+			<JsonLd
+				data={article({
+					type: "NewsArticle",
+					title: item.title,
+					description: item.summary,
+					path: `/news/${slug}`,
+					image: item.coverImage,
+					publishedAt: item.publishedAt,
+					updatedAt: item.updatedAt,
+				})}
+			/>
 			<BackToTop />
 			<Header />
 			<Header isStickyHeader={true} />

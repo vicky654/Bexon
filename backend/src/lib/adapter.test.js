@@ -29,6 +29,8 @@ test("maps a full blog row to the legacy shape", () => {
 	assert.equal(result.day, 28);
 	assert.equal(result.month, "DEC");
 	assert.equal(result.date, "28 DEC 2025");
+	assert.equal(result.publishedAt, "2025-12-28T00:00:00.000Z");
+	assert.equal(result.updatedAt, "");
 });
 
 test("defaults tags to an empty array when null", () => {

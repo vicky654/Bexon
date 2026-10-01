@@ -18,7 +18,7 @@ const ContentCard = ({ href, image, eyebrow, title, summary, meta }) => (
 			</h4>
 			{summary ? <p className="content-card-summary">{summary}</p> : null}
 			<Link className="text-btn" href={href}>
-				<span className="btn-text"><span>Read More</span></span>
+				<span className="btn-text"><span>Read More<span className="visually-hidden">: {title}</span></span></span>
 				<span className="btn-icon"><i className="tji-arrow-right-long"></i></span>
 			</Link>
 		</div>
