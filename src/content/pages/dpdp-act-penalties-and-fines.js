@@ -31,7 +31,7 @@ export default {
 				},
 				{
 					icon: "tji-chart",
-					title: "Breach of any other obligation under the Act or rules",
+					title: "Breach in fulfilling the additional obligations of a Significant Data Fiduciary under Section 10",
 					text: "May extend to one hundred and fifty crore rupees.",
 				},
 				{
