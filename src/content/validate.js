@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos"];
+export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos", "testimonials"];
 
 const ALLOWED_TAGS = new Set(["p", "h3", "h4", "ul", "ol", "li", "strong", "em", "a", "br"]);
 const STATIC_ROUTES = ["/", "/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe", "/thank-you"];
@@ -307,6 +307,19 @@ const SECTION_CHECKS = {
 			checkImage(item.image, itemWhere, ctx, errors);
 		});
 	},
+	testimonials(section, where, ctx, errors) {
+		checkText(section.heading, "heading", where, errors);
+		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
+		section.items.forEach((item, i) => {
+			const itemWhere = `${where}.items[${i}]`;
+			if (!checkItem(item, itemWhere, errors)) return;
+			checkText(item.quote, "quote", itemWhere, errors);
+			checkText(item.name, "name", itemWhere, errors, 80);
+			checkText(item.role, "role", itemWhere, errors, 80);
+			if (item.company !== undefined) checkText(item.company, "company", itemWhere, errors, 80);
+			if (item.logo !== undefined) checkImage(item.logo, itemWhere, ctx, errors);
+		});
+	},
 	marquee(section, where, ctx, errors) {
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => checkText(item, `items[${i}]`, where, errors, 60));
@@ -331,6 +344,7 @@ const SECTION_FIELDS = {
 	marquee: ["items"],
 	team: ["eyebrow", "heading", "intro", "items"],
 	logos: ["eyebrow", "heading", "intro", "items", "source"],
+	testimonials: ["eyebrow", "heading", "intro", "items"],
 };
 
 const ANCHOR_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;

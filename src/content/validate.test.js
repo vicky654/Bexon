@@ -20,7 +20,7 @@ const good = {
 };
 
 test("section types are the fixed set", () => {
-	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos"]);
+	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos", "testimonials"]);
 });
 
 test("a valid page has no errors", () => {
@@ -301,4 +301,12 @@ test("every migrated old blog post has its own redirect to the same slug as the 
 		assert.ok(rule, `no redirect for old post ${post.oldId}`);
 		assert.equal(rule.to, `/blogs/${post.slug}`);
 	}
+});
+
+test("testimonials need a quote, name and role; logos must exist", () => {
+	const item = { quote: "Great work.", name: "A Person", role: "Director", company: "Acme", logo: "/images/client-logo/zeiss_logo.png" };
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "testimonials", heading: "What Our Clients Say", items: [item] }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ type: "testimonials", heading: "T", items: [] }] }, ctx).length);
+	assert.ok(validatePage({ ...good, sections: [{ type: "testimonials", heading: "T", items: [{ ...item, quote: "" }] }] }, ctx).some(e => e.includes("quote")));
+	assert.ok(validatePage({ ...good, sections: [{ type: "testimonials", heading: "T", items: [{ ...item, logo: "/images/client-logo/nope.png" }] }] }, ctx).some(e => e.includes("does not exist")));
 });

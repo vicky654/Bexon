@@ -10,6 +10,7 @@ import SplitSection from "./SplitSection";
 import StatsSection from "./StatsSection";
 import StepsSection from "./StepsSection";
 import TeamSection from "./TeamSection";
+import TestimonialsSection from "./TestimonialsSection";
 
 const COMPONENTS = {
 	homeHero: HomeHeroSection,
@@ -24,6 +25,7 @@ const COMPONENTS = {
 	marquee: MarqueeSection,
 	team: TeamSection,
 	logos: LogosSection,
+	testimonials: TestimonialsSection,
 };
 
 const PageRenderer = ({ sections }) =>
