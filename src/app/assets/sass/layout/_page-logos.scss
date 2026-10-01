@@ -1,6 +1,7 @@
 @use "../utilities" as *;
 
-/* ---------- Logo strips (Our Clients / Our Partners) ---------- */
+/* ---------- Logo strips (Our Clients / Our Partners) ----------
+   Logos show in full colour, with tight padding so each one is large. */
 .page-logos-rows {
 	display: flex;
 	flex-direction: column;
@@ -35,9 +36,9 @@
 	flex: 0 0 auto;
 	align-items: center;
 	justify-content: center;
-	width: 190px;
-	height: 96px;
-	padding: 18px 26px;
+	width: 200px;
+	height: 100px;
+	padding: 10px 14px;
 	border-radius: 18px;
 	background: var(--tj-color-common-white);
 	border: 1px solid rgba(2, 9, 44, 0.06);
@@ -50,25 +51,20 @@
 		max-width: 100%;
 		max-height: 100%;
 		object-fit: contain;
-		filter: grayscale(1);
-		opacity: 0.7;
-		transition:
-			filter 0.45s ease,
-			opacity 0.45s ease;
+		transition: transform 0.45s var(--page-ease);
 	}
 	&:hover {
 		transform: translateY(-4px);
 		border-color: rgba(37, 99, 235, 0.25);
 		box-shadow: 0 24px 40px -24px rgba(37, 99, 235, 0.45);
 		img {
-			filter: none;
-			opacity: 1;
+			transform: scale(1.06);
 		}
 	}
 	@media #{$sm, $xs} {
-		width: 150px;
-		height: 80px;
-		padding: 14px 18px;
+		width: 156px;
+		height: 82px;
+		padding: 8px 10px;
 	}
 }
 

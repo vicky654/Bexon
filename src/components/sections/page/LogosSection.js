@@ -1,7 +1,7 @@
 import { getLogos } from "@/libs/clientLogosApi";
 import SectionHeading from "./SectionHeading";
 
-// Scrolling logo strip(s). Logos show in grey and turn full colour on hover;
+// Scrolling logo strip(s) in full colour; a logo lifts and grows on hover;
 // the strip pauses on hover. Long lists split into two rows that move in
 // opposite directions. `source: "clients"` / `"partners"` loads the logos
 // managed in the admin; otherwise `items` lists them in the content file.
