@@ -8,9 +8,10 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { pageMetadata } from "@/libs/seo";
 
+// Title and description carried over from the old site's newsletter page.
 export const metadata = pageMetadata({
-	title: "Subscribe to Our Newsletter | DPDP Consultants",
-	description: "Stay informed on the DPDP Act, rules, enforcement updates and practical privacy guidance.",
+	title: "DPDP Act Newsletter | Latest Privacy News & Updates on data privacy",
+	description: "Subscribe to our newsletter for regular updates on DPDP Act compliance, industry trends, and expert insights to keep your business informed.",
 	path: "/subscribe",
 });
 

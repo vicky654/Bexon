@@ -8,7 +8,7 @@ import { SITE_URL } from "@/libs/seo";
 export const revalidate = 3600;
 
 const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:5000";
-const LISTINGS = ["/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe"];
+const LISTINGS = ["/blogs", "/news", "/events", "/events?when=past", "/resources", "/resources?type=whitepaper", "/resources?type=report", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe"];
 const CONTENT_KINDS = [
 	{ kind: "news", base: "/news" },
 	{ kind: "event", base: "/events" },

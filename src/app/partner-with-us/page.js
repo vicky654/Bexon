@@ -8,9 +8,10 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { pageMetadata } from "@/libs/seo";
 
+// Title and description carried over from the old site's partner page.
 export const metadata = pageMetadata({
-	title: "Partner With Us | DPDP Consultants",
-	description: "Collaborate with DPDP Consultants on data protection compliance initiatives.",
+	title: "Partner With Us | DPDP Act Compliance Partnership Program",
+	description: "Join the DPDP Consultants partner network. Collaborate with India's leading experts to provide DPDP Act audits, training, and compliance services.",
 	path: "/partner-with-us",
 });
 

@@ -12,11 +12,23 @@ import { getContentList } from "@/libs/contentApi";
 import { EVENT_FORMAT_LABELS, eventState, formatDateTime, pageFrom } from "@/libs/contentFormat";
 import { pageMetadata } from "@/libs/seo";
 
-export const metadata = pageMetadata({
-	title: "Webinars & Events | DPDP Consultants",
-	description: "Upcoming and past webinars and events hosted by DPDP Consultants.",
-	path: "/events",
-});
+// Upcoming events and past webinars were separate pages on the old site;
+// each view keeps its old title and its own canonical URL.
+export async function generateMetadata({ searchParams }) {
+	const { when } = await searchParams;
+	if (when === "past") {
+		return pageMetadata({
+			title: "DPDP Act Webinars & Live Sessions | DPDP Consultants",
+			description: "Join expert webinars with demos, case studies & Q&A to learn practical DPDP Act compliance strategies.",
+			path: "/events?when=past",
+		});
+	}
+	return pageMetadata({
+		title: "Register for upcoming DPDP Act 2023 events | DPDP Consultants",
+		description: "Upcoming and past webinars and events hosted by DPDP Consultants.",
+		path: "/events",
+	});
+}
 
 export default async function Events({ searchParams }) {
 	const params = await searchParams;

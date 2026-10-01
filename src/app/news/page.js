@@ -11,9 +11,10 @@ import { getContentList } from "@/libs/contentApi";
 import { formatDate, pageFrom } from "@/libs/contentFormat";
 import { pageMetadata } from "@/libs/seo";
 
+// Title and description carried over from the old site's In the News page.
 export const metadata = pageMetadata({
-	title: "News | DPDP Consultants",
-	description: "Company news, announcements and DPDP Act updates from DPDP Consultants.",
+	title: "DPDP Act Compliance News & Updates | DPDP Consultants",
+	description: "Follow India's top privacy stories including breaches, penalties and enforcement linked to the DPDP Act Compliance.",
 	path: "/news",
 });
 
