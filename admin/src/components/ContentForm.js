@@ -6,6 +6,9 @@ import RichTextEditor from "./RichTextEditor";
 import AiDraftPanel from "./AiDraftPanel";
 import { EVENT_FORMATS, RESOURCE_TYPES, toLocalInput, fromLocalInput } from "@/lib/contentKinds";
 
+// Covers shipped with the website (/images/...) are previewed from the website.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:4000";
+
 function slugify(text) {
 	return text
 		.toLowerCase()
@@ -250,7 +253,7 @@ export default function ContentForm({ kind, initialValues, onSubmit, submitLabel
 				</div>
 				{coverError ? <p className="error">{coverError}</p> : null}
 				{values.coverImage ? (
-					<img src={values.coverImage} alt="Cover preview" className="form-image-preview" />
+					<img src={values.coverImage.startsWith("/images/") ? `${SITE_URL}${values.coverImage}` : values.coverImage} alt="Cover preview" className="form-image-preview" />
 				) : null}
 			</div>
 

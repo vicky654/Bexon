@@ -3,6 +3,10 @@ const SUBMITTED_KEY = "dpdp-contact-submitted";
 const UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_id"];
 
 export const GOOGLE_ADS_ID = "AW-16540124026";
+// Same Tag Manager container and Search Console verification as the old site,
+// so analytics and Search Console keep working through the move.
+export const GOOGLE_TAG_MANAGER_ID = "GTM-WS593L8D";
+export const GOOGLE_SITE_VERIFICATION = "ZAgBDVQa20oYWErpuKYK79QXq7auh8we0eRUyuLxV8E";
 export const GOOGLE_ADS_CONVERSION = "AW-16540124026/XOSvCLjTsasZEPqG-c49";
 
 // Remembers how the visitor first arrived this session (UTM params and the

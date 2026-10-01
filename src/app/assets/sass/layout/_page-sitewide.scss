@@ -908,3 +908,12 @@
 		border-radius: 0 12px 12px 0;
 	}
 }
+
+/* Category label on blog / news cards */
+.blog-item .blog-meta .categories {
+	display: inline-flex;
+	align-items: center;
+	padding: 3px 10px;
+	font-size: 12px;
+	line-height: 1.4;
+}

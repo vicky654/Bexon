@@ -9,6 +9,8 @@ import { getSiteSettings } from "@/libs/settingsApi";
 import GoogleAdsTag from "@/components/shared/others/GoogleAdsTag";
 import TrackingCapture from "@/components/shared/others/TrackingCapture";
 import OrganizationJsonLd from "@/components/shared/others/OrganizationJsonLd";
+import { GoogleTagManagerNoscript, GoogleTagManagerScript } from "@/components/shared/others/GoogleTagManager";
+import { GOOGLE_SITE_VERIFICATION } from "@/libs/tracking";
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/libs/seo";
 
 const bodyFont = Mona_Sans({
@@ -41,6 +43,8 @@ export const metadata = {
 	},
 	twitter: { card: "summary_large_image", images: [DEFAULT_OG_IMAGE] },
 	robots: { index: true, follow: true },
+	// Keeps the existing Google Search Console verification.
+	verification: { google: GOOGLE_SITE_VERIFICATION },
 };
 
 // Every value here comes straight from the backend, which already rejects
@@ -75,10 +79,12 @@ export default async function RootLayout({ children }) {
 						{themeCss}
 					</style>
 				) : null}
+				<GoogleTagManagerNoscript />
 				<OrganizationJsonLd />
 				{children}
 				<TrackingCapture />
 				<GoogleAdsTag />
+				<GoogleTagManagerScript />
 			</body>
 		</html>
 	);

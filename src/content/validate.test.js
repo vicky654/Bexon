@@ -271,7 +271,9 @@ test("old-site redirects all land on real pages and are well-formed", async () =
 		const [pathPart, hash] = rule.to.split("#");
 		const route = pathPart.split("?")[0] || "/";
 		// Migrated blog posts are checked against the import data in their own test.
-		const isMigratedPost = rule.from === "/blog.php" && rule.query?.id && route.startsWith("/blogs/");
+		const isMigratedPost =
+			(rule.from === "/blog.php" && rule.query?.id && route.startsWith("/blogs/")) ||
+			(rule.from === "/newsletter.php" && rule.query?.id && route.startsWith("/news/"));
 		assert.ok(isMigratedPost || routes.has(route), `${rule.from} -> ${rule.to}: unknown page`);
 		if (hash) {
 			const page = route === "/" ? home : route === "/about" ? about : null;
@@ -316,4 +318,20 @@ test("penalty check section takes only heading text and is on the penalties page
 	assert.ok(validatePage({ ...good, sections: [{ type: "penaltyCheck", heading: "H", amount: 5 }] }, ctx).some(e => e.includes("amount")));
 	const page = PAGES.find(p => p.path === "/dpdp-act/penalties-and-fines");
 	assert.ok(page.sections.some(s => s.type === "penaltyCheck" && s.anchor === "penalty-calculator"));
+});
+
+test("every migrated newsletter article has its own redirect to the same slug as the import data", async () => {
+	const { createRequire } = await import("node:module");
+	const require = createRequire(import.meta.url);
+	const { SITE_REDIRECTS } = require("./redirects.cjs");
+	const imported = JSON.parse(fs.readFileSync(path.join(root, "backend/prisma/data/old-site-newsletters.json"), "utf8"));
+	const rules = SITE_REDIRECTS.filter(r => r.from === "/newsletter.php" && r.query?.id);
+	assert.equal(rules.length, imported.length);
+	for (const item of imported) {
+		const rule = rules.find(r => r.query.id === String(item.oldId));
+		assert.ok(rule, `no redirect for old newsletter ${item.oldId}`);
+		assert.equal(rule.to, `/news/${item.slug}`);
+		assert.ok(item.summary && item.summary.length <= 300, `summary for ${item.oldId}`);
+		assert.ok(fs.existsSync(path.join(root, "public", item.coverImage)), `cover for ${item.oldId}`);
+	}
 });
