@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team"];
+export const SECTION_TYPES = ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos"];
 
 const ALLOWED_TAGS = new Set(["p", "h3", "h4", "ul", "ol", "li", "strong", "em", "a", "br"]);
 const STATIC_ROUTES = ["/", "/blogs", "/news", "/events", "/resources", "/careers", "/contact", "/book-consultation", "/partner-with-us", "/subscribe"];
@@ -285,6 +285,21 @@ const SECTION_CHECKS = {
 			checkImage(item.image, itemWhere, ctx, errors);
 		});
 	},
+	logos(section, where, ctx, errors) {
+		checkText(section.heading, "heading", where, errors);
+		// `source: "clients"` loads the client logos managed in the admin.
+		if (section.source !== undefined) {
+			if (section.source !== "clients") errors.push(`${where}: source must be "clients"`);
+			return;
+		}
+		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
+		section.items.forEach((item, i) => {
+			const itemWhere = `${where}.items[${i}]`;
+			if (!checkItem(item, itemWhere, errors)) return;
+			checkText(item.name, "name", itemWhere, errors, 60);
+			checkImage(item.image, itemWhere, ctx, errors);
+		});
+	},
 	marquee(section, where, ctx, errors) {
 		if (!Array.isArray(section.items) || !section.items.length) return errors.push(`${where}: items are required`);
 		section.items.forEach((item, i) => checkText(item, `items[${i}]`, where, errors, 60));
@@ -308,6 +323,7 @@ const SECTION_FIELDS = {
 	cardsLinks: ["eyebrow", "heading", "intro", "items"],
 	marquee: ["items"],
 	team: ["eyebrow", "heading", "intro", "items"],
+	logos: ["eyebrow", "heading", "intro", "items", "source"],
 };
 
 const ANCHOR_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;

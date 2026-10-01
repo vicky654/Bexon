@@ -3,6 +3,7 @@ import CtaSection from "./CtaSection";
 import FaqSection from "./FaqSection";
 import FeaturesSection from "./FeaturesSection";
 import HomeHeroSection from "./HomeHeroSection";
+import LogosSection from "./LogosSection";
 import MarqueeSection from "./MarqueeSection";
 import RichTextSection from "./RichTextSection";
 import SplitSection from "./SplitSection";
@@ -22,6 +23,7 @@ const COMPONENTS = {
 	cardsLinks: CardsLinksSection,
 	marquee: MarqueeSection,
 	team: TeamSection,
+	logos: LogosSection,
 };
 
 const PageRenderer = ({ sections }) =>

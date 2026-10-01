@@ -20,7 +20,7 @@ const good = {
 };
 
 test("section types are the fixed set", () => {
-	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team"]);
+	assert.deepEqual(SECTION_TYPES, ["homeHero", "richText", "features", "split", "steps", "stats", "faq", "cta", "cardsLinks", "marquee", "team", "logos"]);
 });
 
 test("a valid page has no errors", () => {
@@ -234,4 +234,14 @@ test("split sections may carry stat tiles", () => {
 	assert.deepEqual(validatePage({ ...good, sections: [{ ...split, stats: [{ value: "500+", label: "Assessments" }] }] }, ctx), []);
 	assert.ok(validatePage({ ...good, sections: [{ ...split, stats: [{ value: "", label: "Assessments" }] }] }, ctx).some(e => e.includes("value")));
 	assert.ok(validatePage({ ...good, sections: [{ ...split, stats: "500+" }] }, ctx).some(e => e.includes("stats")));
+});
+
+test("logo sections list existing images, or load clients from the admin", () => {
+	const logo = { name: "Lenovo", image: "/images/partner/lenovo.png" };
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "logos", heading: "Our Partners", items: [logo] }] }, ctx), []);
+	assert.deepEqual(validatePage({ ...good, sections: [{ type: "logos", heading: "Our Clients", source: "clients" }] }, ctx), []);
+	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P" }] }, ctx).some(e => e.includes("items")));
+	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P", source: "everyone" }] }, ctx).some(e => e.includes("source")));
+	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P", items: [{ ...logo, image: "/images/partner/nope.png" }] }] }, ctx).some(e => e.includes("does not exist")));
+	assert.ok(validatePage({ ...good, sections: [{ type: "logos", heading: "P", items: [{ ...logo, name: "" }] }] }, ctx).some(e => e.includes("name")));
 });
