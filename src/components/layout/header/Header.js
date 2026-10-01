@@ -98,12 +98,12 @@ const Header = ({
 									{headerType === 4 || headerType === 6 || headerType === 11 ? (
 										<Link
 											className="header-contact d-none d-xl-inline-flex"
-											href="tel:18884521505"
+											href="tel:01206930999"
 										>
 											<span className="call-icon">
 												<i className="tji-phone"></i>
 											</span>
-											<span className="call-text">1-888-452-1505</span>
+											<span className="call-text">0120-6930999</span>
 										</Link>
 									) : headerType === 5 ? (
 										""
@@ -151,7 +151,7 @@ const Header = ({
 									)}
 									{headerType !== 5 ? (
 										<div className="header-button">
-											<ButtonPrimary text={"Let’s Talk"} url={"/contact"} />
+											<ButtonPrimary text={"Book a Consultation"} url={"/book-consultation"} className="page-btn-glow" />
 										</div>
 									) : (
 										""

@@ -10,11 +10,31 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentList } from "@/libs/contentApi";
 import { RESOURCE_TYPE_FILTERS, RESOURCE_TYPE_LABELS, pageFrom } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
-	title: "Resources | DPDP Consultants",
-	description: "Whitepapers, guides, checklists and reports from DPDP Consultants.",
+// Whitepapers and research reports were separate pages on the old site;
+// each filtered view keeps its old title and its own canonical URL.
+const RESOURCE_META = {
+	whitepaper: {
+		title: "DPDP Act Whitepapers & Compliance Guides",
+		description: "Access whitepapers with in-depth analysis on data privacy, risk management, and compliance strategies about DPDP Act for your organization.",
+	},
+	report: {
+		title: "DPDP Act Compliance Research Reports | DPDP Consultants",
+		description: "Explore detailed research reports on data privacy, DPDPA compliance, and emerging industry practices to strengthen your data protection strategy.",
+	},
 };
+
+export async function generateMetadata({ searchParams }) {
+	const { type } = await searchParams;
+	const meta = RESOURCE_META[type];
+	if (meta) return pageMetadata({ ...meta, path: `/resources?type=${type}` });
+	return pageMetadata({
+		title: "Resources | DPDP Consultants",
+		description: "Whitepapers, guides, checklists and reports from DPDP Consultants.",
+		path: "/resources",
+	});
+}
 
 export default async function Resources({ searchParams }) {
 	const params = await searchParams;

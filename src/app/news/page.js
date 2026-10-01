@@ -9,11 +9,14 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentList } from "@/libs/contentApi";
 import { formatDate, pageFrom } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
-	title: "News | DPDP Consultants",
-	description: "Company news, announcements and DPDP Act updates from DPDP Consultants.",
-};
+// Title and description carried over from the old site's In the News page.
+export const metadata = pageMetadata({
+	title: "DPDP Act Compliance News & Updates | DPDP Consultants",
+	description: "Follow India's top privacy stories including breaches, penalties and enforcement linked to the DPDP Act Compliance.",
+	path: "/news",
+});
 
 export default async function News({ searchParams }) {
 	const params = await searchParams;

@@ -5,6 +5,7 @@ import apiFetch from "@/lib/api";
 import RequireAuth from "@/components/RequireAuth";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import ColorSuggestPanel from "@/components/ColorSuggestPanel";
+import COLOR_PRESETS, { matchesPreset } from "@/lib/colorPresets";
 import { CheckIcon } from "@/components/Icons";
 import { SkeletonSwatchGrid } from "@/components/Skeleton";
 import { useSidebarLayout, SIDEBAR_LAYOUTS } from "@/lib/sidebarLayout";
@@ -99,6 +100,51 @@ function SidebarLayoutPicker() {
 	);
 }
 
+// Ready-made colour sets. Picking one fills the form; the ✓ marks the preset
+// the current form values already match.
+function ColorPresetPicker({ values, onPick }) {
+	return (
+		<div className="color-preset-section">
+			<p className="color-preset-label">Preset Designs</p>
+			<div className="layout-option-grid">
+				{COLOR_PRESETS.map(preset => {
+					const isActive = matchesPreset(values, preset);
+					const c = preset.colors;
+					return (
+						<button
+							type="button"
+							key={preset.id}
+							className={`layout-option-card${isActive ? " layout-option-card-active" : ""}`}
+							onClick={() => onPick(preset)}
+						>
+							<div className="color-preset-preview" style={{ background: c.backgroundColor }}>
+								<span className="color-preset-preview-bar" style={{ background: c.secondaryColor }} />
+								<span className="color-preset-preview-heading" style={{ background: c.headingColor }} />
+								<span className="color-preset-preview-text" style={{ background: c.textColor }} />
+								<span className="color-preset-preview-btn" style={{ background: c.primaryColor }} />
+							</div>
+							<div className="color-preset-swatches">
+								{Object.values(c).map((color, idx) => (
+									<span key={idx} style={{ background: color }} title={color} />
+								))}
+							</div>
+							<div className="layout-option-info">
+								<h3>{preset.name}</h3>
+								{isActive ? (
+									<span className="layout-option-check">
+										<CheckIcon size={12} />
+									</span>
+								) : null}
+							</div>
+							<p className="layout-option-desc">{preset.description}</p>
+						</button>
+					);
+				})}
+			</div>
+		</div>
+	);
+}
+
 function AlertIcon() {
 	return (
 		<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -129,6 +175,12 @@ function SettingsForm() {
 		setError("");
 		setSuccess("Suggested colors filled in. Press Save to apply them.");
 		setValues(prev => ({ ...prev, ...palette }));
+	};
+
+	const handlePreset = preset => {
+		setError("");
+		setSuccess(`"${preset.name}" colors filled in. Press Save to apply them.`);
+		setValues(prev => ({ ...prev, ...preset.colors }));
 	};
 
 	const handleReset = () => {
@@ -190,6 +242,7 @@ function SettingsForm() {
 			) : (
 				<form onSubmit={handleSubmit} className="form">
 					<h2 style={{ margin: "0 0 4px", fontSize: "16px" }}>Site Colors</h2>
+					<ColorPresetPicker values={values} onPick={handlePreset} />
 					<ColorSuggestPanel onSuggested={handleSuggested} />
 					<div className="settings-swatch-grid">
 						{COLOR_FIELDS.map(field => (

@@ -1,42 +1,50 @@
 import { Mona_Sans } from "next/font/google";
-import "react-range-slider-input/dist/style.css";
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
-import "./assets/css/animate.min.css";
 import "./assets/css/dpdp-icons.css";
 import "./assets/css/bootstrap.min.css";
-import "./assets/css/font-awesome-pro.min.css";
-import "./assets/css/glightbox.min.css";
+import "./assets/css/font-awesome-subset.css";
 import "./assets/css/meanmenu.css";
 import "./assets/css/nice-select2.css";
-import "./assets/css/odometer-theme-default.css";
 import "./globals.scss";
 import { getSiteSettings } from "@/libs/settingsApi";
 import GoogleAdsTag from "@/components/shared/others/GoogleAdsTag";
 import TrackingCapture from "@/components/shared/others/TrackingCapture";
+import OrganizationJsonLd from "@/components/shared/others/OrganizationJsonLd";
+import { GoogleTagManagerNoscript, GoogleTagManagerScript } from "@/components/shared/others/GoogleTagManager";
+import { GOOGLE_SITE_VERIFICATION } from "@/libs/tracking";
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/libs/seo";
 
 const bodyFont = Mona_Sans({
 	variable: "--tj-ff-body",
 	subsets: ["latin"],
 	weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-	style: ["normal", "italic"],
+	style: ["normal"],
 	display: "swap",
 });
 const headingFont = Mona_Sans({
 	variable: "--tj-ff-heading",
 	subsets: ["latin"],
 	weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
-	style: ["normal", "italic"],
+	style: ["normal"],
 	display: "swap",
 });
 
+// Site-wide defaults; each page sets its own title, description and canonical
+// path via pageMetadata() in src/libs/seo.js.
 export const metadata = {
-	title: "DPDP Consultants",
+	metadataBase: new URL(SITE_URL),
+	title: SITE_NAME,
 	description: "DPDP Consultants - Empowering Privacy in Digital World",
+	applicationName: SITE_NAME,
+	openGraph: {
+		type: "website",
+		siteName: SITE_NAME,
+		locale: "en_IN",
+		images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME }],
+	},
+	twitter: { card: "summary_large_image", images: [DEFAULT_OG_IMAGE] },
+	robots: { index: true, follow: true },
+	// Keeps the existing Google Search Console verification.
+	verification: { google: GOOGLE_SITE_VERIFICATION },
 };
 
 // Every value here comes straight from the backend, which already rejects
@@ -71,9 +79,12 @@ export default async function RootLayout({ children }) {
 						{themeCss}
 					</style>
 				) : null}
+				<GoogleTagManagerNoscript />
+				<OrganizationJsonLd />
 				{children}
 				<TrackingCapture />
 				<GoogleAdsTag />
+				<GoogleTagManagerScript />
 			</body>
 		</html>
 	);

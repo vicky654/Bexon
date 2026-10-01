@@ -9,7 +9,7 @@ async function getJobsFromBackend() {
 		const data = await res.json();
 		return data.jobs || [];
 	} catch (error) {
-		console.error("Falling back to local careers data:", error.message);
+		console.warn("Falling back to local careers data:", error.message);
 		return localJobs;
 	}
 }
@@ -22,7 +22,7 @@ async function getJobFromBackendById(id) {
 		const data = await res.json();
 		return data.job || null;
 	} catch (error) {
-		console.error("Falling back to local careers data:", error.message);
+		console.warn("Falling back to local careers data:", error.message);
 		return localJobs.find(item => item.id === Number(id)) || null;
 	}
 }

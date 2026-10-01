@@ -27,16 +27,9 @@ const ContactMenu = ({ isContactOpen, setIsContactOpen }) => {
 							</div>
 							<div className="hamburger_close">
 								<button className="hamburger_close_btn" onClick={handleClick}>
-									<i className="fa-thin fa-times"></i>
+									<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" /></svg>
 								</button>
 							</div>
-						</div>
-						<div className="offcanvas-text">
-							<p>
-								Developing personalize our customer journeys to increase
-								satisfaction & loyalty of our expansion recognized by industry
-								leaders.
-							</p>
 						</div>
 						<div className="hamburger-search-area">
 							<h5 className="hamburger-title">Search Now!</h5>
@@ -59,8 +52,11 @@ const ContactMenu = ({ isContactOpen, setIsContactOpen }) => {
 							<div className="contact-info">
 								<div className="contact-item">
 									<span className="subtitle">Phone</span>
-									<Link className="contact-link" href="tel:10095447818">
-										+1 (009) 544-7818
+									<Link className="contact-link" href="tel:0120-6930999">
+										0120-6930999
+									</Link>
+									<Link className="contact-link" href="tel:1800-5711333">
+										1800-5711333
 									</Link>
 								</div>
 								<div className="contact-item">
@@ -83,22 +79,22 @@ const ContactMenu = ({ isContactOpen, setIsContactOpen }) => {
 						<div className="social-links style-3">
 							<ul>
 								<li>
-									<a href="https://www.facebook.com/" target="_blank">
+									<a href="https://www.facebook.com/profile.php?id=61561140562760" target="_blank">
 										<i className="fa-brands fa-facebook-f"></i>
 									</a>
 								</li>
 								<li>
-									<a href="https://www.instagram.com/" target="_blank">
+									<a href="https://www.instagram.com/dpdp.consultants/" target="_blank">
 										<i className="fa-brands fa-instagram"></i>
 									</a>
 								</li>
 								<li>
-									<a href="https://x.com/" target="_blank">
+									<a href="https://x.com/socialdpdp43979" target="_blank">
 										<i className="fa-brands fa-x-twitter"></i>
 									</a>
 								</li>
 								<li>
-									<a href="https://www.linkedin.com/" target="_blank">
+									<a href="https://www.linkedin.com/company/dpdpconsultants/" target="_blank">
 										<i className="fa-brands fa-linkedin-in"></i>
 									</a>
 								</li>

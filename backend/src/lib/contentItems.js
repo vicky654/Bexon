@@ -50,7 +50,9 @@ function validateContent(kind, raw) {
 	}
 	if (!summary) return "Please enter a summary.";
 	if (summary.length > 300) return "Please keep the summary under 300 characters.";
-	if (coverImage && !coverImage.startsWith("/uploads/") && !isUrl(coverImage, ["https:", "http:"])) {
+	// An uploaded image, an image shipped with the website (/images/...), or a web address.
+	const isSiteImage = /^\/images\/[\w./-]+$/.test(coverImage) && !coverImage.includes("..");
+	if (coverImage && !coverImage.startsWith("/uploads/") && !isSiteImage && !isUrl(coverImage, ["https:", "http:"])) {
 		return "The cover image must be an uploaded image or a web address.";
 	}
 	if (parseDate(raw.publishedAt) === null) return "Please provide a valid publish date.";

@@ -101,3 +101,35 @@ test("deletes a logo", async t => {
 	const stored = await prisma.brandLogo.findUnique({ where: { id: logo.id } });
 	assert.equal(stored, null);
 });
+
+test("logos are clients by default and can be partners; sortOrder counts per kind", async t => {
+	t.after(async () => {
+		await prisma.brandLogo.deleteMany();
+	});
+
+	const client = await request(buildApp())
+		.post("/api/admin/brand-logos")
+		.set("Cookie", authCookie())
+		.send({ imageUrl: "/uploads/c.png", alt: "Client Co" });
+	const partner = await request(buildApp())
+		.post("/api/admin/brand-logos")
+		.set("Cookie", authCookie())
+		.send({ imageUrl: "/uploads/p.png", alt: "Partner Co", kind: "partner" });
+
+	assert.equal(client.status, 201);
+	assert.equal(client.body.logo.kind, "client");
+	assert.equal(partner.status, 201);
+	assert.equal(partner.body.logo.kind, "partner");
+	assert.equal(partner.body.logo.sortOrder, 0);
+
+	const partners = await request(buildApp()).get("/api/admin/brand-logos?kind=partner").set("Cookie", authCookie());
+	assert.deepEqual(partners.body.logos.map(logo => logo.alt), ["Partner Co"]);
+});
+
+test("rejects an unknown logo kind", async () => {
+	const res = await request(buildApp())
+		.post("/api/admin/brand-logos")
+		.set("Cookie", authCookie())
+		.send({ imageUrl: "/uploads/x.png", alt: "X", kind: "vendor" });
+	assert.equal(res.status, 400);
+});

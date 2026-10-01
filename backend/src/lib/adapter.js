@@ -33,9 +33,11 @@ function mapBlogToLegacyShape(blog) {
 		id: blog.id,
 		slug: blog.slug,
 		title: blog.title,
+		metaTitle: blog.metaTitle || "",
 		desc: blog.excerpt || "",
 		content: blog.content || "",
 		img: blog.img || "/images/blog/blog-1.webp",
+		imgAlt: blog.imgAlt || "",
 		category: blog.category || "",
 		tags: parseTags(blog.tags),
 		author: blog.author || "",
@@ -45,6 +47,9 @@ function mapBlogToLegacyShape(blog) {
 		month,
 		date,
 		date2,
+		// ISO dates for structured data (datePublished / dateModified).
+		publishedAt: new Date(blog.publishedAt).toISOString(),
+		updatedAt: blog.updatedAt ? new Date(blog.updatedAt).toISOString() : "",
 	};
 }
 

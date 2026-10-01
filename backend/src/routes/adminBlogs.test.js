@@ -112,3 +112,29 @@ test("GET /api/admin/blogs includes unpublished drafts", async t => {
 	assert.equal(res.status, 200);
 	assert.ok(res.body.blogs.some(b => b.slug === "draft-post"));
 });
+
+test("stores an SEO title and cover image alt text, and exposes them publicly", async t => {
+	t.after(async () => {
+		await prisma.blog.deleteMany({ where: { slug: "seo-fields-post" } });
+	});
+	const app = buildApp();
+	const createRes = await request(app)
+		.post("/api/admin/blogs")
+		.set("Cookie", authCookie())
+		.send({ title: "Heading", slug: "seo-fields-post", metaTitle: "Search Title", imgAlt: "Cover description" });
+	assert.equal(createRes.status, 201);
+	assert.equal(createRes.body.blog.metaTitle, "Search Title");
+	assert.equal(createRes.body.blog.imgAlt, "Cover description");
+
+	const updateRes = await request(app)
+		.put(`/api/admin/blogs/${createRes.body.blog.id}`)
+		.set("Cookie", authCookie())
+		.send({ metaTitle: "" });
+	assert.equal(updateRes.body.blog.metaTitle, "");
+	assert.equal(updateRes.body.blog.imgAlt, "Cover description");
+
+	const { mapBlogToLegacyShape } = require("../lib/adapter");
+	const legacy = mapBlogToLegacyShape({ ...updateRes.body.blog, tags: "[]", publishedAt: new Date() });
+	assert.equal(legacy.imgAlt, "Cover description");
+	assert.equal(legacy.metaTitle, "");
+});

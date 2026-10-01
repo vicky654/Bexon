@@ -1,0 +1,349 @@
+/*
+ * Admin theme: the public website's look (navy + sky/blue/indigo gradient,
+ * Mona Sans, soft rounded cards). Loaded after globals.css and only restyles;
+ * layout and behaviour stay in globals.css.
+ */
+:root {
+	--adm-sky: #38bdf8;
+	--adm-blue: #2563eb;
+	--adm-indigo: #6366f1;
+	--adm-navy: #050b2e;
+	--adm-navy-2: #0b1545;
+	--adm-gradient: linear-gradient(120deg, #38bdf8 0%, #2563eb 50%, #6366f1 100%);
+	--adm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+	--adm-border: rgba(2, 9, 44, 0.07);
+	--adm-shadow: 0 1px 2px rgba(2, 9, 44, 0.04), 0 18px 40px -28px rgba(2, 9, 44, 0.35);
+}
+
+body {
+	font-family: var(--font-mona), system-ui, -apple-system, sans-serif;
+	background: #eef2f9;
+	background-image:
+		radial-gradient(900px 500px at 100% -10%, rgba(56, 189, 248, 0.12), transparent 60%),
+		radial-gradient(700px 500px at -10% 110%, rgba(99, 102, 241, 0.1), transparent 60%);
+	background-attachment: fixed;
+	color: #0c1e21;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.015em;
+}
+
+/* ---------- Sidebar ---------- */
+.admin-sidebar {
+	background: radial-gradient(140% 90% at 0% 0%, var(--adm-navy-2) 0%, var(--adm-navy) 55%, #02051a 100%);
+	overflow: hidden;
+	isolation: isolate;
+}
+.admin-sidebar::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	width: 280px;
+	height: 280px;
+	top: -120px;
+	right: -140px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(37, 99, 235, 0.55), transparent 70%);
+	pointer-events: none;
+}
+.admin-sidebar::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+	background-size: 40px 40px;
+	mask-image: linear-gradient(180deg, #000, transparent 70%);
+	pointer-events: none;
+}
+.admin-sidebar-logo-wrap {
+	background: #fff;
+	border-radius: 14px;
+	box-shadow: 0 12px 30px -16px rgba(56, 189, 248, 0.6);
+}
+.admin-sidebar-brand-sub,
+.admin-sidebar-section-label {
+	color: #9fd8ff;
+	letter-spacing: 0.1em;
+}
+.admin-sidebar-link {
+	border-left: 0;
+	border-radius: 12px;
+	transition:
+		background 0.25s ease,
+		color 0.25s ease,
+		transform 0.3s var(--adm-ease);
+}
+.admin-sidebar-link:hover {
+	background: rgba(255, 255, 255, 0.07);
+	transform: translateX(2px);
+}
+.admin-sidebar-link-active,
+.admin-sidebar-link-active:hover {
+	color: #fff;
+	background: var(--adm-gradient);
+	box-shadow: 0 10px 24px -12px rgba(56, 189, 248, 0.75);
+	transform: none;
+}
+.admin-sidebar-badge {
+	background: rgba(255, 255, 255, 0.95);
+	color: var(--adm-blue);
+	font-weight: 700;
+}
+.admin-sidebar-link:not(.admin-sidebar-link-active) .admin-sidebar-badge {
+	background: var(--adm-gradient);
+	color: #fff;
+}
+
+/* ---------- Top bar ---------- */
+.admin-topbar {
+	background: rgba(255, 255, 255, 0.82);
+	border-bottom: 1px solid var(--adm-border);
+	backdrop-filter: blur(14px);
+	-webkit-backdrop-filter: blur(14px);
+}
+.admin-topbar-nav-link:hover,
+.admin-topbar-icon-btn:hover {
+	color: var(--adm-blue);
+}
+
+/* ---------- Page header & breadcrumbs ---------- */
+.page-header h1 {
+	color: #0c1e21;
+	font-weight: 700;
+}
+.breadcrumbs a {
+	color: var(--adm-blue);
+}
+
+/* Dashboard welcome becomes a brand banner like the website hero. */
+.dashboard-welcome {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	padding: 30px 32px;
+	border: 0;
+	border-radius: 22px;
+	color: rgba(255, 255, 255, 0.75);
+	background: radial-gradient(120% 140% at 0% 0%, var(--adm-navy-2) 0%, var(--adm-navy) 60%, #02051a 100%);
+	box-shadow: 0 30px 60px -36px rgba(37, 99, 235, 0.7);
+}
+.dashboard-welcome::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	width: 360px;
+	height: 360px;
+	top: -170px;
+	right: -60px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(56, 189, 248, 0.45), transparent 70%);
+}
+.dashboard-welcome h1 {
+	color: #fff;
+}
+.dashboard-welcome-date {
+	color: #9fd8ff;
+}
+.dashboard-welcome-subtitle {
+	color: rgba(255, 255, 255, 0.72);
+}
+.dashboard-welcome-btn {
+	color: #fff;
+	background: var(--adm-gradient);
+	background-size: 160% auto;
+	border: 0;
+	border-radius: 100px;
+	box-shadow: 0 10px 26px -10px rgba(56, 189, 248, 0.8);
+	transition:
+		background-position 0.5s var(--adm-ease),
+		transform 0.35s var(--adm-ease);
+}
+.dashboard-welcome-btn:hover {
+	color: #fff;
+	background-position: right center;
+	transform: translateY(-2px);
+}
+
+/* ---------- Buttons ---------- */
+.button,
+.auth-submit,
+.button-link-primary {
+	background: var(--adm-gradient);
+	background-size: 160% auto;
+	border: 0;
+	border-radius: 100px;
+	box-shadow: 0 10px 24px -12px rgba(37, 99, 235, 0.75);
+	transition:
+		background-position 0.5s var(--adm-ease),
+		transform 0.3s var(--adm-ease),
+		box-shadow 0.3s ease;
+}
+.button:hover:not(:disabled),
+.auth-submit:hover:not(:disabled),
+.button-link-primary:hover {
+	background: var(--adm-gradient);
+	background-size: 160% auto;
+	background-position: right center;
+	transform: translateY(-1px);
+	box-shadow: 0 14px 30px -12px rgba(99, 102, 241, 0.8);
+}
+.button-secondary {
+	color: #0c1e21;
+	background: #fff;
+	border: 1px solid rgba(2, 9, 44, 0.12);
+	box-shadow: none;
+}
+.button-secondary:hover:not(:disabled) {
+	color: var(--adm-blue);
+	background: #fff;
+	border-color: rgba(37, 99, 235, 0.45);
+	box-shadow: 0 8px 20px -14px rgba(37, 99, 235, 0.6);
+}
+.button-ghost {
+	background: rgba(37, 99, 235, 0.07);
+	color: var(--adm-blue);
+	box-shadow: none;
+}
+.button-ghost:hover:not(:disabled) {
+	background: rgba(37, 99, 235, 0.12);
+	box-shadow: none;
+}
+
+/* ---------- Cards, panels, forms, tables ---------- */
+.stat-card,
+.form,
+.table,
+.logo-card,
+.settings-swatch-card,
+.layout-option-card,
+.dashboard-panel {
+	border-color: var(--adm-border);
+	box-shadow: var(--adm-shadow);
+}
+.form,
+.table {
+	border-radius: 20px;
+}
+.stat-card {
+	transition:
+		transform 0.4s var(--adm-ease),
+		box-shadow 0.4s var(--adm-ease);
+}
+.stat-card:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 26px 50px -30px rgba(37, 99, 235, 0.55);
+}
+.stat-card-icon {
+	color: #fff;
+	background: var(--adm-gradient);
+	box-shadow: 0 12px 24px -12px rgba(37, 99, 235, 0.75);
+}
+.stat-card-value {
+	color: #0c1e21;
+}
+
+.table th {
+	background: #f4f7fd;
+	color: #5b6275;
+	font-size: 12px;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+.table-row-clickable:hover td,
+.table tbody tr:hover td {
+	background: rgba(37, 99, 235, 0.035);
+}
+
+.form-field input,
+.form-field textarea,
+.form-field select,
+.auth-field input,
+.logo-card-alt {
+	border-radius: 10px;
+	border-color: rgba(2, 9, 44, 0.12);
+	transition:
+		border-color 0.2s ease,
+		box-shadow 0.2s ease;
+}
+.form-field input:focus,
+.form-field textarea:focus,
+.form-field select:focus,
+.auth-field input:focus,
+.logo-card-alt:focus {
+	outline: none;
+	border-color: var(--adm-blue);
+	box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.14);
+}
+
+/* ---------- Tabs, toggles, selections ---------- */
+.filter-tab-active,
+.logo-kind-tab-active {
+	color: #fff;
+	background: var(--adm-gradient);
+	box-shadow: 0 8px 18px -10px rgba(37, 99, 235, 0.75);
+}
+.switch-on {
+	background: var(--adm-gradient);
+}
+.layout-option-card-active {
+	border-color: var(--adm-blue);
+	box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15), var(--adm-shadow);
+}
+.logo-dropzone {
+	border-color: rgba(37, 99, 235, 0.35);
+	background: rgba(37, 99, 235, 0.03);
+	border-radius: 20px;
+}
+.logo-dropzone-active,
+.logo-dropzone:hover {
+	border-color: var(--adm-blue);
+	background: rgba(37, 99, 235, 0.07);
+}
+
+/* ---------- Sign-in page ---------- */
+.auth-page {
+	position: relative;
+	overflow: hidden;
+	isolation: isolate;
+	background: radial-gradient(120% 120% at 0% 0%, var(--adm-navy-2) 0%, var(--adm-navy) 55%, #02051a 100%);
+}
+.auth-page::before {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background:
+		radial-gradient(420px 420px at 85% 10%, rgba(37, 99, 235, 0.55), transparent 70%),
+		radial-gradient(380px 380px at 10% 95%, rgba(99, 102, 241, 0.45), transparent 70%);
+}
+.auth-page::after {
+	content: "";
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+	background-size: 56px 56px;
+	mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 30%, transparent 100%);
+}
+.auth-card {
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: 24px;
+	box-shadow: 0 50px 100px -40px rgba(0, 0, 0, 0.65);
+}
+.auth-title {
+	color: #0c1e21;
+}
+
+.form-help {
+	margin: 2px 0 0;
+	font-size: 12px;
+	color: #6b7280;
+}

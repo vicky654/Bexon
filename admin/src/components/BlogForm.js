@@ -17,9 +17,11 @@ function slugify(text) {
 const initialState = {
 	title: "",
 	slug: "",
+	metaTitle: "",
 	excerpt: "",
 	content: "",
 	img: "",
+	imgAlt: "",
 	category: "",
 	tags: "",
 	author: "",
@@ -33,6 +35,9 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 		...initialState,
 		...initialValues,
 		tags: initialValues?.tags ? initialValues.tags.join(", ") : "",
+		// Posts saved before these fields existed have them as null.
+		metaTitle: initialValues?.metaTitle ?? "",
+		imgAlt: initialValues?.imgAlt ?? "",
 	});
 	const [error, setError] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -184,6 +189,31 @@ export default function BlogForm({ initialValues, onSubmit, submitLabel }) {
 								onChange={handleChange}
 								placeholder="https://..."
 							/>
+						</div>
+						<div className="form-field">
+							<label htmlFor="imgAlt">Image description (alt text)</label>
+							<input
+								id="imgAlt"
+								name="imgAlt"
+								value={values.imgAlt}
+								onChange={handleChange}
+								placeholder="Describe the cover image for search engines and screen readers"
+							/>
+						</div>
+					</div>
+
+					<div className="form-row">
+						<div className="form-field">
+							<label htmlFor="metaTitle">SEO title (optional)</label>
+							<input
+								id="metaTitle"
+								name="metaTitle"
+								value={values.metaTitle}
+								onChange={handleChange}
+								maxLength={70}
+								placeholder="Title shown in Google; leave empty to use the post title"
+							/>
+							<p className="form-help">The excerpt above is used as the search description.</p>
 						</div>
 						<div className="form-field">
 							<label htmlFor="status">Status badge</label>

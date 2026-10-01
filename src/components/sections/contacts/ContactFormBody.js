@@ -8,7 +8,7 @@ import ConsentModal from "@/components/sections/contacts/ConsentModal";
 import { CONTACT_TOPIC_OPTIONS } from "@/libs/contactTopics";
 import { PARTNERSHIP_OPTIONS, oneMonthAfterUtc } from "@/libs/leadForms";
 
-// Fields + OTP step shared by Contact2 and Contact3. `form` is the return
+// Fields + OTP step used by Contact3. `form` is the return
 // value of useContactForm().
 const ContactFormBody = ({ form, submitText }) => {
 	const locked = form.step === "otp";

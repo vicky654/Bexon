@@ -10,16 +10,18 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentItem } from "@/libs/contentApi";
 import { EVENT_FORMAT_LABELS, eventState, formatDateTime } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
 	const item = await getContentItem("event", slug);
 	if (!item) return { title: "Webinars & Events | DPDP Consultants" };
-	return {
+	return pageMetadata({
 		title: `${item.title} | DPDP Consultants`,
 		description: item.summary,
-		openGraph: item.coverImage ? { images: [item.coverImage] } : undefined,
-	};
+		path: `/events/${slug}`,
+		image: item.coverImage || undefined,
+	});
 }
 
 export default async function EventDetails({ params }) {
@@ -77,7 +79,7 @@ export default async function EventDetails({ params }) {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<HeroInner title={"Webinars & Events"} text={item.title} breadcrums={[{ name: "Events", path: "/events" }]} />
+						<HeroInner titleAs="p" title={"Webinars & Events"} text={item.title} breadcrums={[{ name: "Events", path: "/events" }]} />
 						<ContentDetail item={item} meta={meta} aside={aside} />
 						<Cta />
 					</main>

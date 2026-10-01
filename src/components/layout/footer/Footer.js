@@ -1,97 +1,55 @@
 import Link from "next/link";
 import FooterSubscribeForm from "@/components/layout/footer/FooterSubscribeForm";
+import { FOOTER_LINKS } from "@/content/navigation";
 
 const Footer = () => {
 	return (
-		<footer className="tj-footer-section footer-1 section-gap-x">
+		<footer className="tj-footer-section footer-1 page-footer">
+			<div className="page-home-hero-bg" aria-hidden="true">
+				<span className="page-home-hero-glow glow-1"></span>
+				<span className="page-home-hero-glow glow-2"></span>
+				<span className="page-home-hero-grid"></span>
+			</div>
 			<div className="footer-main-area">
 				<div className="container">
 					<div className="row justify-content-between">
 						<div className="col-xl-3 col-lg-4 col-md-6">
 							<div className="footer-widget wow fadeInUp" data-wow-delay=".1s">
-								<div className="footer-logo">
+								<div className="footer-logo page-footer-logo">
 									<Link href="/">
-										<img src="/images/logos/logo.webp" alt="Logos" />
+										<img src="/images/logos/logo.webp" alt="DPDP Consultants" />
 									</Link>
 								</div>
 								<div className="footer-text">
-									<p>
-										Developing personalze our customer journeys to increase
-										satisfaction & loyalty of our expansion.
-									</p>
+									<p>Empowering Privacy in Digital World. End-to-end DPDP Act consulting and automated compliance tools for organisations across India.</p>
 								</div>
-								<div className="award-logo-area">
-									<div className="award-logo">
-										<img src="/images/footer/award-logo-1.webp" alt="" />
-									</div>
-									<div className="award-logo">
-										<img src="/images/footer/award-logo-2.webp" alt="" />
-									</div>
+								<address className="page-footer-address">
+									<i className="tji-location"></i>
+									<span>GM IT Park, 4th Floor, Plot no 32-33, Sector 142, Noida 201305, Uttar Pradesh</span>
+								</address>
+							</div>
+						</div>
+						{FOOTER_LINKS.map((group, idx) => (
+							<div key={group.heading} className="col-xl-2 col-lg-4 col-md-6">
+								<div
+									className="footer-widget widget-nav-menu wow fadeInUp"
+									data-wow-delay={`.${3 + idx * 2}s`}
+								>
+									<h5 className="title">{group.heading}</h5>
+									<ul>
+										{group.links.map(link => (
+											<li key={link.href}>
+												<Link href={link.href}>{link.label}</Link>
+											</li>
+										))}
+									</ul>
 								</div>
 							</div>
-						</div>
-						<div className="col-xl-3 col-lg-4 col-md-6">
-							<div
-								className="footer-widget widget-nav-menu wow fadeInUp"
-								data-wow-delay=".3s"
-							>
-								<h5 className="title">Services</h5>
-								<ul>
-									<li>
-										<Link href="/services/1">Customer Experience</Link>
-									</li>
-									<li>
-										<Link href="/services/2">Training Programs</Link>
-									</li>
-									<li>
-										<Link href="/services/3">Business Strategy</Link>
-									</li>
-									<li>
-										<Link href="/services/4">Training Program</Link>
-									</li>
-									<li>
-										<Link href="/services/5">ESG Consulting</Link>
-									</li>
-									<li>
-										<Link href="/services/6">Development Hub</Link>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div className="col-xl-2 col-lg-4 col-md-6">
-							<div
-								className="footer-widget widget-nav-menu wow fadeInUp"
-								data-wow-delay=".5s"
-							>
-								<h5 className="title">Resources</h5>
-								<ul>
-									<li>
-										<Link href="/contact">Contact us</Link>
-									</li>
-									<li>
-										<Link href="/team">Team Member</Link>
-									</li>
-									<li>
-										<Link href="#">Recognitions</Link>
-									</li>
-									<li>
-										<Link href="/careers">
-											Careers <span className="badge">New</span>
-										</Link>
-									</li>
-									<li>
-										<Link href="/blogs">Blogs</Link>
-									</li>
-									<li>
-										<Link href="#">Feedback</Link>
-									</li>
-								</ul>
-							</div>
-						</div>
-						<div className="col-xl-4 col-lg-5 col-md-6">
+						))}
+						<div className="col-xl-3 col-lg-5 col-md-6">
 							<div
 								className="footer-widget widget-subscribe wow fadeInUp"
-								data-wow-delay=".7s"
+								data-wow-delay=".9s"
 							>
 								<h3 className="title">Subscribe to Our Newsletter.</h3>
 								<div className="subscribe-form">
@@ -183,12 +141,6 @@ const Footer = () => {
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className="bg-shape-1">
-				<img src="/images/shape/pattern-2.svg" alt="" />
-			</div>
-			<div className="bg-shape-2">
-				<img src="/images/shape/pattern-3.svg" alt="" />
 			</div>
 		</footer>
 	);

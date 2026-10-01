@@ -29,6 +29,9 @@ test("shared fields are validated", () => {
 	assert.ok(validateContent("news", { ...base, coverImage: "javascript:alert(1)" }));
 	assert.equal(validateContent("news", { ...base, coverImage: "/uploads/1-2.png" }), null);
 	assert.equal(validateContent("news", { ...base, coverImage: "http://localhost:5000/uploads/1-2.png" }), null);
+	// images shipped with the website (e.g. migrated newsletter covers)
+	assert.equal(validateContent("news", { ...base, coverImage: "/images/news/newsletters_60_thumbnail.jpg" }), null);
+	assert.ok(validateContent("news", { ...base, coverImage: "/images/../uploads/x.png" }));
 });
 
 test("news source link must be https", () => {

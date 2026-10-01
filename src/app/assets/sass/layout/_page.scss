@@ -1,0 +1,221 @@
+@use "../utilities" as *;
+
+/**----------------------------------------
+START: Content Page CSS
+----------------------------------------*/
+.page-rich-text {
+	p {
+		margin-bottom: 18px;
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+	h3 {
+		margin-top: 32px;
+		margin-bottom: 16px;
+	}
+	h4 {
+		margin-top: 24px;
+		margin-bottom: 12px;
+	}
+	ul,
+	ol {
+		padding-inline-start: 22px;
+		margin-bottom: 18px;
+	}
+	li {
+		margin-bottom: 8px;
+	}
+	a {
+		color: var(--tj-color-theme-primary);
+		text-decoration: underline;
+	}
+}
+
+.page-section-intro {
+	max-width: 720px;
+	margin: 0 auto;
+	text-align: center;
+	color: var(--tj-color-text-body);
+}
+
+.page-feature {
+	height: 100%;
+}
+
+// Item titles in page-content sections render as <h3> for correct heading order,
+// but keep the visual size of the original <h4> they replaced.
+.page-item-title {
+	font-size: var(--tj-fs-h4);
+}
+
+.page-split-image {
+	width: 100%;
+	border-radius: 12px;
+}
+
+.page-steps {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 24px;
+	@media #{$lg, $md} {
+		grid-template-columns: repeat(2, 1fr);
+	}
+	@media #{$sm, $xs} {
+		grid-template-columns: 1fr;
+	}
+}
+.page-step {
+	background-color: var(--tj-color-common-white);
+	border-radius: 12px;
+	padding: 28px;
+}
+.page-step-number {
+	display: block;
+	color: var(--tj-color-theme-primary);
+	font-size: 32px;
+	font-weight: var(--tj-fw-bold);
+}
+.page-step-title {
+	margin-top: 8px;
+}
+.page-step-text {
+	margin-bottom: 0;
+}
+
+.page-stats {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 32px;
+	.page-stat {
+		flex: 1 1 200px;
+		max-width: 25%;
+		@media #{$md, $sm, $xs} {
+			max-width: 50%;
+		}
+	}
+}
+.page-stat-value {
+	display: block;
+	font-size: 44px;
+	font-weight: var(--tj-fw-bold);
+	color: var(--tj-color-heading-primary);
+}
+.page-stat-label {
+	display: block;
+	color: var(--tj-color-text-body);
+}
+
+.page-cta {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 24px;
+	padding: 48px;
+	border-radius: 16px;
+	background-color: var(--tj-color-theme-dark);
+	color: var(--tj-color-common-white);
+	@media #{$sm, $xs} {
+		padding: 32px;
+	}
+}
+.page-cta-title {
+	color: var(--tj-color-common-white);
+	margin-bottom: 12px;
+}
+.page-cta-text {
+	color: var(--tj-color-text-body-5);
+	margin-bottom: 0;
+}
+.page-cta-actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 16px;
+}
+
+.page-link-card {
+	display: block;
+	height: 100%;
+	background-color: var(--tj-color-common-white);
+	border-radius: 12px;
+	overflow: hidden;
+	transition: all 0.3s ease-in-out;
+	img {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+	}
+	.page-link-card-body {
+		padding: 24px;
+	}
+	&:hover {
+		transform: translateY(-6px);
+		box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+	}
+}
+
+/* !END: Content Page CSS */
+
+/* Desktop menu: eight top-level items (every option from the old site) plus
+   the consultation button, so below 1600px drop the search icon and tighten
+   spacing progressively instead of letting the header wrap to two rows. */
+.header-area .header-wrapper {
+	flex-wrap: nowrap;
+}
+.header-area .header-right-item {
+	flex-shrink: 0;
+}
+.mainmenu > ul {
+	@media #{$xxl} {
+		column-gap: 16px;
+		> li > a {
+			font-size: 15px;
+		}
+	}
+	@media #{$xl} {
+		column-gap: 11px;
+		flex-wrap: nowrap;
+		> li > a {
+			font-size: 14px;
+		}
+		> li.has-dropdown > a {
+			padding-inline-end: 14px;
+		}
+	}
+	@media #{$lg} {
+		column-gap: 10px;
+		flex-wrap: nowrap;
+		> li > a {
+			font-size: 14px;
+		}
+		> li.has-dropdown > a {
+			padding-inline-end: 14px;
+		}
+	}
+}
+.header-area .header-search {
+	@media #{$xxl, $xl, $lg} {
+		display: none;
+	}
+}
+.header-area .header-button {
+	@media #{$xl} {
+		.tj-primary-btn {
+			padding-inline-start: 18px;
+			font-size: 15px;
+		}
+	}
+	// 992-1199px: no room for the button beside eight menu items; visitors
+	// still reach booking from the hero and each page's call-to-action banner.
+	@media #{$lg} {
+		display: none;
+	}
+}

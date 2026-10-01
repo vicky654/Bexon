@@ -8,6 +8,19 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getJobFromBackendById, getJobsFromBackend } from "@/libs/careersApi";
 import { notFound } from "next/navigation";
+import { pageMetadata } from "@/libs/seo";
+
+export async function generateMetadata({ params }) {
+	const { id } = await params;
+	const job = await getJobFromBackendById(id);
+	if (!job) return {};
+	const where = job.location ? ` (${job.location})` : "";
+	return pageMetadata({
+		title: `${job.title}${where} | Careers | DPDP Consultants`,
+		description: `Apply for the ${job.title} role at DPDP Consultants${where}.`,
+		path: `/careers/${id}`,
+	});
+}
 
 export default async function CareerDetails({ params }) {
 	const { id } = await params;

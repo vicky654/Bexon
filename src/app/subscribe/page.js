@@ -6,11 +6,14 @@ import HeroInner from "@/components/sections/hero/HeroInner";
 import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
-	title: "Subscribe to Our Newsletter | DPDP Consultants",
-	description: "Stay informed on the DPDP Act, rules, enforcement updates and practical privacy guidance.",
-};
+// Title and description carried over from the old site's newsletter page.
+export const metadata = pageMetadata({
+	title: "DPDP Act Newsletter | Latest Privacy News & Updates on data privacy",
+	description: "Subscribe to our newsletter for regular updates on DPDP Act compliance, industry trends, and expert insights to keep your business informed.",
+	path: "/subscribe",
+});
 
 export default function Subscribe() {
 	return (

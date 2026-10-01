@@ -10,16 +10,18 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentItem } from "@/libs/contentApi";
 import { RESOURCE_TYPE_LABELS } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
 	const item = await getContentItem("resource", slug);
 	if (!item) return { title: "Resources | DPDP Consultants" };
-	return {
+	return pageMetadata({
 		title: `${item.title} | DPDP Consultants`,
 		description: item.summary,
-		openGraph: item.coverImage ? { images: [item.coverImage] } : undefined,
-	};
+		path: `/resources/${slug}`,
+		image: item.coverImage || undefined,
+	});
 }
 
 const DOWNLOAD_NOTICES = {
@@ -101,7 +103,7 @@ export default async function ResourceDetails({ params, searchParams }) {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<HeroInner title={"Resources"} text={item.title} breadcrums={[{ name: "Resources", path: "/resources" }]} />
+						<HeroInner titleAs="p" title={"Resources"} text={item.title} breadcrums={[{ name: "Resources", path: "/resources" }]} />
 						<ContentDetail item={item} meta={meta} aside={aside} />
 						<Cta />
 					</main>

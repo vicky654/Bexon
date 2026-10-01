@@ -9,16 +9,20 @@ import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
 import { getContentItem } from "@/libs/contentApi";
 import { formatDate } from "@/libs/contentFormat";
+import { pageMetadata } from "@/libs/seo";
+import JsonLd from "@/components/shared/others/JsonLd";
+import { article } from "@/libs/structuredData";
 
 export async function generateMetadata({ params }) {
 	const { slug } = await params;
 	const item = await getContentItem("news", slug);
 	if (!item) return { title: "News | DPDP Consultants" };
-	return {
+	return pageMetadata({
 		title: `${item.title} | DPDP Consultants`,
 		description: item.summary,
-		openGraph: item.coverImage ? { images: [item.coverImage] } : undefined,
-	};
+		path: `/news/${slug}`,
+		image: item.coverImage || undefined,
+	});
 }
 
 export default async function NewsDetails({ params }) {
@@ -31,6 +35,17 @@ export default async function NewsDetails({ params }) {
 
 	return (
 		<div>
+			<JsonLd
+				data={article({
+					type: "NewsArticle",
+					title: item.title,
+					description: item.summary,
+					path: `/news/${slug}`,
+					image: item.coverImage,
+					publishedAt: item.publishedAt,
+					updatedAt: item.updatedAt,
+				})}
+			/>
 			<BackToTop />
 			<Header />
 			<Header isStickyHeader={true} />
@@ -38,7 +53,7 @@ export default async function NewsDetails({ params }) {
 				<div id="smooth-content">
 					<main>
 						<HeaderSpace />
-						<HeroInner title={"News"} text={item.title} breadcrums={[{ name: "News", path: "/news" }]} />
+						<HeroInner titleAs="p" title={"News"} text={item.title} breadcrums={[{ name: "News", path: "/news" }]} />
 						<ContentDetail item={item} meta={formatDate(item.publishedAt)} />
 						{item.sourceUrl ? (
 							<div className="container content-detail-footer">

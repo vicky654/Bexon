@@ -1,0 +1,330 @@
+@use "../utilities" as *;
+
+/* ==========================================================
+   Header navigation redesign (desktop). Uses the --page-* tokens.
+   ========================================================== */
+
+.header-area .header-wrapper {
+	box-shadow: 0 10px 40px -28px rgba(2, 9, 44, 0.45);
+}
+
+.page-mainmenu {
+	position: relative;
+	> ul > li {
+		> a {
+			transition: color 0.3s ease;
+			// Gradient underline that grows under the hovered / current item.
+			&::before {
+				content: "";
+				position: absolute;
+				inset-inline-start: 0;
+				inset-inline-end: 0;
+				bottom: 26px;
+				height: 2px;
+				border-radius: 2px;
+				background: var(--page-gradient);
+				transform: scaleX(0);
+				transform-origin: left;
+				opacity: 1;
+				visibility: visible;
+				transition: transform 0.45s var(--page-ease);
+			}
+		}
+		&.has-dropdown > a::before {
+			inset-inline-end: 20px;
+		}
+		&:hover > a,
+		&:focus-within > a,
+		&.current-menu-ancestor > a {
+			color: var(--page-blue);
+			&::after {
+				color: var(--page-blue);
+			}
+			&::before {
+				transform: scaleX(1);
+			}
+		}
+		&:focus-within > a::after {
+			transform: rotate(-180deg);
+		}
+		// The wide mega panel is centred under the whole menu, not the item.
+		&.has-mega {
+			position: static;
+		}
+	}
+}
+
+/* ---------- Shared panel open/close ---------- */
+.page-mainmenu > ul > li > .sub-menu.page-dropdown,
+.page-mainmenu > ul > li > .sub-menu.page-mega {
+	transform: translateY(12px);
+	transform-origin: top;
+	border: 1px solid rgba(2, 9, 44, 0.06);
+	box-shadow: 0 30px 70px -30px rgba(2, 9, 44, 0.45);
+	transition:
+		opacity 0.35s var(--page-ease),
+		transform 0.45s var(--page-ease),
+		visibility 0.35s;
+}
+.page-mainmenu > ul > li:hover > .sub-menu.page-dropdown,
+.page-mainmenu > ul > li:focus-within > .sub-menu.page-dropdown {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+	pointer-events: inherit;
+}
+
+/* ---------- Simple dropdown ---------- */
+.page-mainmenu > ul > li > .sub-menu.page-dropdown {
+	width: 270px;
+	padding: 10px;
+	border-radius: 18px;
+	> li {
+		padding: 0;
+		> a {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 10px;
+			padding: 11px 14px;
+			border-radius: 12px;
+			font-size: 15px;
+			line-height: 1.35;
+			transition:
+				background 0.3s ease,
+				color 0.3s ease,
+				padding 0.35s var(--page-ease);
+			i {
+				font-size: 13px;
+				color: var(--page-blue);
+				opacity: 0;
+				transform: translateX(-8px);
+				transition:
+					opacity 0.3s ease,
+					transform 0.35s var(--page-ease);
+			}
+		}
+		&:hover > a,
+		> a:focus-visible {
+			color: var(--page-blue);
+			background: rgba(37, 99, 235, 0.07);
+			padding-inline-start: 18px;
+			i {
+				opacity: 1;
+				transform: none;
+			}
+		}
+	}
+}
+
+/* ---------- Mega panel ---------- */
+.page-mainmenu > ul > li > .sub-menu.page-mega {
+	display: grid;
+	grid-template-columns: 1fr 250px;
+	gap: 14px;
+	width: 780px;
+	max-width: calc(100vw - 60px);
+	padding: 14px;
+	border-radius: 22px;
+	inset-inline-start: 50%;
+	transform: translate(-50%, 12px);
+	@media #{$lg} {
+		grid-template-columns: 1fr;
+		width: 520px;
+	}
+}
+.page-mainmenu > ul > li:hover > .sub-menu.page-mega,
+.page-mainmenu > ul > li:focus-within > .sub-menu.page-mega {
+	opacity: 1;
+	visibility: visible;
+	transform: translate(-50%, 0);
+	pointer-events: inherit;
+}
+[dir="rtl"] .page-mainmenu > ul > li > .sub-menu.page-mega {
+	transform: translate(50%, 12px);
+}
+[dir="rtl"] .page-mainmenu > ul > li:hover > .sub-menu.page-mega,
+[dir="rtl"] .page-mainmenu > ul > li:focus-within > .sub-menu.page-mega {
+	transform: translate(50%, 0);
+}
+
+.page-mega-grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 4px;
+	align-content: start;
+}
+.page-mega-item {
+	position: relative;
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	padding: 14px;
+	border-radius: 14px;
+	transition: background 0.3s ease;
+	&:hover,
+	&:focus-visible {
+		background: rgba(37, 99, 235, 0.06);
+		.page-mega-icon {
+			transform: translateY(-2px) rotate(-6deg);
+			box-shadow: 0 14px 26px -10px rgba(37, 99, 235, 0.75);
+		}
+		.page-mega-title {
+			color: var(--page-blue);
+		}
+		.page-mega-arrow {
+			opacity: 1;
+			transform: none;
+		}
+	}
+}
+.page-mega-icon {
+	display: inline-flex;
+	flex: 0 0 44px;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+	font-size: 20px;
+	color: var(--tj-color-common-white);
+	background: var(--page-gradient);
+	box-shadow: 0 10px 22px -12px rgba(37, 99, 235, 0.7);
+	transition:
+		transform 0.45s var(--page-ease),
+		box-shadow 0.45s var(--page-ease);
+	i {
+		line-height: 1;
+	}
+}
+.page-mega-text {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+	padding-inline-end: 16px;
+}
+.page-mega-title {
+	font-size: 15px;
+	font-weight: var(--tj-fw-sbold);
+	line-height: 1.3;
+	color: var(--tj-color-heading-primary);
+	transition: color 0.3s ease;
+}
+.page-mega-desc {
+	font-size: 13px;
+	line-height: 1.45;
+	color: var(--tj-color-text-body);
+}
+.page-mega-arrow {
+	position: absolute;
+	top: 18px;
+	inset-inline-end: 12px;
+	font-size: 12px;
+	color: var(--page-blue);
+	opacity: 0;
+	transform: translateX(-6px);
+	transition:
+		opacity 0.3s ease,
+		transform 0.35s var(--page-ease);
+}
+
+.page-mega-feature {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	padding: 24px 22px;
+	border-radius: 16px;
+	color: rgba(255, 255, 255, 0.75);
+	background: radial-gradient(120% 120% at 0% 0%, var(--page-navy-2), var(--page-navy) 60%, #02051a);
+	@media #{$lg} {
+		display: none;
+	}
+}
+.page-mega-feature-glow {
+	position: absolute;
+	z-index: -1;
+	width: 220px;
+	height: 220px;
+	top: -90px;
+	inset-inline-end: -90px;
+	border-radius: 50%;
+	background: radial-gradient(circle, rgba(56, 189, 248, 0.55), transparent 70%);
+	animation: pageDrift 12s ease-in-out infinite alternate;
+}
+.page-mega-feature-title {
+	margin: 0 0 10px;
+	font-family: var(--tj-ff-heading);
+	font-size: 19px;
+	font-weight: var(--tj-fw-sbold);
+	line-height: 1.3;
+	color: var(--tj-color-common-white);
+}
+.page-mega-feature-text {
+	margin: 0 0 20px;
+	font-size: 14px;
+	line-height: 1.55;
+}
+.page-mega-feature-actions {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 12px;
+	margin-top: auto;
+}
+.page-mega-feature-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px 16px;
+	border-radius: 100px;
+	font-size: 14px;
+	font-weight: var(--tj-fw-sbold);
+	color: var(--tj-color-common-white);
+	background: var(--page-gradient);
+	background-size: 160% auto;
+	box-shadow: 0 10px 24px -10px rgba(56, 189, 248, 0.7);
+	transition:
+		background-position 0.5s var(--page-ease),
+		transform 0.35s var(--page-ease);
+	i {
+		font-size: 12px;
+	}
+	&:hover {
+		color: var(--tj-color-common-white);
+		background-position: right center;
+		transform: translateY(-2px);
+	}
+}
+.page-mega-feature-link {
+	font-size: 14px;
+	font-weight: var(--tj-fw-medium);
+	color: #cfe8ff;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	&:hover {
+		color: var(--tj-color-common-white);
+	}
+}
+
+/* ---------- Header button ---------- */
+.header-area .header-button .tj-primary-btn.page-btn-glow {
+	padding-block: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.page-mainmenu > ul > li > a::before,
+	.page-mainmenu > ul > li > .sub-menu.page-dropdown,
+	.page-mainmenu > ul > li > .sub-menu.page-mega,
+	.page-mega-icon,
+	.page-mega-arrow,
+	.page-dropdown a,
+	.page-dropdown a i {
+		transition: none !important;
+	}
+	.page-mega-feature-glow {
+		animation: none !important;
+	}
+}

@@ -2,68 +2,43 @@
 import makePath from "@/libs/makePath";
 import makeWowDelay from "@/libs/makeWowDelay";
 import modifyNumber from "@/libs/modifyNumber";
-import Image from "next/image";
+import BlogCover from "./BlogCover";
 import Link from "next/link";
 import ButtonPrimary from "../buttons/ButtonPrimary";
 
+// Blog list card, shown from the post's own data only.
 const BlogSingle = ({ blog, idx }) => {
-	const {
-		slug,
-		detailsImg,
-		img = "/images/blog/blog-1.webp",
-		title,
-		desc,
-		blogTopList,
-		category,
-		slider,
-		author,
-		popupVideo,
-		day,
-		month,
-		date,
-		comments,
-	} = blog ? blog : {};
+	const { slug, img, imgAlt, title, desc, category, author, day, month } = blog || {};
 
 	return (
-		<article
-			className="blog-item wow fadeInUp"
-			data-wow-delay={makeWowDelay(idx, 0.1)}
-		>
+		<article className="blog-item wow fadeInUp" data-wow-delay={makeWowDelay(idx, 0.1)}>
 			<div className="blog-thumb">
 				<Link href={`/blogs/${slug}`}>
-					<Image src={img} alt="" width={870} height={450} />
+					<BlogCover src={img} alt={imgAlt || ""} sizes="(max-width: 991px) 100vw, 760px" />
 				</Link>
-				<div className="blog-date">
-					<span className="date">{modifyNumber(day)}</span>
-					<span className="month">{month}</span>
-				</div>
+				{day ? (
+					<div className="blog-date">
+						<span className="date">{modifyNumber(day)}</span>
+						<span className="month">{month}</span>
+					</div>
+				) : null}
 			</div>
 			<div className="blog-content">
-				<div className="blog-meta">
-					<span className="categories">
-						<Link href={`/blogs?category=${makePath(category)}`}>
-							{category}
-						</Link>
-					</span>
-					<span>
-						By <Link href={`/blogs/${slug}`}>Ellinien Loma</Link>
-					</span>
-				</div>
+				{category || author ? (
+					<div className="blog-meta">
+						{category ? (
+							<span className="categories">
+								<Link href={`/blogs?category=${makePath(category)}`}>{category}</Link>
+							</span>
+						) : null}
+						{author ? <span>By {author}</span> : null}
+					</div>
+				) : null}
 				<h3 className="title">
 					<Link href={`/blogs/${slug}`}>{title}</Link>
 				</h3>
-				<p className="desc">
-					In today’s fast-paced business environment, the key to staying ahead
-					of the competition lies in embracing innovation. At [Company Name], we
-					specialize in unlocking your business’s full potential by providing
-					tailored, forward-thinking solutions that drive growth, efficiency,
-					and lasting success.
-				</p>
-				<ButtonPrimary
-					text={"Read More"}
-					url={`/blogs/${slug}`}
-					isTextBtn={true}
-				/>
+				{desc ? <p className="desc">{desc}</p> : null}
+				<ButtonPrimary text={"Read More"} hiddenText={`: ${title}`} url={`/blogs/${slug}`} isTextBtn={true} />
 			</div>
 		</article>
 	);

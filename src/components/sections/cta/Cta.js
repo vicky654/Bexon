@@ -1,33 +1,14 @@
-import ButtonPrimary from "@/components/shared/buttons/ButtonPrimary";
+import CtaSection from "@/components/sections/page/CtaSection";
 
-const Cta = () => {
-	return (
-		<section className="tj-cta-section">
-			<div className="container">
-				<div className="row">
-					<div className="col-12">
-						<div className="cta-area">
-							<div className="cta-content">
-								<h2 className="title title-anim">
-									Let’s Build Future Together.
-								</h2>
-								<div className="cta-btn wow fadeInUp" data-wow-delay=".6s">
-									<ButtonPrimary
-										text={"Get Started Now"}
-										url={"/contact"}
-										className={"btn-dark"}
-									/>
-								</div>
-							</div>
-							<div className="cta-img">
-								<img src="/images/cta/cta-bg.webp" alt="" />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
-};
+// Site-wide closing call to action for listing and form pages, using the same
+// gradient banner (and wording) as the home page.
+const Cta = () => (
+	<CtaSection
+		heading="Turning Compliance into Competitive Advantage"
+		text="Book a consultation to see how our consulting team and compliance tools can help your organisation meet DPDP Act requirements with confidence."
+		primary={{ label: "Book a Consultation", href: "/book-consultation" }}
+		secondary={{ label: "Contact Us", href: "/contact" }}
+	/>
+);
 
 export default Cta;

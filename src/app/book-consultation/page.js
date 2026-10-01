@@ -6,11 +6,13 @@ import HeroInner from "@/components/sections/hero/HeroInner";
 import BackToTop from "@/components/shared/others/BackToTop";
 import HeaderSpace from "@/components/shared/others/HeaderSpace";
 import ClientWrapper from "@/components/shared/wrappers/ClientWrapper";
+import { pageMetadata } from "@/libs/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
 	title: "Book a DPDP Compliance Consultation | DPDP Consultants",
 	description: "Schedule a call with DPDP Consultants to discuss your organization's DPDP compliance needs.",
-};
+	path: "/book-consultation",
+});
 
 export default function BookConsultation() {
 	return (
